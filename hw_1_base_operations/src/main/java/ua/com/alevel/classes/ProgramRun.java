@@ -35,6 +35,7 @@ public class ProgramRun {
                     case "3" :
                         System.out.println("Entry number study lesson : to determine when this lesson end");
                         System.out.println(TimeLesson.findEndLesson(reader));
+                        break;
                     case "4" :
                         System.exit(0);
                 }
