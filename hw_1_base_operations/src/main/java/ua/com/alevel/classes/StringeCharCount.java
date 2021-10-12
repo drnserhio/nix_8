@@ -10,15 +10,15 @@ public class StringeCharCount {
     public static String sortAlphabet(BufferedReader reader) throws IOException {
 
         String str = reader.readLine();
-        List<String> alphabet =   Arrays.stream(str.replaceAll("[^a-zA-zа-яА-я]", "")
+        List<String> alphabet = Arrays.stream(str.replaceAll("[^a-zA-zа-яА-я]", "")
                         .toLowerCase().split(""))
                 .collect(Collectors.toList());
 
-        Map<String , Integer> symbol = new TreeMap<>();
+        Map<String, Integer> symbol = new TreeMap<>();
         for (String s : alphabet) {
-            symbol.put(s, Collections.frequency(alphabet,s));
+            symbol.put(s, Collections.frequency(alphabet, s));
         }
-        return symbol.toString().replaceAll(" ", "\n").replaceAll("[{},]","");
+        return symbol.toString().replaceAll(" ", "\n").replaceAll("[{},]", "");
 
     }
 }
