@@ -10,7 +10,7 @@ public class StringeCharCount {
     public static String sortAlphabet(BufferedReader reader) throws IOException {
 
         String str = reader.readLine();
-        List<String> alphabet = Arrays.stream(str.replaceAll("[^a-zA-zа-яА-я]", "")
+        List<String> alphabet = Arrays.stream(str.replaceAll("[^a-zA-Zа-яёА-ЯЁ]", "")
                         .toLowerCase().split(""))
                 .collect(Collectors.toList());
 
