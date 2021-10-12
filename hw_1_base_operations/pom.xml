@@ -15,6 +15,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <maven.jar.version>3.2.0</maven.jar.version>
     </properties>
 
     <build>
@@ -23,12 +24,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${maven.jar.version}</version>
                 <configuration>
 
                     <archive>
                         <manifest>
-                            <mainClass>com.example.BaseOperationMain</mainClass>
+                            <mainClass>ua.com.alevel.BaseOperationMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

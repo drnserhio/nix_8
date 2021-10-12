@@ -1,6 +1,6 @@
-package com.example;
+package ua.com.alevel;
 
-import com.example.classes.ProgramRun;
+import ua.com.alevel.classes.ProgramRun;
 
 public class BaseOperationMain {
 

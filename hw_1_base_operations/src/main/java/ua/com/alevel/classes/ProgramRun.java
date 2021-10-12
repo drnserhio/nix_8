@@ -1,9 +1,5 @@
-package com.example.classes;
+package ua.com.alevel.classes;
 
-
-import com.example.classes.StringeCharCount;
-import com.example.classes.StringeSumDigit;
-import com.example.classes.TimeLesson;
 
 import java.io.BufferedReader;
 import java.io.IOException;

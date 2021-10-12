@@ -1,4 +1,4 @@
-package com.example.classes;
+package ua.com.alevel.classes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
