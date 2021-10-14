@@ -1,2 +1,2 @@
 sh ./clean_install.sh
-sh ./start.sh
+sh ./run.sh
