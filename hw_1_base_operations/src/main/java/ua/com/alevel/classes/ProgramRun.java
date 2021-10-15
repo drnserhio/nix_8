@@ -49,7 +49,8 @@ public class ProgramRun {
                         System.exit(0);
                         break;
                     default:
-                        System.out.println(INDENT + "\n" + SUCCESS +"Error entry"  + "\n" + INDENT + "\n" + INFO_MENU);
+                        System.out.println(INDENT + "\n" + SUCCESS +"Error entry"  + "\n" + INDENT + "\n");
+                        System.out.println(INFO_MENU + "\n" + EVENT);
                 }
             }
         } catch (IOException e) {
