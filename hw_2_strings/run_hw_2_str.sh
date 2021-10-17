@@ -1,0 +1,1 @@
+java -jar ./target/hw_2_string.jar
