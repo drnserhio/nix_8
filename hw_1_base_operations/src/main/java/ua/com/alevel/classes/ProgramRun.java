@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ProgramRun {
-    public static final String INFO_MENU = "If you entry \n" +
+    public static final String INFO_MENU = "\t\t| If you entry : |\n" +
             " 1 - Sum digit in str\n" +
             " 2 - Count char in str \n" +
             " 3 - End lesson time \n" +
@@ -15,7 +15,7 @@ public class ProgramRun {
     public static final String INDENT = "--------------------";
 
     public static final String SUCCESS = "Your result: \n";
-    public static final String EVENT = "Select you event :";
+    public static final String EVENT = "\t\t| Select you event : |";
 
 
     public static void run() {
