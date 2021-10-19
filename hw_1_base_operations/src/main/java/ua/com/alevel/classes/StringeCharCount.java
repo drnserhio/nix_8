@@ -8,11 +8,15 @@ import java.util.stream.Collectors;
 public class StringeCharCount {
 
     public static String sortAlphabet(BufferedReader reader) throws IOException {
-
         String out = reader.readLine();
+        int number = 0;
 
-        if (out.isEmpty() || out.length() <= 1) {
-            return "Error entry empty str...";
+        try {
+             number = Integer.parseInt(out);
+        } catch (NumberFormatException e) {}
+
+        if (out.isEmpty() || out.length() < 1 || number != 0) {
+            return "Error entry...";
         } else {
             return changeAlphabet(out);
         }
