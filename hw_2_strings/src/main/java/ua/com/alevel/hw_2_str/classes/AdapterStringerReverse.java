@@ -6,7 +6,7 @@ import java.io.IOException;
 public class AdapterStringerReverse {
 
     public static String reverse(BufferedReader reader) throws IOException {
-        return StringerReverse.reverse(reader.readLine());
+        return StringerReverseUtil.reverse(reader.readLine());
     }
 
     public static String reverseSub(BufferedReader reader) throws IOException {
@@ -15,7 +15,7 @@ public class AdapterStringerReverse {
         System.out.println("Entry desk :");
         String desk = reader.readLine();
 
-        return StringerReverse.reverse(str, desk);
+        return StringerReverseUtil.reverse(str, desk);
     }
 
     public static String reverseStrIndex(BufferedReader reader) throws IOException {
@@ -29,7 +29,7 @@ public class AdapterStringerReverse {
         System.out.println("Entry end index :");
         lastIndex = Integer.parseInt(reader.readLine());
 
-        return StringerReverse.reverse(str, firstIndex, lastIndex);
+        return StringerReverseUtil.reverse(str, firstIndex, lastIndex);
     }
 
 }
