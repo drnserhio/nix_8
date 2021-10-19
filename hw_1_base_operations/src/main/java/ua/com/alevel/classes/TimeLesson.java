@@ -14,7 +14,7 @@ public class TimeLesson {
         try {
             i = Integer.parseInt(reader.readLine());
         } catch (Exception e) {
-            throw new IllegalArgumentException("Your didn't entry number ");
+            return e.toString();
         }
 
         int res = i * LESSON_DURATION + (i / 2) * VARIABLE_UNUVEN + (((i + 1) / 2) - 1) * VARIABLE_EVEN;
