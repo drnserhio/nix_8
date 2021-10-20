@@ -12,6 +12,7 @@
     <modules>
         <module>hw_1_base_operations</module>
         <module>hw_2_strings</module>
+        <module>hw_3_start_oop</module>
     </modules>
 
 
@@ -25,6 +26,15 @@
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.jar.version>3.2.0</maven.jar.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 
 </project>
