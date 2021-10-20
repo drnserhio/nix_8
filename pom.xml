@@ -11,8 +11,11 @@
 
     <modules>
         <module>hw_1_base_operations</module>
+        <module>reversestring</module>
         <module>hw_2_strings</module>
         <module>hw_3_start_oop</module>
+
+
     </modules>
 
 

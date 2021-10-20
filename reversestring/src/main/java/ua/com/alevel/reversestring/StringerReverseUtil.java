@@ -1,4 +1,4 @@
-package ua.com.alevel.hw_2_str.classes;
+package ua.com.alevel.reversestring;
 
 import java.util.StringJoiner;
 
