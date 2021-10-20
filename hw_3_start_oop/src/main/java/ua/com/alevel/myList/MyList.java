@@ -1,4 +1,4 @@
-package ua.com.alevel.List;
+package ua.com.alevel.myList;
 
 import org.apache.commons.lang.ArrayUtils;
 import ua.com.alevel.entity.User;

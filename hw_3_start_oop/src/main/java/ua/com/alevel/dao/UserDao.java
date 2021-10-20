@@ -1,6 +1,6 @@
 package ua.com.alevel.dao;
 
-import ua.com.alevel.List.MyList;
+import ua.com.alevel.myList.MyList;
 import ua.com.alevel.dataBase.DataBaseUser;
 import ua.com.alevel.entity.User;
 

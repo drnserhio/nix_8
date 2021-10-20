@@ -1,10 +1,8 @@
 package ua.com.alevel.dataBase;
 
-import ua.com.alevel.List.MyList;
+import ua.com.alevel.myList.MyList;
 import ua.com.alevel.entity.User;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class DataBaseUser {
