@@ -63,7 +63,7 @@ public class MyList<T extends User> {
             if (list[i].getId().equals(id)) {
                 indexDrop = i;
                 isHas = true;
-                size--;
+                --size;
                 break;
             }
         }
@@ -88,6 +88,19 @@ public class MyList<T extends User> {
         return null;
     }
 
+    private void findAndDropNull(User[] users) {
+        for (int i = 0; i < list.length; i++) {
+            if (list.length <= 1) {
+                return;
+            }
+           if (list[i] == null) {
+               reductionSizeArr(i,list.length);
+               findAndDropNull(list);
+           }
+
+        }
+    }
+
     public boolean contains(String id) {
         for (int i = 0; i < list.length; i++) {
             if (list[i] == null) {
@@ -100,25 +113,14 @@ public class MyList<T extends User> {
         return false;
     }
 
-    private void dropNullObject() {
-        int end = 0;
-        for (int i = 0; i < list.length; i++) {
-            if (list[i] == null) {
-                end = i;
-                break;
-            }
-        }
-        list = Arrays.copyOfRange(list, 0, end);
-    }
 
     @Override
     public String toString() {
-        //dropNullObject();
+        findAndDropNull(list);
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < list.length; i++) {
-            if (list[i] != null) {
                 stringBuilder.append(list[i]);
-            }
+
         }
         return stringBuilder.toString();
     }
