@@ -1,20 +1,21 @@
 package ua.com.alevel.entity;
 
+
 import java.util.Objects;
 
-public class User {
+public class User extends BaseEntity{
 
-    private String id;
     private String name;
     private int age;
 
+    private String email;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
+    public User() {}
+    public User(String name, int age, String email) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
     }
 
     public String getName() {
@@ -33,22 +34,34 @@ public class User {
         this.age = age;
     }
 
-    @Override
-    public String toString() {
-        return "id -> " + id  + ", User: | name :" + name + ", " + "age:" + age + " |\n";
+    public String getEmail() {
+        return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id= '" + this.getId() + "\' " +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                '}' + "\n";
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return age == user.age && Objects.equals(id, user.id) && Objects.equals(name, user.name);
+        return age == user.age && Objects.equals(name, user.name) && Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age);
+        return Objects.hash(name, age, email);
     }
 }

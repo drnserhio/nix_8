@@ -1,5 +1,6 @@
 package ua.com.alevel.controller;
 
+import ua.com.alevel.config.DaoFactory;
 import ua.com.alevel.entity.User;
 import ua.com.alevel.service.UserService;
 
@@ -10,7 +11,7 @@ import java.io.InputStreamReader;
 public class ControllerUser {
     public static final String INDENT = "--------------------";
 
-    private UserService service = new UserService();
+    private final UserService service = DaoFactory.getInstance().getDataBaseObject(UserService.class);
 
 
     public void run() {
@@ -75,12 +76,18 @@ public class ControllerUser {
 
     }
 
+
     public void create(BufferedReader reader) throws IOException {
         try {
             System.out.println("Entry name :");
             String name = reader.readLine();
-
             if (strIsEmpty(name)) {
+                throw new NullPointerException();
+            }
+
+            System.out.println("Entry email :");
+            String email = reader.readLine();
+            if (strIsEmpty(email)) {
                 throw new NullPointerException();
             }
 
@@ -89,11 +96,12 @@ public class ControllerUser {
 
             User user = new User();
             user.setName(name.trim());
+            user.setEmail(email);
             user.setAge(age);
 
             service.create(user);
 
-            result(UserStateBD.USER_CREATE.name() + " -> " + service.finById(user.getId()).getName());
+            result(UserStateBD.USER_CREATE.name() + " -> " + service.findById(user.getId()));
         } catch (NullPointerException e) {
             problem(e.getClass().getName());
         } catch (NumberFormatException e) {
@@ -156,7 +164,7 @@ public class ControllerUser {
             if (strIsEmpty(id)) {
                 throw new NullPointerException();
             }
-            result(String.valueOf(service.finById(id.trim())).trim());
+            result(String.valueOf(service.findById(id.trim())).trim());
         } catch (NullPointerException e) {
             problem(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name());
         }
