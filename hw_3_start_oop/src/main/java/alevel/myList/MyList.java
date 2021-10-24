@@ -1,8 +1,8 @@
-package ua.com.alevel.myList;
+package alevel.myList;
 
-import org.apache.commons.lang.ArrayUtils;
-import ua.com.alevel.entity.BaseEntity;
-import ua.com.alevel.entity.User;
+
+import alevel.entity.BaseEntity;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;

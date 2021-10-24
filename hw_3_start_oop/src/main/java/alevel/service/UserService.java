@@ -1,9 +1,9 @@
-package ua.com.alevel.service;
+package alevel.service;
 
-import ua.com.alevel.dao.UserDao;
-import ua.com.alevel.entity.User;
-import ua.com.alevel.myList.ArrList;
-import ua.com.alevel.myList.MyList;
+import alevel.dao.UserDao;
+import alevel.entity.User;
+import alevel.myList.ArrList;
+
 
 public class UserService {
 

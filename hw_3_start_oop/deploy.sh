@@ -1,2 +1,2 @@
-sh ./clean-install.sh
-sh ./run_hw_3_oop.sh
+sh ./cleanInstall.sh
+sh ./run.sh

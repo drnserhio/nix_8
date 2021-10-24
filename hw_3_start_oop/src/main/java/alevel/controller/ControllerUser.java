@@ -1,7 +1,8 @@
-package ua.com.alevel.controller;
+package alevel.controller;
 
-import ua.com.alevel.entity.User;
-import ua.com.alevel.service.UserService;
+
+import alevel.entity.User;
+import alevel.service.UserService;
 
 import java.io.BufferedReader;
 import java.io.IOException;

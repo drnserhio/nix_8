@@ -1,6 +1,7 @@
-package ua.com.alevel.myList;
+package alevel.myList;
 
-import ua.com.alevel.entity.BaseEntity;
+
+import alevel.entity.BaseEntity;
 
 public class ArrList<T extends BaseEntity> extends MyList {
 
