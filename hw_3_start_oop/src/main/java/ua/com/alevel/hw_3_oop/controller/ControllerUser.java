@@ -3,13 +3,15 @@ package ua.com.alevel.hw_3_oop.controller;
 
 import ua.com.alevel.hw_3_oop.entity.User;
 import ua.com.alevel.hw_3_oop.service.UserService;
+import ua.com.alevel.reversestring.StringerUtil;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ControllerUser {
-    public static final String INDENT = "--------------------";
+
 
     private final UserService service = new UserService();
 
@@ -41,11 +43,6 @@ public class ControllerUser {
         );
     }
 
-    private void problem(String msg) {
-        System.out.println(INDENT);
-        System.out.println("Exception : | " + msg + " |");
-        System.out.println(INDENT);
-    }
 
     private void choose(String in, BufferedReader reader) throws IOException {
 
@@ -70,7 +67,7 @@ public class ControllerUser {
                 System.exit(0);
                 break;
             default:
-                problem("Empty wrong...");
+                StringerUtil.exception("Empty wrong...");
         }
         menu();
 
@@ -81,7 +78,7 @@ public class ControllerUser {
         try {
             System.out.println("Entry name :");
             String name = reader.readLine();
-            if (strIsEmpty(name)) {
+            if (StringerUtil.strIsEmpty(name)) {
                 throw new NullPointerException();
             }
 
@@ -96,9 +93,9 @@ public class ControllerUser {
 
             result(UserStateBD.USER_CREATE.name() + " -> " + service.finById(user.getId()));
         } catch (NullPointerException e) {
-            problem(e.getClass().getName());
+            StringerUtil.exception(e.getClass().getName());
         } catch (NumberFormatException e) {
-            problem(e.getClass().getName());
+            StringerUtil.exception(e.getClass().getName());
         }
 
     }
@@ -111,9 +108,9 @@ public class ControllerUser {
             service.drop(id);
             result(UserStateBD.USER_DROP.name());
         } catch (NullPointerException e) {
-            problem(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name());
+            StringerUtil.exception(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name());
         } catch (NumberFormatException e) {
-            problem(e.getClass().getName());
+            StringerUtil.exception(e.getClass().getName());
         }
     }
 
@@ -126,7 +123,7 @@ public class ControllerUser {
 
             System.out.println("Entry new Name user : ");
             String name = reader.readLine();
-            if (strIsEmpty(name)) {
+            if (StringerUtil.strIsEmpty(name)) {
                 throw new NullPointerException();
             }
 
@@ -141,9 +138,9 @@ public class ControllerUser {
             result(UserStateBD.USER_UPDATE.name());
 
         } catch (NullPointerException e) {
-            problem(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name());
+            StringerUtil.exception((e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name()));
         } catch (NumberFormatException e) {
-            problem(e.getClass().getName());
+            StringerUtil.exception((e.getClass().getName()));
         }
 
     }
@@ -160,9 +157,9 @@ public class ControllerUser {
                 result(String.valueOf(user).trim());
             }
         } catch (NullPointerException e) {
-            problem(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name());
+            StringerUtil.exception((e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name()));
         } catch (NumberFormatException e) {
-            problem(e.getClass().getName());
+            StringerUtil.exception((e.getClass().getName()));
         }
     }
 
@@ -170,14 +167,6 @@ public class ControllerUser {
         result("\n" + String.valueOf(service.findAll()).trim());
     }
 
-    public boolean strIsEmpty(String str) {
-        if (str.isEmpty()
-                || str.length() < 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private void result(String str) {
         System.out.println("___________________________________\n"
