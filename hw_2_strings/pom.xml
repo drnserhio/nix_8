@@ -14,6 +14,7 @@
     </properties>
 
     <artifactId>hw_2_strings</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>nix_8</groupId>
@@ -22,7 +23,6 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
 
     <build>
         <finalName>hw_2_string</finalName>
