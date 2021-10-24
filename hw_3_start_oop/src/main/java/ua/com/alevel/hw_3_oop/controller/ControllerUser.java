@@ -32,7 +32,7 @@ public class ControllerUser {
     private void menu() {
         System.out.println(
 
-                "\t\t| If you entry : |\n" +
+                "\n\t\t| If you entry : |\n" +
                         " 1 - Add new user \n" +
                         " 2 - Drop user from\n" +
                         " 3 - Update user from db \n" +
@@ -103,7 +103,9 @@ public class ControllerUser {
         try {
             System.out.println("Entry id user :");
             long id = Long.parseLong(reader.readLine());
-
+            if (service.finById(id) == null) {
+                throw new NullPointerException();
+            }
             service.drop(id);
             result(UserStateBD.USER_DROP.name());
         } catch (NullPointerException e) {
