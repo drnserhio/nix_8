@@ -3,13 +3,15 @@ package ua.com.alevel.hw_3_oop.entity;
 
 import java.util.Objects;
 
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     private String name;
     private int age;
 
 
-    public User() {}
+    public User() {
+    }
+
     public User(String name, int age) {
         this.name = name;
         this.age = age;
