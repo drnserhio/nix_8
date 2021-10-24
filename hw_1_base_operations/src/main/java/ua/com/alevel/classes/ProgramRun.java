@@ -1,19 +1,17 @@
 package ua.com.alevel.classes;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ProgramRun {
+
     public static final String INFO_MENU = "\t\t| If you entry : |\n" +
             " 1 - Sum digit in str\n" +
             " 2 - Count char in str \n" +
             " 3 - End lesson time \n" +
             " 4 - Exit";
-
     public static final String INDENT = "--------------------";
-
     public static final String SUCCESS = "Your result: \n";
     public static final String EVENT = "\t\t| Select you event : |";
 
@@ -21,15 +19,11 @@ public class ProgramRun {
     public static void run() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println(INFO_MENU);
-
         System.out.println(EVENT);
-
         String event;
-
         try {
             while ((event = reader.readLine()) != null) {
                 switch (event) {
-
                     case "1":
                         System.out.println("Entry a string : to get the sum of numbers in it:");
                         System.out.println(INDENT + "\n" + SUCCESS + StringeSumDigit.sum(reader) + "\n" + INDENT + "\n");

@@ -7,26 +7,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class RunProgram {
+
     public static final String INFO_MENU = "\t\t| If you entry : |\n" +
             " 1 - Reverse you str\n" +
             " 2 - Reverse substring in you string \n" +
             " 3 - Reverse substring in you string between (start index, last index)  \n" +
             " 4 - Exit";
-
     public static final String INDENT = "--------------------";
-
     public static final String SUCCESS = "Your result: \n";
     public static final String EVENT = "\t\t| Select you event : |";
-
 
     public static void run() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println(INFO_MENU);
-
         System.out.println(EVENT);
-
         String event;
-
         try {
             while ((event = reader.readLine()) != null) {
                 switch (event) {

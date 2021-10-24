@@ -6,6 +6,5 @@ public class StrRunMain {
 
     public static void main(String[] args) {
         RunProgram.run();
-
     }
 }

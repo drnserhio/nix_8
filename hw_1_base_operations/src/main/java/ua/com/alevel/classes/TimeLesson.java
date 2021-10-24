@@ -16,11 +16,7 @@ public class TimeLesson {
         } catch (Exception e) {
             return e.toString();
         }
-
         int res = i * LESSON_DURATION + (i / 2) * VARIABLE_UNUVEN + (((i + 1) / 2) - 1) * VARIABLE_EVEN;
-
         return (res / 60 + 9) + " " + (res % 60);
-
     }
-
 }
