@@ -54,7 +54,7 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <transformers>
                                 <transformer implementation = "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>alevel.RunProg</mainClass>
+                                    <mainClass>ua.com.alevel.hw_3_oop.RunProg</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

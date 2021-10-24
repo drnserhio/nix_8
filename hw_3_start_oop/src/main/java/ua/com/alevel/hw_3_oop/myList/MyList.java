@@ -1,7 +1,7 @@
-package alevel.myList;
+package ua.com.alevel.hw_3_oop.myList;
 
 
-import alevel.entity.BaseEntity;
+import ua.com.alevel.hw_3_oop.entity.BaseEntity;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;

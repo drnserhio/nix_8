@@ -1,4 +1,4 @@
-package alevel.controller;
+package ua.com.alevel.hw_3_oop.controller;
 
 public enum UserStateBD {
 

@@ -1,4 +1,4 @@
-package alevel.entity;
+package ua.com.alevel.hw_3_oop.entity;
 
 public abstract class BaseEntity {
 

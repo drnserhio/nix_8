@@ -1,6 +1,6 @@
-package alevel;
+package ua.com.alevel.hw_3_oop;
 
-import alevel.controller.ControllerUser;
+import ua.com.alevel.hw_3_oop.controller.ControllerUser;
 
 public class RunProg {
 

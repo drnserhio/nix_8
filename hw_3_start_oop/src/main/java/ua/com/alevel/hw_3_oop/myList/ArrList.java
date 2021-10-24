@@ -1,7 +1,7 @@
-package alevel.myList;
+package ua.com.alevel.hw_3_oop.myList;
 
 
-import alevel.entity.BaseEntity;
+import ua.com.alevel.hw_3_oop.entity.BaseEntity;
 
 public class ArrList<T extends BaseEntity> extends MyList {
 

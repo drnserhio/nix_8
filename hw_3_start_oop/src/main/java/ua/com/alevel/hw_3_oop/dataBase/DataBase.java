@@ -1,8 +1,8 @@
-package alevel.dataBase;
+package ua.com.alevel.hw_3_oop.dataBase;
 
 
-import alevel.entity.User;
-import alevel.myList.ArrList;
+import ua.com.alevel.hw_3_oop.entity.User;
+import ua.com.alevel.hw_3_oop.myList.ArrList;
 
 public class DataBase {
 

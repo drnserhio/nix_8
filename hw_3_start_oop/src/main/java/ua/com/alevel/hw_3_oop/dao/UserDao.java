@@ -1,9 +1,9 @@
-package alevel.dao;
+package ua.com.alevel.hw_3_oop.dao;
 
 
-import alevel.dataBase.DataBase;
-import alevel.entity.User;
-import alevel.myList.ArrList;
+import ua.com.alevel.hw_3_oop.dataBase.DataBase;
+import ua.com.alevel.hw_3_oop.entity.User;
+import ua.com.alevel.hw_3_oop.myList.ArrList;
 
 public class UserDao {
 
