@@ -110,9 +110,9 @@ public class ControllerUser {
 
             service.drop(id);
             result(UserStateBD.USER_DROP.name());
-        }  catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             problem(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name());
-        }catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             problem(e.getClass().getName());
         }
     }
@@ -156,7 +156,7 @@ public class ControllerUser {
             User user = service.finById(id);
             if (user == null) {
                 throw new NullPointerException();
-            }else {
+            } else {
                 result(String.valueOf(user).trim());
             }
         } catch (NullPointerException e) {
@@ -181,7 +181,7 @@ public class ControllerUser {
 
     public void result(String str) {
         System.out.println("___________________________________\n"
-                            + "You result: " + str + "\n"
-                                + "___________________________________");
+                + "You result: " + str + "\n"
+                + "___________________________________");
     }
 }

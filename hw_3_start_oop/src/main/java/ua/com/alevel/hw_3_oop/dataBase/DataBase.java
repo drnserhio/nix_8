@@ -28,7 +28,7 @@ public class DataBase {
     }
 
     public void drop(Long id) {
-        if(list.remove(id)){
+        if (list.remove(id)) {
             --idUser;
         }
 

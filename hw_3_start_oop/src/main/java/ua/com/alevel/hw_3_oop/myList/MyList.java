@@ -17,7 +17,7 @@ public class MyList {
     private BaseEntity[] list;
 
     public MyList() {
-        list =  new BaseEntity[CAPACITY];
+        list = new BaseEntity[CAPACITY];
     }
 
     public int size() {
@@ -49,10 +49,10 @@ public class MyList {
 
     public boolean remove(Long id) {
 
-            for (int i = 0; i < list.length; i++) {
-                if (list[i].getId().equals(id)) {
-                    return remove(i);
-                }
+        for (int i = 0; i < list.length; i++) {
+            if (list[i].getId().equals(id)) {
+                return remove(i);
+            }
         }
         return false;
     }
@@ -76,9 +76,9 @@ public class MyList {
 
     public Object get(Long id) {
         for (int i = 0; i < list.length; i++) {
-                if (list[i].getId().equals(id)) {
-                    return get(i);
-                }
+            if (list[i].getId().equals(id)) {
+                return get(i);
+            }
 
         }
         return null;
@@ -87,7 +87,7 @@ public class MyList {
     public Object get(Object ob) {
         for (int i = 0; i < list.length; i++) {
             if (list[i].equals(ob)) {
-               return get(i);
+                return get(i);
             }
         }
         return null;
@@ -98,7 +98,7 @@ public class MyList {
         findAndDropNull(list);
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < list.length; i++) {
-                stringBuilder.append(list[i]).append("\n");
+            stringBuilder.append(list[i]).append("\n");
         }
         return stringBuilder.toString();
     }
@@ -137,7 +137,7 @@ public class MyList {
 
     public Object next() {
         findAndDropNull(list);
-        if(hasNext()) {
+        if (hasNext()) {
             return list[positionIter++];
         } else {
             throw new NoSuchElementException();
