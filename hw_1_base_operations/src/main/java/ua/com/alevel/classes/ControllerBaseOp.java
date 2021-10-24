@@ -1,7 +1,6 @@
 package ua.com.alevel.classes;
 
-
-import ua.com.alevel.StringUtil.StringUtil;
+import ua.com.alevel.reversestring.StringerUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,30 +16,7 @@ public class ControllerBaseOp {
 
         try {
             while ((event = reader.readLine()) != null) {
-                switch (event) {
-
-                    case "1":
-                        System.out.println("Entry a string : to get the sum of numbers in it:");
-                        result(String.valueOf(StringUtil.sum(reader)));
-                        menu();
-                        break;
-                    case "2":
-                        System.out.println("Entry string : to count the number of characters in it:");
-                        result(StringUtil.sortAlphabet(reader));
-                        menu();
-                        break;
-                    case "3":
-                        System.out.println("Entry number study lesson : to determine when this lesson end:");
-                        result(TimeLesson.findEndLesson(reader));
-                        menu();
-                        break;
-                    case "4":
-                        System.exit(0);
-                        break;
-                    default:
-                        result("Error entry");
-                        menu();
-                }
+                    choose(event,reader);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,5 +37,32 @@ public class ControllerBaseOp {
         System.out.println("___________________________________\n"
                 + "You result: " + "\n" + str + "\n"
                 + "___________________________________");
+    }
+
+    private static void choose(String str, BufferedReader reader) throws IOException {
+        switch (str) {
+
+            case "1":
+                System.out.println("Entry a string : to get the sum of numbers in it:");
+                result(String.valueOf(StringerUtil.sumDigitInLines(reader)));
+                menu();
+                break;
+            case "2":
+                System.out.println("Entry string : to count the number of characters in it:");
+                result(StringerUtil.sortAlphabet(reader));
+                menu();
+                break;
+            case "3":
+                System.out.println("Entry number study lesson : to determine when this lesson end:");
+                result(TimeLesson.findEndLesson(reader));
+                menu();
+                break;
+            case "4":
+                System.exit(0);
+                break;
+            default:
+                result("Error entry");
+                menu();
+        }
     }
 }

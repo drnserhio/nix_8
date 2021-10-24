@@ -1,8 +1,8 @@
 package ua.com.alevel.hw_3_oop.myList;
 
 
-import ua.com.alevel.hw_3_oop.entity.BaseEntity;
 import org.apache.commons.lang3.ArrayUtils;
+import ua.com.alevel.hw_3_oop.entity.BaseEntity;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;

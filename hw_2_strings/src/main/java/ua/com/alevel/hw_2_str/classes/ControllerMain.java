@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 public class ControllerMain {
 
 
-
     public static void run() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         menu();
@@ -17,30 +16,7 @@ public class ControllerMain {
 
         try {
             while ((event = reader.readLine()) != null) {
-                switch (event) {
-
-                    case "1":
-                        System.out.println("Entry string :");
-                        result(AdapterStringerReverse.reverse(reader));
-                        menu();
-                        break;
-                    case "2":
-                        System.out.println("Entry string :");
-                        result(AdapterStringerReverse.reverseSub(reader));
-                        menu();
-                        break;
-                    case "3":
-                        System.out.println("Entry string :");
-                        result(AdapterStringerReverse.reverseStrIndex(reader));
-                        menu();
-                        break;
-                    case "4":
-                        System.exit(0);
-                        break;
-                    default:
-                        result("Error entry");
-                        menu();
-                }
+                choose(event, reader);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,5 +37,32 @@ public class ControllerMain {
         System.out.println("___________________________________\n"
                 + "You result: " + "\n" + str + "\n"
                 + "___________________________________");
+    }
+
+    private static void choose(String str, BufferedReader reader) throws IOException {
+        switch (str) {
+
+            case "1":
+                System.out.println("Entry string :");
+                result(AdapterStringerReverse.reverse(reader));
+                menu();
+                break;
+            case "2":
+                System.out.println("Entry string :");
+                result(AdapterStringerReverse.reverseSub(reader));
+                menu();
+                break;
+            case "3":
+                System.out.println("Entry string :");
+                result(AdapterStringerReverse.reverseStrIndex(reader));
+                menu();
+                break;
+            case "4":
+                System.exit(0);
+                break;
+            default:
+                result("Error entry");
+                menu();
+        }
     }
 }
