@@ -47,11 +47,12 @@ public class MyList {
     }
 
 
-    public boolean remove(String id) {
-        for (int i = 0; i < list.length; i++) {
-            if (list[i].getId().equals(id)) {
-               return remove(i);
-            }
+    public boolean remove(Long id) {
+
+            for (int i = 0; i < list.length; i++) {
+                if (list[i].getId().equals(id)) {
+                    return remove(i);
+                }
         }
         return false;
     }
@@ -66,18 +67,19 @@ public class MyList {
     }
 
 
-    public Object  get(int index) {
+    public Object get(int index) {
         if (index >= list.length) {
             throw new IndexOutOfBoundsException();
         }
         return list[index];
     }
 
-    public Object get(String id) {
+    public Object get(Long id) {
         for (int i = 0; i < list.length; i++) {
-            if (list[i].getId().equals(id)) {
-               return  get(i);
-            }
+                if (list[i].getId().equals(id)) {
+                    return get(i);
+                }
+
         }
         return null;
     }
@@ -96,7 +98,7 @@ public class MyList {
         findAndDropNull(list);
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < list.length; i++) {
-                stringBuilder.append(list[i]);
+                stringBuilder.append(list[i]).append("\n");
         }
         return stringBuilder.toString();
     }

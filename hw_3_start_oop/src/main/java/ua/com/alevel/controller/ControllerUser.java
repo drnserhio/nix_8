@@ -1,6 +1,5 @@
 package ua.com.alevel.controller;
 
-import ua.com.alevel.config.DaoFactory;
 import ua.com.alevel.entity.User;
 import ua.com.alevel.service.UserService;
 
@@ -11,7 +10,7 @@ import java.io.InputStreamReader;
 public class ControllerUser {
     public static final String INDENT = "--------------------";
 
-    private final UserService service = DaoFactory.getInstance().getDataBaseObject(UserService.class);
+    private final UserService service = new UserService();
 
 
     public void run() {
@@ -85,23 +84,16 @@ public class ControllerUser {
                 throw new NullPointerException();
             }
 
-            System.out.println("Entry email :");
-            String email = reader.readLine();
-            if (strIsEmpty(email)) {
-                throw new NullPointerException();
-            }
-
             System.out.println("Entry age :");
             int age = Integer.parseInt(reader.readLine());
 
             User user = new User();
             user.setName(name.trim());
-            user.setEmail(email);
             user.setAge(age);
 
             service.create(user);
 
-            result(UserStateBD.USER_CREATE.name() + " -> " + service.findById(user.getId()));
+            result(UserStateBD.USER_CREATE.name() + " -> " + service.finById(user.getId()));
         } catch (NullPointerException e) {
             problem(e.getClass().getName());
         } catch (NumberFormatException e) {
@@ -113,14 +105,14 @@ public class ControllerUser {
     public void drop(BufferedReader reader) throws IOException {
         try {
             System.out.println("Entry id user :");
-            String id = reader.readLine();
-            if (strIsEmpty(id)) {
-                throw new NullPointerException();
-            }
-            service.drop(id.trim());
+            long id = Long.parseLong(reader.readLine());
+
+            service.drop(id);
             result(UserStateBD.USER_DROP.name());
-        } catch (NullPointerException e) {
-            problem(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_DROP.name());
+        }  catch (NullPointerException e) {
+            problem(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name());
+        }catch (NumberFormatException e) {
+            problem(e.getClass().getName());
         }
     }
 
@@ -128,10 +120,8 @@ public class ControllerUser {
         try {
 
             System.out.println("Entry id :");
-            String id = reader.readLine();
-            if (strIsEmpty(id)) {
-                throw new NullPointerException();
-            }
+            long id = Long.parseLong(reader.readLine());
+
 
             System.out.println("Entry new Name user : ");
             String name = reader.readLine();
@@ -143,7 +133,7 @@ public class ControllerUser {
             int age = Integer.parseInt(reader.readLine());
 
             User updateUser = new User();
-            updateUser.setId(id.trim());
+            updateUser.setId(id);
             updateUser.setName(name.trim());
             updateUser.setAge(age);
             service.update(updateUser);
@@ -160,13 +150,18 @@ public class ControllerUser {
     public void findById(BufferedReader reader) throws IOException {
         try {
             System.out.println("Entry id user");
-            String id = reader.readLine();
-            if (strIsEmpty(id)) {
+            long id = Long.parseLong(reader.readLine());
+
+            User user = service.finById(id);
+            if (user == null) {
                 throw new NullPointerException();
+            }else {
+                result(String.valueOf(user).trim());
             }
-            result(String.valueOf(service.findById(id.trim())).trim());
         } catch (NullPointerException e) {
             problem(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name());
+        } catch (NumberFormatException e) {
+            problem(e.getClass().getName());
         }
     }
 

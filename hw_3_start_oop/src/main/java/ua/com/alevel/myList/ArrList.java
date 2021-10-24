@@ -9,6 +9,7 @@ public class ArrList<T extends BaseEntity> extends MyList {
     }
 
     public boolean remove(T ob) {
+
         return super.remove(ob);
     }
 
@@ -19,7 +20,7 @@ public class ArrList<T extends BaseEntity> extends MyList {
 
 
     @Override
-    public Object get(String id) {
+    public Object get(Long id) {
         return super.get(id);
     }
 
