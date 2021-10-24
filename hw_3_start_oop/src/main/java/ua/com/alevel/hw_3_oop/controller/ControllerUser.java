@@ -179,7 +179,7 @@ public class ControllerUser {
         }
     }
 
-    public void result(String str) {
+    private void result(String str) {
         System.out.println("___________________________________\n"
                 + "You result: " + str + "\n"
                 + "___________________________________");
