@@ -1,8 +1,10 @@
 package ua.com.alevel.reversestring;
 
-import java.util.StringJoiner;
 
-public class StringerReverseUtil {
+public final class StringerUtil {
+
+    private StringerUtil() {
+    }
 
     public static String reverse(String str) {
 
@@ -20,24 +22,23 @@ public class StringerReverseUtil {
     }
 
     public static String reverse(String str, int firstIndex, int lastIndex) {
-        if (str.isEmpty()
-                || str.length() < 1) {
-            return "Exception : " +  new NullPointerException();
+        if (strIsEmpty(str)) {
+            return exceptionString(new NullPointerException().getClass().getName());
         }
         if (firstIndex > str.length()
                 || lastIndex > str.length()
-                    || firstIndex > lastIndex) {
-            return  "Exception : "  + new IndexOutOfBoundsException();
+                || firstIndex > lastIndex) {
+            return exceptionString(new IndexOutOfBoundsException().getClass().getName());
         }
         StringBuilder stringBuilder = new StringBuilder();
-        String f = str.substring(0, firstIndex);
+        String first = str.substring(0, firstIndex);
         String last = str.substring(lastIndex + 1);
         String[] out = str.substring(firstIndex, lastIndex + 1).split(" ");
 
         for (int i = 0; i < out.length; i++) {
             stringBuilder.append(swapStr(out[i])).append(" ");
         }
-        return f.concat(stringBuilder.toString().concat(last));
+        return first.concat(stringBuilder.toString().concat(last));
     }
 
 
@@ -48,6 +49,26 @@ public class StringerReverseUtil {
             out = out.concat(String.valueOf(arr[i]));
         }
         return out;
+    }
+
+    public static boolean strIsEmpty(String str) {
+        if (str.isEmpty()
+                || str.length() < 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void exception(String msg) {
+        System.out.println("--------------------");
+        System.out.println("Exception : | " + msg + " |");
+        System.out.println("--------------------");
+    }
+
+    public static String exceptionString(String msg) {
+        return "Exception : | " + msg + " |";
+
     }
 
 }
