@@ -10,15 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>hw_2_strings</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>nix_8</groupId>
-            <artifactId>reversestring</artifactId>
-            <version>1.1</version>
-        </dependency>
-    </dependencies>
-
+    
     <build>
         <finalName>hw_2_string</finalName>
         <plugins>

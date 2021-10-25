@@ -11,15 +11,6 @@
 
     <artifactId>hw_1_base_operations</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>nix_8</groupId>
-            <artifactId>reversestring</artifactId>
-            <version>1.1</version>
-        </dependency>
-    </dependencies>
-
-
     <build>
         <finalName>hw_base_op</finalName>
         <plugins>

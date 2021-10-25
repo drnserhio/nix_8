@@ -1,11 +1,10 @@
 package ua.com.alevel.hw_2_str.classes;
 
 
-import ua.com.alevel.reversestring.StringerUtil;
+import ua.com.alevel.hw_2_str.classes.util.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-
 
 public class AdapterStringerReverse {
 
@@ -13,13 +12,13 @@ public class AdapterStringerReverse {
         String str = null;
         try {
             str = reader.readLine();
-            if (StringerUtil.strIsEmpty(str)) {
+            if (StringUtil.strIsEmpty(str)) {
                 throw new NullPointerException();
             }
         } catch (NullPointerException e) {
-            return StringerUtil.exceptionString(e.getClass().getName());
+            return StringUtil.exceptionString(e.getClass().getName());
         }
-        return StringerUtil.reverse(str);
+        return StringUtil.reverse(str);
     }
 
     public static String reverseSub(BufferedReader reader) throws IOException {
@@ -31,14 +30,14 @@ public class AdapterStringerReverse {
             System.out.println("Entry desk :");
             desk = reader.readLine();
 
-            if (StringerUtil.strIsEmpty(desk) ||
-                    StringerUtil.strIsEmpty(str)) {
+            if (StringUtil.strIsEmpty(desk) ||
+                    StringUtil.strIsEmpty(str)) {
                 throw new NullPointerException();
             }
         } catch (NullPointerException e) {
-            return StringerUtil.exceptionString(e.getClass().getName());
+            return StringUtil.exceptionString(e.getClass().getName());
         }
-        return StringerUtil.reverse(str, desk);
+        return StringUtil.reverse(str, desk);
     }
 
     public static String reverseStrIndex(BufferedReader reader) throws IOException {
@@ -56,12 +55,12 @@ public class AdapterStringerReverse {
             lastIndex = Integer.parseInt(reader.readLine());
 
         } catch (NullPointerException e) {
-            return StringerUtil.exceptionString(e.getClass().getName());
+            return StringUtil.exceptionString(e.getClass().getName());
         } catch (NumberFormatException e) {
-            return StringerUtil.exceptionString(e.getClass().getName());
+            return StringUtil.exceptionString(e.getClass().getName());
         }
 
-        return StringerUtil.reverse(str, firstIndex, lastIndex);
+        return StringUtil.reverse(str, firstIndex, lastIndex);
     }
 
 }
