@@ -1,3 +1,3 @@
-# Run project 
+# Run project runProject.sh
 
-runProject.sh
+
