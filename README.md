@@ -1,1 +1,3 @@
-# nix_8
+# Run project 
+
+runProject.sh
