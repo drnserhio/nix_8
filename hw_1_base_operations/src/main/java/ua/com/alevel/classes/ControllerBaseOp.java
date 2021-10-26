@@ -1,6 +1,6 @@
 package ua.com.alevel.classes;
 
-import ua.com.alevel.classes.util.StringerUtil;
+import ua.com.alevel.StringerUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +13,6 @@ public class ControllerBaseOp {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         menu();
         String event;
-
         try {
             while ((event = reader.readLine()) != null) {
                     choose(event,reader);
@@ -41,7 +40,6 @@ public class ControllerBaseOp {
 
     private static void choose(String str, BufferedReader reader) throws IOException {
         switch (str) {
-
             case "1":
                 System.out.println("Entry a string : to get the sum of numbers in it:");
                 result(String.valueOf(StringerUtil.sumDigitInLines(reader)));

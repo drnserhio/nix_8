@@ -19,6 +19,11 @@
             <version>3.8.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>nix_8</groupId>
+            <artifactId>stringerutils</artifactId>
+            <version>${stringerutils.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

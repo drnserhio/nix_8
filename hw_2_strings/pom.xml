@@ -10,6 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>hw_2_strings</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>nix_8</groupId>
+            <artifactId>stringerutils</artifactId>
+            <version>${stringerutils.version}</version>
+        </dependency>
+    </dependencies>
     
     <build>
         <finalName>hw_2_string</finalName>

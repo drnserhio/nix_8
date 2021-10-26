@@ -11,6 +11,14 @@
 
     <artifactId>hw_1_base_operations</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>nix_8</groupId>
+            <artifactId>stringerutils</artifactId>
+            <version>${stringerutils.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>hw_base_op</finalName>
         <plugins>

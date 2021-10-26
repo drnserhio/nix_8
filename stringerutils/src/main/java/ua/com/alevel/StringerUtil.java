@@ -1,5 +1,4 @@
-package ua.com.alevel.classes.util;
-
+package ua.com.alevel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,8 +7,7 @@ import java.util.stream.Collectors;
 
 public final class StringerUtil {
 
-    private StringerUtil() {
-    }
+    private StringerUtil() {}
 
     public static boolean strIsEmpty(String str) {
         if (str.isEmpty()
@@ -72,4 +70,52 @@ public final class StringerUtil {
         }
         return symbol.toString().replaceAll(" ", "\n").replaceAll("[{},]", "");
     }
+
+    public static String reverse(String str) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        String w[] = str.split(" ");
+
+        for (int i = 0; i < w.length; i++) {
+            stringBuilder.append(swapStr(w[i])).append(" ");
+        }
+        return stringBuilder.toString();
+    }
+
+    public static String reverse(String str, String desk) {
+        return str.replaceFirst(desk, "*").replaceAll("\\*", swapStr(desk));
+    }
+
+    public static String reverse(String str, int firstIndex, int lastIndex) {
+        if (strIsEmpty(str)) {
+            return exceptionString(new NullPointerException().getClass().getName());
+        }
+        if (firstIndex > str.length()
+                || lastIndex > str.length()
+                || firstIndex > lastIndex) {
+            return exceptionString(new IndexOutOfBoundsException().getClass().getName());
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        String first = str.substring(0, firstIndex);
+        String last = str.substring(lastIndex + 1);
+        String[] out = str.substring(firstIndex, lastIndex + 1).split(" ");
+
+        for (int i = 0; i < out.length; i++) {
+            stringBuilder.append(swapStr(out[i])).append(" ");
+        }
+        return first.concat(stringBuilder.toString().concat(last));
+    }
+
+
+    private static String swapStr(String str) {
+        String out = "";
+        char[] arr = str.toCharArray();
+        for (int i = arr.length - 1; i >= 0; i--) {
+            out = out.concat(String.valueOf(arr[i]));
+        }
+        return out;
+    }
+
+
+
 }

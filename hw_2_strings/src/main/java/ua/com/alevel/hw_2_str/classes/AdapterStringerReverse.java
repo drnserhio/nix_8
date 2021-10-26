@@ -1,7 +1,6 @@
 package ua.com.alevel.hw_2_str.classes;
 
-
-import ua.com.alevel.hw_2_str.classes.util.StringUtil;
+import ua.com.alevel.StringerUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,13 +11,13 @@ public class AdapterStringerReverse {
         String str = null;
         try {
             str = reader.readLine();
-            if (StringUtil.strIsEmpty(str)) {
+            if (StringerUtil.strIsEmpty(str)) {
                 throw new NullPointerException();
             }
         } catch (NullPointerException e) {
-            return StringUtil.exceptionString(e.getClass().getName());
+            return StringerUtil.exceptionString(e.getClass().getName());
         }
-        return StringUtil.reverse(str);
+        return StringerUtil.reverse(str);
     }
 
     public static String reverseSub(BufferedReader reader) throws IOException {
@@ -30,14 +29,14 @@ public class AdapterStringerReverse {
             System.out.println("Entry desk :");
             desk = reader.readLine();
 
-            if (StringUtil.strIsEmpty(desk) ||
-                    StringUtil.strIsEmpty(str)) {
+            if (StringerUtil.strIsEmpty(desk) ||
+                    StringerUtil.strIsEmpty(str)) {
                 throw new NullPointerException();
             }
         } catch (NullPointerException e) {
-            return StringUtil.exceptionString(e.getClass().getName());
+            return StringerUtil.exceptionString(e.getClass().getName());
         }
-        return StringUtil.reverse(str, desk);
+        return StringerUtil.reverse(str, desk);
     }
 
     public static String reverseStrIndex(BufferedReader reader) throws IOException {
@@ -55,12 +54,12 @@ public class AdapterStringerReverse {
             lastIndex = Integer.parseInt(reader.readLine());
 
         } catch (NullPointerException e) {
-            return StringUtil.exceptionString(e.getClass().getName());
+            return StringerUtil.exceptionString(e.getClass().getName());
         } catch (NumberFormatException e) {
-            return StringUtil.exceptionString(e.getClass().getName());
+            return StringerUtil.exceptionString(e.getClass().getName());
         }
 
-        return StringUtil.reverse(str, firstIndex, lastIndex);
+        return StringerUtil.reverse(str, firstIndex, lastIndex);
     }
 
 }

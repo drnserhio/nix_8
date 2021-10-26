@@ -1,8 +1,6 @@
 package ua.com.alevel.classes;
 
-
-import ua.com.alevel.classes.util.StringerUtil;
-
+import ua.com.alevel.StringerUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 

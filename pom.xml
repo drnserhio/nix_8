@@ -13,6 +13,7 @@
         <module>hw_1_base_operations</module>
         <module>hw_2_strings</module>
         <module>hw_3_start_oop</module>
+        <module>stringerutils</module>
     </modules>
 
     <properties>
@@ -24,6 +25,7 @@
         <maven.shade.plugin.version>3.2.0</maven.shade.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.jar.version>3.2.0</maven.jar.version>
+        <stringerutils.version>1.1</stringerutils.version>
     </properties>
 
     <dependencies>
