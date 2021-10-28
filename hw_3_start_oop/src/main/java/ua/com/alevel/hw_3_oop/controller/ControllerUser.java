@@ -77,11 +77,18 @@ public class ControllerUser {
                 throw new NullPointerException();
             }
 
+            System.out.println("Entry email");
+            String email = reader.readLine();
+            if (StringerUtil.strIsEmpty(email)) {
+                throw new NullPointerException();
+            }
+
             System.out.println("Entry age :");
             int age = Integer.parseInt(reader.readLine());
 
             User user = new User();
             user.setName(name.trim());
+            user.setEmail(email.trim());
             user.setAge(age);
 
             service.create(user);
@@ -124,12 +131,19 @@ public class ControllerUser {
                 throw new NullPointerException();
             }
 
+            System.out.println("Entry new Email user : ");
+            String email = reader.readLine();
+            if (StringerUtil.strIsEmpty(email)) {
+                throw new NullPointerException();
+            }
+
             System.out.println("Entry new Age user :");
             int age = Integer.parseInt(reader.readLine());
 
             User updateUser = new User();
             updateUser.setId(id);
             updateUser.setName(name.trim());
+            updateUser.setEmail(email.trim());
             updateUser.setAge(age);
             service.update(updateUser);
             result(UserStateBD.USER_UPDATE.name());

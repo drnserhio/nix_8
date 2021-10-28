@@ -1,25 +1,24 @@
-package ua.com.alevel.hw_3_oop.dataBase;
+package ua.com.alevel.hw_3_oop.dataBase.impl;
 
-
+import ua.com.alevel.hw_3_oop.dataBase.UserDB;
 import ua.com.alevel.hw_3_oop.entity.User;
 import ua.com.alevel.hw_3_oop.myList.ArrList;
 
-public class DataBase {
+public class SomeUserDB implements UserDB {
 
     private ArrList<User> list;
-    private static DataBase instance;
+    private static SomeUserDB instance;
     private static long idUser = 0;
 
-    private DataBase() {
+    private SomeUserDB() {
         list = new ArrList<>();
     }
 
-    public static DataBase getInstance() {
+    public static SomeUserDB getInstance() {
         if (instance == null) {
-            instance = new DataBase();
+            instance = new SomeUserDB();
         }
         return instance;
-
     }
 
     public void create(User user) {
@@ -27,12 +26,11 @@ public class DataBase {
         list.add(user);
     }
 
-    public void drop(Long id) {
+    @Override
+    public void delete(Long id) {
         if (list.remove(id)) {
             --idUser;
         }
-
-
     }
 
     public void update(User user) {
@@ -52,4 +50,5 @@ public class DataBase {
     public ArrList<User> findAll() {
         return list;
     }
+
 }
