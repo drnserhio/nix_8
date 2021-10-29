@@ -1,6 +1,7 @@
 package ua.com.alevel.hw_3_oop.dao.impl;
 
 
+import annotation.Service;
 import ua.com.alevel.hw_3_oop.config.ObjectFactory;
 import ua.com.alevel.hw_3_oop.dao.UserDao;
 import ua.com.alevel.hw_3_oop.dataBase.UserDB;
@@ -8,8 +9,9 @@ import ua.com.alevel.hw_3_oop.dataBase.impl.DataBase;
 import ua.com.alevel.hw_3_oop.entity.User;
 import ua.com.alevel.hw_3_oop.myList.ArrList;
 
+@Service
 public class UserDaoImpl implements UserDao {
-    private final UserDB db = ObjectFactory.getInstance().getCurrentObject(UserDB.class);
+    private final UserDB db = new DataBase();
 
     public void create(User user) {
         DataBase.getInstance().create(user);

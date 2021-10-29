@@ -1,15 +1,20 @@
 package ua.com.alevel.hw_3_oop.controller;
 
+import annotation.Autowired;
+import annotation.Service;
 import ua.com.alevel.StringerUtil;
 import ua.com.alevel.hw_3_oop.entity.User;
 import ua.com.alevel.hw_3_oop.service.UserService;
+import ua.com.alevel.hw_3_oop.service.impl.UserServiceImpl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ControllerUser {
+@Service
+public class UserController implements Controller {
 
-    private final UserService service = new UserService();
+    @Autowired
+    private UserService service;
 
     public void run() {
         menu();
@@ -93,7 +98,7 @@ public class ControllerUser {
 
             service.create(user);
 
-            result(UserStateBD.USER_CREATE.name() + " -> " + service.finById(user.getId()));
+            result(UserStateBD.USER_CREATE.name() + " -> " + service.findById(user.getId()));
         } catch (NullPointerException e) {
             StringerUtil.exception(e.getClass().getName());
         } catch (NumberFormatException e) {
@@ -106,10 +111,10 @@ public class ControllerUser {
         try {
             System.out.println("Entry id user :");
             long id = Long.parseLong(reader.readLine());
-            if (service.finById(id) == null) {
+            if (service.findById(id) == null) {
                 throw new NullPointerException();
             }
-            service.drop(id);
+            service.delete(id);
             result(UserStateBD.USER_DROP.name());
         } catch (NullPointerException e) {
             StringerUtil.exception(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name());
@@ -161,7 +166,7 @@ public class ControllerUser {
             System.out.println("Entry id user");
             long id = Long.parseLong(reader.readLine());
 
-            User user = service.finById(id);
+            User user = service.findById(id);
             if (user == null) {
                 throw new NullPointerException();
             } else {

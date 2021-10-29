@@ -11,7 +11,7 @@ public class DataBase implements UserDB {
     private static DataBase instance;
     private static long idUser = 0;
 
-    private DataBase() {
+    public DataBase() {
         list = new ArrList<>();
     }
 
