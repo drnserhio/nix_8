@@ -8,13 +8,6 @@ import java.io.InputStreamReader;
 
 public class Controller {
 
-
-    public static void main(String[] args) {
-        Controller controller = new Controller();
-        controller.run();
-    }
-
-
     public void run() {
         menu();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
