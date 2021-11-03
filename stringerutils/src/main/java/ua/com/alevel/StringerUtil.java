@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 
 public final class StringerUtil {
 
-    private StringerUtil() {}
+    private StringerUtil() {
+    }
 
     public static boolean strIsEmpty(String str) {
         if (str.isEmpty()
@@ -106,7 +107,6 @@ public final class StringerUtil {
         return first.concat(stringBuilder.toString().concat(last));
     }
 
-
     private static String swapStr(String str) {
         String out = "";
         char[] arr = str.toCharArray();
@@ -116,6 +116,35 @@ public final class StringerUtil {
         return out;
     }
 
+    public static boolean validationBrackets(String str) {
+        Map<Character, Character> brackets = new HashMap<>();
+        brackets.put(')', '(');
+        brackets.put('}', '{');
+        brackets.put(']', '[');
 
+        Stack<Character> stack = new Stack<>();
+
+        for (char c : str.toCharArray()) {
+            if (brackets.containsValue(c)) {
+                stack.push(c);
+            } else if (brackets.containsKey(c)) {
+                if (stack.isEmpty() ||
+                        stack.pop() != brackets.get(c)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void result(String str) {
+        System.out.println("___________________________________\n"
+                + "You result: " + str + "\n"
+                + "___________________________________");
+    }
+
+    public static void print(String str) {
+        System.out.println(str);
+    }
 
 }

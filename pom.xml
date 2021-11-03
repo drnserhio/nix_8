@@ -15,6 +15,7 @@
         <module>hw_3_start_oop</module>
         <module>stringerutils</module>
         <module>Framenix</module>
+        <module>module_1</module>
     </modules>
 
     <properties>
