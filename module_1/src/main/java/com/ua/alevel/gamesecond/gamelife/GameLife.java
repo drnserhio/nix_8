@@ -65,23 +65,23 @@ public class GameLife {
         return false;
     }
 
-   private int countSurrounding(String[][] board, int a, int b) {
+    private int countSurrounding(String[][] board, int a, int b) {
         int count = 0;
         int[][] surrounding = {{a - 1, b - 1},
-                {a - 1, b    },
+                {a - 1, b},
                 {a - 1, b + 1},
-                {a    , b - 1},
-                {a    , b + 1},
+                {a, b - 1},
+                {a, b + 1},
                 {a + 1, b - 1},
-                {a + 1, b    },
+                {a + 1, b},
                 {a + 1, b + 1}};
-        for (int i[]: surrounding) {
+        for (int i[] : surrounding) {
             try {
                 if (board[i[0]][i[1]].equals(LIFE)) {
                     count++;
                 }
+            } catch (ArrayIndexOutOfBoundsException e) {
             }
-            catch (ArrayIndexOutOfBoundsException e) {}
         }
         return count;
     }
@@ -92,8 +92,7 @@ public class GameLife {
             for (int j = 0; j < saveBoard[i].length; j++) {
                 if (isAlive(i, j) && !(countSurrounding(saveBoard, i, j) == 2 || countSurrounding(saveBoard, i, j) == 3)) {
                     board[i][j] = DEAD;
-                }
-                else if    (isDead(i, j)&& countSurrounding(board, i, j) == 3) {
+                } else if (isDead(i, j) && countSurrounding(board, i, j) == 3) {
                     board[i][j] = LIFE;
                 }
             }
@@ -129,7 +128,7 @@ public class GameLife {
         int countLife = 0;
         for (int i = 0; i < saveBoard.length - 1; i++) {
             for (int j = 0; j < saveBoard[i].length - 1; j++) {
-                if(saveBoard[i][j].equals(LIFE)) {
+                if (saveBoard[i][j].equals(LIFE)) {
                     countLife++;
                 }
             }
@@ -138,9 +137,8 @@ public class GameLife {
         if (countLife == 0) {
             print("Finish game");
             return;
-        }
-        else {
-            if(isSameBoard(previouseBoard,saveBoard)) {
+        } else {
+            if (isSameBoard(previouseBoard, saveBoard)) {
                 return;
             }
             updateWorld();
@@ -160,7 +158,7 @@ public class GameLife {
     }
 
     private void savePreviouseBoard() {
-       previouseBoard = saveBoard.clone();
+        previouseBoard = saveBoard.clone();
     }
 
 

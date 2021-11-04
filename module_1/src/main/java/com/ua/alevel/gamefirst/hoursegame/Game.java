@@ -17,7 +17,7 @@ public class Game {
         this.posX = posX;
         this.posY = posY;
         board = Board.getBoard().getBoardArr();
-        startPositionHourse(posX,posY);
+        startPositionHourse(posX, posY);
         printBoard();
     }
 
@@ -52,21 +52,6 @@ public class Game {
     public void printBoard() {
         Board.getBoard().printBoard();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

@@ -6,14 +6,11 @@ import com.ua.alevel.gamefirst.uniq.UniqueSymbol;
 import com.ua.alevel.gamesecond.brackets.ValidBrackets;
 import com.ua.alevel.gamesecond.gamelife.GameLife;
 import com.ua.alevel.gamesecond.treedepth.Tree;
-import ua.com.alevel.StringerUtil;
 
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,7 +28,8 @@ public class ServiceApplication {
             if (strIsEmpty(in) || validate.length < 1) {
                 throw new NullPointerException();
             }
-            Set<String> list = Arrays.stream(validate).map(s -> s.replaceAll("\\d", ""))
+            Set<String> list = Arrays.stream(validate)
+                    .map(s -> s.replaceAll("\\d", ""))
                     .collect(Collectors.toSet());
             if (list.size() > 1) {
                 throw new NumberFormatException();
@@ -57,13 +55,11 @@ public class ServiceApplication {
                     strIsEmpty(posY)) {
                 throw new NullPointerException();
             }
-            //create except numeric
+
             int x = Integer.parseInt(posX);
             int y = Integer.parseInt(posY);
 
-
             gameHourse(new Game(x, y), reader);
-
         } catch (NullPointerException e) {
             exception(e.getClass().getName());
         } catch (NumberFormatException e) {
@@ -82,7 +78,7 @@ public class ServiceApplication {
                     strIsEmpty(m)) {
                 throw new NullPointerException();
             }
-            //create except numeric
+
             int x = Integer.parseInt(n);
             int y = Integer.parseInt(m);
 
@@ -136,7 +132,6 @@ public class ServiceApplication {
 
 
             result(String.valueOf(Triangle.area(new Point(xa, ya), new Point(xb, yb), new Point(xc, yc))));
-
         } catch (NullPointerException e) {
             exception(e.getClass().getName());
         } catch (NumberFormatException e) {
@@ -148,6 +143,7 @@ public class ServiceApplication {
     public static void valideBracketsInStr(BufferedReader reader) throws IOException {
         print("Entry str with brackets: ");
         String in = reader.readLine();
+
         try {
             if (strIsEmpty(in)) {
                 throw new NullPointerException();
@@ -169,17 +165,17 @@ public class ServiceApplication {
                     strIsEmpty(root)) {
                 throw new NullPointerException();
             }
-            //create except numeric
+
             Tree.setRoot(Integer.parseInt(root));
 
             int counter = Integer.parseInt(count);
             for (int i = 1; i <= counter; i++) {
                 print("Entry value");
                 String v = reader.readLine();
+
                 if (strIsEmpty(v)) {
                     throw new NullPointerException();
                 }
-                //create except numeric
                 Tree.putChild(Integer.parseInt(v));
             }
 
@@ -199,7 +195,7 @@ public class ServiceApplication {
         String m = reader.readLine();
 
         try {
-            if(strIsEmpty(n) ||
+            if (strIsEmpty(n) ||
                     strIsEmpty(m)) {
                 throw new NullPointerException();
             }
@@ -208,7 +204,7 @@ public class ServiceApplication {
             int x = Integer.parseInt(n);
             int y = Integer.parseInt(m);
 
-            new GameLife(x,y).startGame();
+            new GameLife(x, y).startGame();
 
         } catch (NullPointerException e) {
             exception(e.getClass().getName());
