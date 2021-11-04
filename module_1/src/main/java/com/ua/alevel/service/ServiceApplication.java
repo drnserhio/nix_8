@@ -1,4 +1,4 @@
-package com.ua.alevel;
+package com.ua.alevel.service;
 
 import com.ua.alevel.gamefirst.hoursegame.Game;
 import com.ua.alevel.gamefirst.triangle.Triangle;
@@ -146,6 +146,7 @@ public class ServiceApplication {
     }
 
     public static void valideBracketsInStr(BufferedReader reader) throws IOException {
+        print("Entry str with brackets: ");
         String in = reader.readLine();
         try {
             if (strIsEmpty(in)) {

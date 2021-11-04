@@ -2,6 +2,8 @@ package com.ua.alevel.gamesecond.gamelife;
 
 import java.util.Arrays;
 
+import static ua.com.alevel.StringerUtil.print;
+
 public class GameLife {
 
     // Life - "\uD83D\uDCA9" 💩
@@ -63,7 +65,6 @@ public class GameLife {
         return false;
     }
 
-
    private int countSurrounding(String[][] board, int a, int b) {
         int count = 0;
         int[][] surrounding = {{a - 1, b - 1},
@@ -115,15 +116,14 @@ public class GameLife {
         }
     }
 
-    public void printBoard() {
+    private void printBoard() {
         for (int i = 0; i < saveBoard.length; i++) {
             for (int j = 0; j < saveBoard[i].length; j++) {
                 System.out.print(saveBoard[i][j] + " ");
             }
-            System.out.println();
+            print("");
         }
     }
-
 
     private void finish() {
         int countLife = 0;
@@ -134,22 +134,29 @@ public class GameLife {
                 }
             }
         }
-        isSameBoard(previouseBoard,saveBoard);
+
         if (countLife == 0) {
-            System.out.println("Finish game");
-            System.exit(0);
+            print("Finish game");
+            return;
         }
         else {
+            if(isSameBoard(previouseBoard,saveBoard)) {
+                return;
+            }
             updateWorld();
         }
     }
 
-    private void isSameBoard(String[][] arr, String[][] saveBoard) {
-        if (Arrays.deepEquals(arr, saveBoard) && countSame < 1) {
-            countSame++;
-        } else {
-            return;
+    private boolean isSameBoard(String[][] arr, String[][] saveBoard) {
+        if (Arrays.deepEquals(arr, saveBoard)) {
+            if (countSame == 0) {
+                countSame++;
+                return false;
+            } else {
+                return true;
+            }
         }
+        return false;
     }
 
     private void savePreviouseBoard() {

@@ -6,20 +6,22 @@ public class Game {
 
 
     private Hourse hourse;
+    private Hourse[][] board;
+
     private int posX;
     private int posY;
-    private Hourse[][] board;
+
 
     public Game(int posX, int posY) {
         hourse = new Hourse("H");
         this.posX = posX;
         this.posY = posY;
         board = Board.getBoard().getBoardArr();
-        addPositionHourse(posX,posY);
+        startPositionHourse(posX,posY);
         printBoard();
     }
 
-    private void addPositionHourse(int posX, int posY) {
+    private void startPositionHourse(int posX, int posY) {
         try {
             board[posX][posY] = hourse;
             System.out.println(true);

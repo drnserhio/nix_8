@@ -1,5 +1,6 @@
-package com.ua.alevel;
+package com.ua.alevel.controller;
 
+import com.ua.alevel.service.ServiceApplication;
 import ua.com.alevel.StringerUtil;
 
 import java.io.BufferedReader;
