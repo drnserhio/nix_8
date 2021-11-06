@@ -36,9 +36,9 @@ public class ServiceApplication {
 
             result(String.valueOf(UniqueSymbol.countUnicSymbol(in)));
         } catch (NullPointerException e) {
-            exception(e.getClass().getName());
+            exception("Entry empty str");
         } catch (NumberFormatException e) {
-            exception(e.getClass().getName());
+            exception("Entry don't number");
         }
 
     }
@@ -60,9 +60,9 @@ public class ServiceApplication {
 
             gameHourse(new Game(x, y), reader);
         } catch (NullPointerException e) {
-            exception(e.getClass().getName());
+            exception("Entry empty str");
         } catch (NumberFormatException e) {
-            exception(e.getClass().getName());
+            exception("Entry don't number");
         }
     }
 
@@ -83,9 +83,9 @@ public class ServiceApplication {
 
             game.stepCoordinatHourse(x, y);
         } catch (NullPointerException e) {
-            exception(e.getClass().getName());
+            exception("Entry empty str");
         } catch (NumberFormatException e) {
-            exception(e.getClass().getName());
+            exception("Entry don't number");
         }
 
     }
@@ -132,9 +132,9 @@ public class ServiceApplication {
 
             result(String.valueOf(Triangle.area(new Pointer(xa, ya), new Pointer(xb, yb), new Pointer(xc, yc))));
         } catch (NullPointerException e) {
-            exception(e.getClass().getName());
+            exception("Entry empty str");
         } catch (NumberFormatException e) {
-            exception(e.getClass().getName());
+            exception("Entry don't number");
         }
 
     }
@@ -149,7 +149,7 @@ public class ServiceApplication {
             }
             result("Str valid-> :" + ValidBrackets.isValidBracketsInStr(in));
         } catch (NullPointerException e) {
-            exception(e.getClass().getName());
+            exception("Entry empty str");
         }
     }
 
@@ -168,9 +168,9 @@ public class ServiceApplication {
 
             result("Max depth tree -> " + Tree.countTreeDepth(tree.getRoot()));
         } catch (NullPointerException e) {
-            exception(e.getClass().getName());
+            exception("Entry error or maybe empty");
         } catch (NumberFormatException e) {
-            exception(e.getClass().getName());
+            exception("Entry don't number");
         }
     }
 
@@ -191,7 +191,7 @@ public class ServiceApplication {
         print("Choose command: ****| yes or no |****" );
         String n = reader.readLine();
 
-        if (n.equals("no")) {
+        if (n.equals("no") || !n.equals("yes")) {
             return;
         }
 
@@ -200,12 +200,10 @@ public class ServiceApplication {
                 throw new NullPointerException();
             }
 
-            new GameLife().startGame();
+            new GameLife().go();
 
         } catch (NullPointerException e) {
-            exception(e.getClass().getName());
-        } catch (NumberFormatException e) {
-            exception(e.getClass().getName());
+            exception("Entry error or maybe empty");
         }
     }
 }

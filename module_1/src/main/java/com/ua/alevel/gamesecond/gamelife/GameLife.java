@@ -2,165 +2,134 @@ package com.ua.alevel.gamesecond.gamelife;
 
 import com.vdurmont.emoji.EmojiParser;
 
-import java.util.Arrays;
-
-import static ua.com.alevel.StringerUtil.print;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class GameLife {
 
-    // Life - "\uD83D\uDCA9" 💩
-    // Dead - "\uD83D\uDC80" 💀
-
-    private String[][] board;
-    private String[][] saveBoard;
-    private String[][] previouseBoard;
-
-    private int min;
-    private int max;
-    private int countSame;
-
-    private final String LIFE = EmojiParser.parseToUnicode("\uD83D\uDCA9");
-    private final String DEAD = EmojiParser.parseToUnicode("\uD83D\uDC80");
-    private final String BOX = EmojiParser.parseToUnicode("\u2B1B");
-    private final String BORDER = EmojiParser.parseToUnicode("\uD83D\uDD3A");
-
-    public GameLife() {
-        this.board = new String[20][20];
-        this.max = 10 - 2;
-        this.min = 10 + 7;
-    }
-
-    public void startGame() {
-        fillArr();
-        lifyCycle();
-        printBoard();
-        updateWorld();
-    }
 
 
-    private void lifyCycle() {
+    final String NAME_OF_GAME = "LIFE" + EmojiParser.parseToUnicode("\uD83D\uDCA9");
+    final int START_LOCATION = 200;
+    final int LIFE_SIZE = 50;
+    final int POINT_RADIUS = 10;
+    final int FIELD_SIZE = LIFE_SIZE * POINT_RADIUS + 7;
+    final int BTN_PANEL_HEIGHT = 58;
+    boolean[][] lifeGeneration = new boolean[LIFE_SIZE][LIFE_SIZE];
+    boolean[][] nextGeneration = new boolean[LIFE_SIZE][LIFE_SIZE];
+    volatile boolean goNextGeneration = false;
+    int showDelay = 200;
+    Canvas canvasPanel;
+    Random random = new Random();
 
 
-        for (int i = 0; i < 20; i++) {
-            board[rnd(min, max)][rnd(min, max)] = LIFE;
-        }
-        saveBoard = board.clone();
-    }
+   public void go() {
+        JFrame frame = new JFrame(NAME_OF_GAME);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(FIELD_SIZE, FIELD_SIZE + BTN_PANEL_HEIGHT);
+        frame.setLocation(START_LOCATION, START_LOCATION);
+        frame.setResizable(false);
 
-    private static int rnd(int min, int max) {
-        max -= min;
-        return (int) (Math.random() * ++max) + min;
-    }
+        canvasPanel = new Canvas();
+        canvasPanel.setBackground(Color.white);
 
+        JButton fillButton = new JButton("Fill");
+        fillButton.addActionListener(new FillButtonListener());
 
-    private boolean isAlive(int x, int y) {
-        if (board[x][y].equals(LIFE)) {
-            return true;
-        }
-        return false;
-    }
+        JButton stepButton = new JButton("Step");
+        stepButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                processOfLife();
+                canvasPanel.repaint();
+            }
+        });
 
-    private boolean isDead(int x, int y) {
-        if (board[x][y].equals(DEAD)) {
-            return true;
-        }
-        return false;
-    }
+        final JButton goButton = new JButton("Play");
+        goButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                goNextGeneration = !goNextGeneration;
+                goButton.setText(goNextGeneration? "Stop" : "Play");
+            }
+        });
 
-    private int countSurrounding(String[][] board, int a, int b) {
-        int count = 0;
-        int[][] surrounding = {{a - 1, b - 1},
-                {a - 1, b},
-                {a - 1, b + 1},
-                {a, b - 1},
-                {a, b + 1},
-                {a + 1, b - 1},
-                {a + 1, b},
-                {a + 1, b + 1}};
-        for (int i[] : surrounding) {
-            try {
-                if (board[i[0]][i[1]].equals(LIFE)) {
-                    count++;
-                }
-            } catch (ArrayIndexOutOfBoundsException e) {
+        JPanel btnPanel = new JPanel();
+        btnPanel.add(fillButton);
+        btnPanel.add(stepButton);
+        btnPanel.add(goButton);
+
+        frame.getContentPane().add(BorderLayout.CENTER, canvasPanel);
+        frame.getContentPane().add(BorderLayout.SOUTH, btnPanel);
+        frame.setVisible(true);
+
+        while (true) {
+            if (goNextGeneration) {
+                processOfLife();
+                canvasPanel.repaint();
+                try {
+                    Thread.sleep(showDelay);
+                } catch (InterruptedException e) { e.printStackTrace(); }
             }
         }
+    }
+
+    public class FillButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent ev) {
+            for (int x = 0; x < LIFE_SIZE; x++) {
+                for (int y = 0; y < LIFE_SIZE; y++) {
+                    lifeGeneration[x][y] = random.nextBoolean();
+                }
+            }
+            canvasPanel.repaint();
+        }
+    }
+
+    int countNeighbors(int x, int y) {
+        int count = 0;
+        for (int dx = -1; dx < 2; dx++) {
+            for (int dy = -1; dy < 2; dy++) {
+                int nX = x + dx;
+                int nY = y + dy;
+                nX = (nX < 0) ? LIFE_SIZE - 1 : nX;
+                nY = (nY < 0) ? LIFE_SIZE - 1 : nY;
+                nX = (nX > LIFE_SIZE - 1) ? 0 : nX;
+                nY = (nY > LIFE_SIZE - 1) ? 0 : nY;
+                count += (lifeGeneration[nX][nY]) ? 1 : 0;
+            }
+        }
+        if (lifeGeneration[x][y]) { count--; }
         return count;
     }
 
-    private void updateWorld() {
-        savePreviouseBoard();
-        for (int i = 0; i < saveBoard.length; i++) {
-            for (int j = 0; j < saveBoard[i].length; j++) {
-                if (isAlive(i, j) && !(countSurrounding(saveBoard, i, j) == 2 || countSurrounding(saveBoard, i, j) == 3)) {
-                    board[i][j] = DEAD;
-                } else if (isDead(i, j) && countSurrounding(board, i, j) == 3) {
-                    board[i][j] = LIFE;
+    void processOfLife() {
+        for (int x = 0; x < LIFE_SIZE; x++) {
+            for (int y = 0; y < LIFE_SIZE; y++) {
+                int count = countNeighbors(x, y);
+                nextGeneration[x][y] = lifeGeneration[x][y];
+                // if are 3 live neighbors around empty cells - the cell becomes alive
+                nextGeneration[x][y] = (count == 3) ? true : nextGeneration[x][y];
+                // if cell has less than 2 or greater than 3 neighbors - it will be die
+                nextGeneration[x][y] = ((count < 2) || (count > 3)) ? false : nextGeneration[x][y];
+            }
+        }
+        for (int x = 0; x < LIFE_SIZE; x++) {
+            System.arraycopy(nextGeneration[x], 0, lifeGeneration[x], 0, LIFE_SIZE);
+        }
+    }
+
+    public class Canvas extends JPanel {
+        @Override
+        public void paint(Graphics g) {
+            super.paint(g);
+            for (int x = 0; x < LIFE_SIZE; x++) {
+                for (int y = 0; y < LIFE_SIZE; y++) {
+                    if (lifeGeneration[x][y]) {
+                        g.fillOval(x * POINT_RADIUS, y * POINT_RADIUS, POINT_RADIUS, POINT_RADIUS);
+                    }
                 }
             }
         }
-        printBoard();
-        finish();
-    }
-
-
-    private void fillArr() {
-        for (int i = 0; i < board.length; i++) {
-            board[i][0] = BORDER;
-            for (int j = 0; j < board[i].length; j++) {
-                if (i == 0 || i == board.length - 1 || j == 0 || j == board.length - 1) {
-                    board[i][j] = BORDER;
-                } else {
-                    board[i][j] = BOX;
-                }
-            }
-        }
-    }
-
-
-    private void printBoard() {
-        for (int i = 0; i < saveBoard.length; i++) {
-            for (int j = 0; j < saveBoard[i].length; j++) {
-                System.out.print(saveBoard[i][j] + " ");
-            }
-            print("");
-        }
-    }
-
-    private void finish() {
-        int countLife = 0;
-        for (int i = 0; i < saveBoard.length - 1; i++) {
-            for (int j = 0; j < saveBoard[i].length - 1; j++) {
-                if (saveBoard[i][j].equals(LIFE)) {
-                    countLife++;
-                }
-            }
-        }
-
-        if (countLife == 0) {
-            print("Finish game");
-            return;
-        } else {
-            if (isSameBoard(previouseBoard, saveBoard)) {
-                return;
-            }
-            updateWorld();
-        }
-    }
-
-    private boolean isSameBoard(String[][] arr, String[][] saveBoard) {
-        if (Arrays.deepEquals(arr, saveBoard)) {
-            if (countSame == 0) {
-                countSame++;
-                return false;
-            } else {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void savePreviouseBoard() {
-        previouseBoard = saveBoard.clone();
     }
 }
