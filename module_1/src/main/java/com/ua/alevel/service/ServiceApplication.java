@@ -1,13 +1,13 @@
 package com.ua.alevel.service;
 
 import com.ua.alevel.gamefirst.hoursegame.Game;
+import com.ua.alevel.gamefirst.triangle.Pointer;
 import com.ua.alevel.gamefirst.triangle.Triangle;
 import com.ua.alevel.gamefirst.uniq.UniqueSymbol;
 import com.ua.alevel.gamesecond.brackets.ValidBrackets;
 import com.ua.alevel.gamesecond.gamelife.GameLife;
 import com.ua.alevel.gamesecond.treedepth.Tree;
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -102,9 +102,9 @@ public class ServiceApplication {
         print("Entry yB coordinat: ");
         String yB = reader.readLine();
 
-        print("Entry xB coordinat: ");
+        print("Entry xC coordinat: ");
         String xC = reader.readLine();
-        print("Entry yB coordinat: ");
+        print("Entry yC coordinat: ");
         String yC = reader.readLine();
 
 
@@ -131,7 +131,7 @@ public class ServiceApplication {
             int yc = Integer.parseInt(yC);
 
 
-            result(String.valueOf(Triangle.area(new Point(xa, ya), new Point(xb, yb), new Point(xc, yc))));
+            result(String.valueOf(Triangle.area(new Pointer(xa, ya), new Pointer(xb, yb), new Pointer(xc, yc))));
         } catch (NullPointerException e) {
             exception(e.getClass().getName());
         } catch (NumberFormatException e) {
@@ -155,31 +155,19 @@ public class ServiceApplication {
     }
 
     public static void findCountDepthInTree(BufferedReader reader) throws IOException {
-        print("Entry root element");
-        String root = reader.readLine();
-        print("Entry count element :");
+        Tree tree = new Tree();
+        print("Entry count element in tree");
         String count = reader.readLine();
 
         try {
-            if (strIsEmpty(count) ||
-                    strIsEmpty(root)) {
+
+            if (strIsEmpty(count)) {
                 throw new NullPointerException();
             }
+            int size = Integer.parseInt(count);
+            addElementInTree(size, reader ,tree);
 
-            Tree.setRoot(Integer.parseInt(root));
-
-            int counter = Integer.parseInt(count);
-            for (int i = 1; i <= counter; i++) {
-                print("Entry value");
-                String v = reader.readLine();
-
-                if (strIsEmpty(v)) {
-                    throw new NullPointerException();
-                }
-                Tree.putChild(Integer.parseInt(v));
-            }
-
-            result("Max depth tree -> " + Tree.countTreeDepth());
+            result("Max depth tree -> " + Tree.countTreeDepth(tree.getRoot()));
         } catch (NullPointerException e) {
             exception(e.getClass().getName());
         } catch (NumberFormatException e) {
@@ -187,24 +175,33 @@ public class ServiceApplication {
         }
     }
 
+    private static void addElementInTree(int size, BufferedReader reader, Tree tree) throws IOException {
+        for (int i = 0; i < size; i++) {
+            print("Entry element:");
+            String element = reader.readLine();
+
+            if (strIsEmpty(element)) {
+                throw new NullPointerException();
+            }
+            tree.putChild(Integer.parseInt(element));
+        }
+    }
+
     public static void gameLife(BufferedReader reader) throws IOException {
-        print("Size board");
-        print("Entry vertical :");
+        print("Start game?" );
+        print("Choose command: ****| yes or no |****" );
         String n = reader.readLine();
-        print("Entry horizontal :");
-        String m = reader.readLine();
+
+        if (n.equals("no")) {
+            return;
+        }
 
         try {
-            if (strIsEmpty(n) ||
-                    strIsEmpty(m)) {
+            if (strIsEmpty(n)) {
                 throw new NullPointerException();
             }
 
-            //numeric
-            int x = Integer.parseInt(n);
-            int y = Integer.parseInt(m);
-
-            new GameLife(x, y).startGame();
+            new GameLife().startGame();
 
         } catch (NullPointerException e) {
             exception(e.getClass().getName());

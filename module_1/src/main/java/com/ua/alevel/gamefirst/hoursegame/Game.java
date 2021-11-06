@@ -24,7 +24,6 @@ public class Game {
     private void startPositionHourse(int posX, int posY) {
         try {
             board[posX][posY] = hourse;
-            System.out.println(true);
         } catch (ArrayIndexOutOfBoundsException e) {
             exception(e.getClass().getName());
         }

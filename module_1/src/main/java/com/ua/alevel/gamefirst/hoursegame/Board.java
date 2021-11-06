@@ -3,11 +3,11 @@ package com.ua.alevel.gamefirst.hoursegame;
 public final class Board {
 
     private static Board instance;
-    private Hourse[][] board = new Hourse[7][7];
+    private Hourse[][] board;
 
     private Board() {
         fillArrField();
-        board = new Hourse[7][7];
+        board = new Hourse[8][8];
     }
 
     public Hourse[][] getBoardArr() {

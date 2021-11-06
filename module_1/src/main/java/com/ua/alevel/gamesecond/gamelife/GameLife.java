@@ -1,5 +1,7 @@
 package com.ua.alevel.gamesecond.gamelife;
 
+import com.vdurmont.emoji.EmojiParser;
+
 import java.util.Arrays;
 
 import static ua.com.alevel.StringerUtil.print;
@@ -17,15 +19,15 @@ public class GameLife {
     private int max;
     private int countSame;
 
-    private final String LIFE = "\uD83D\uDCA9";
-    private final String DEAD = "\uD83D\uDC80";
-    private final String BOX = "\u2B1B";
-    private final String BORDER = "\uD83D\uDD3A";
+    private final String LIFE = EmojiParser.parseToUnicode("\uD83D\uDCA9");
+    private final String DEAD = EmojiParser.parseToUnicode("\uD83D\uDC80");
+    private final String BOX = EmojiParser.parseToUnicode("\u2B1B");
+    private final String BORDER = EmojiParser.parseToUnicode("\uD83D\uDD3A");
 
-    public GameLife(int n, int m) {
-        this.board = new String[n + 10][m + 10];
-        this.max = m - 2;
-        this.min = n + 7;
+    public GameLife() {
+        this.board = new String[20][20];
+        this.max = 10 - 2;
+        this.min = 10 + 7;
     }
 
     public void startGame() {
@@ -37,10 +39,10 @@ public class GameLife {
 
 
     private void lifyCycle() {
-        String[] entity = new String[]{LIFE, DEAD};
+
 
         for (int i = 0; i < 20; i++) {
-            board[rnd(min, max)][rnd(min, max)] = entity[rnd(0, 1)];
+            board[rnd(min, max)][rnd(min, max)] = LIFE;
         }
         saveBoard = board.clone();
     }
@@ -115,6 +117,7 @@ public class GameLife {
         }
     }
 
+
     private void printBoard() {
         for (int i = 0; i < saveBoard.length; i++) {
             for (int j = 0; j < saveBoard[i].length; j++) {
@@ -160,6 +163,4 @@ public class GameLife {
     private void savePreviouseBoard() {
         previouseBoard = saveBoard.clone();
     }
-
-
 }

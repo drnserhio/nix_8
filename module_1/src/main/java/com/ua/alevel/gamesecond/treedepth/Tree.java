@@ -2,17 +2,15 @@ package com.ua.alevel.gamesecond.treedepth;
 
 public final class Tree {
 
-    private static TreeNode root;
-    private static int countLeft;
-    private static int coutRigth;
+    private TreeNode root;
 
-    private Tree() {}
 
-    public static void setRoot(int rootValue) {
-        Tree.root = new TreeNode(rootValue);
+    public Tree() {
+        this.root = null;
     }
 
-    public static void putChild(int value) {
+
+    public void putChild(int value) {
 
         if (root == null) {
             root = new TreeNode(value);
@@ -24,7 +22,6 @@ public final class Tree {
             if (value < node.value) {
                 if (node.leftChild == null) {
                     node.leftChild = new TreeNode(value);
-                    countLeft++;
                     return;
                 } else {
                     node = node.leftChild;
@@ -32,7 +29,6 @@ public final class Tree {
             } else if (value > node.value) {
                 if (node.rightChild == null) {
                     node.rightChild = new TreeNode(value);
-                    coutRigth++;
                     return;
                 } else {
                     node = node.rightChild;
@@ -43,9 +39,19 @@ public final class Tree {
         }
     }
 
-    public static int countTreeDepth() {
-        return Math.max(coutRigth, countLeft);
+    public static int countTreeDepth(TreeNode node) {
+        if (node == null) return 0;
+        int L = countTreeDepth(node.leftChild);
+        int R = countTreeDepth(node.rightChild);
+        return Math.max(L, R) + 1 ;
     }
 
+    public TreeNode getRoot() {
+        return root;
+    }
+
+    public void setRoot(TreeNode root) {
+        this.root = root;
+    }
 }
 
