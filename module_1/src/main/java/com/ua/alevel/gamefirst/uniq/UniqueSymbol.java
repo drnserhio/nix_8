@@ -9,9 +9,9 @@ public final class UniqueSymbol {
     private UniqueSymbol(){}
 
     public static int countUnicSymbol(String arr) {
-       Set<String> list = Arrays.asList(arr.split(" ")).stream()
+       return Arrays.asList(arr.split(""))
+               .stream()
                .filter(s -> s.matches("\\d"))
-                .collect(Collectors.toSet());
-       return list.size();
+               .collect(Collectors.toSet()).size();
     }
 }

@@ -18,8 +18,7 @@ import static ua.com.alevel.StringerUtil.*;
 
 public class ServiceApplication {
     public static void uniqueSymbolInArray(BufferedReader reader) throws IOException {
-        System.out.println("Entry array:  \n" +
-                "(example: | 1 2 3 4 5 |)");
+        print("Entry array:  \n");
         String in = reader.readLine();
 
         try {
@@ -45,9 +44,9 @@ public class ServiceApplication {
     }
 
     public static void gameStepHourse(BufferedReader reader) throws IOException {
-        System.out.println("Entry coordinat step vertical :");
+        print("Entry coordinat step vertical :");
         String posX = reader.readLine();
-        System.out.println("Entry coordinat step horizontal :");
+        print("Entry coordinat step horizontal :");
         String posY = reader.readLine();
 
         try {
