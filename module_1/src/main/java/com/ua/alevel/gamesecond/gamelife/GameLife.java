@@ -11,7 +11,6 @@ import java.util.Random;
 public class GameLife {
 
 
-
     final String NAME_OF_GAME = "LIFE" + EmojiParser.parseToUnicode("\uD83D\uDCA9");
     final int START_LOCATION = 200;
     final int LIFE_SIZE = 50;
@@ -26,7 +25,7 @@ public class GameLife {
     Random random = new Random();
 
 
-   public void go() {
+    public void go() {
         JFrame frame = new JFrame(NAME_OF_GAME);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(FIELD_SIZE, FIELD_SIZE + BTN_PANEL_HEIGHT);
@@ -51,7 +50,7 @@ public class GameLife {
         goButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 goNextGeneration = !goNextGeneration;
-                goButton.setText(goNextGeneration? "Stop" : "Play");
+                goButton.setText(goNextGeneration ? "Stop" : "Play");
             }
         });
 
@@ -70,7 +69,9 @@ public class GameLife {
                 canvasPanel.repaint();
                 try {
                     Thread.sleep(showDelay);
-                } catch (InterruptedException e) { e.printStackTrace(); }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -99,7 +100,9 @@ public class GameLife {
                 count += (lifeGeneration[nX][nY]) ? 1 : 0;
             }
         }
-        if (lifeGeneration[x][y]) { count--; }
+        if (lifeGeneration[x][y]) {
+            count--;
+        }
         return count;
     }
 

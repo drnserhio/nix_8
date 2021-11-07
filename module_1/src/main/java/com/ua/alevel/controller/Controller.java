@@ -37,7 +37,6 @@ public class Controller {
         );
     }
 
-
     private void choose(String in, BufferedReader reader) throws IOException {
 
         switch (in) {
@@ -68,6 +67,4 @@ public class Controller {
         }
         menu();
     }
-
-
 }

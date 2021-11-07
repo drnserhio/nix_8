@@ -1,5 +1,6 @@
 package com.ua.alevel.gamefirst.triangle;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

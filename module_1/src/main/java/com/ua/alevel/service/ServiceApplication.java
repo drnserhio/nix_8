@@ -44,50 +44,34 @@ public class ServiceApplication {
     }
 
     public static void gameStepHourse(BufferedReader reader) throws IOException {
-        print("Entry coordinat step vertical :");
-        String posX = reader.readLine();
-        print("Entry coordinat step horizontal :");
-        String posY = reader.readLine();
+
+        print("Entry start coordinat");
+        print("Entry coordinat x: ");
+        String x1 = reader.readLine();
+        print("Entry coordinat y: ");
+        String y1 = reader.readLine();
 
         try {
-            if (strIsEmpty(posX) ||
-                    strIsEmpty(posY)) {
+            if (strIsEmpty(x1) ||
+                    strIsEmpty(y1)) {
                 throw new NullPointerException();
             }
 
-            int x = Integer.parseInt(posX);
-            int y = Integer.parseInt(posY);
+            int x = Integer.parseInt(x1);
+            int y = Integer.parseInt(y1);
+            Game game = new Game(x, y);
 
-            gameHourse(new Game(x, y), reader);
+            print("Entry new coordinat x: ");
+            String x2 = reader.readLine();
+            print("Entry new coordinat y: ");
+            String y2 = reader.readLine();
+
+            game.stepCoordinatHourse(Integer.parseInt(x1), Integer.parseInt(y2));
         } catch (NullPointerException e) {
             exception(new NullPointerException().getClass().getName());
         } catch (NumberFormatException e) {
             exception(new NumberFormatException().getClass().getName());
         }
-    }
-
-    private static void gameHourse(Game game, BufferedReader reader) throws IOException {
-        System.out.println("Entry coordinat step vertical :");
-        String n = reader.readLine();
-        System.out.println("Entry coordinat step horizontal :");
-        String m = reader.readLine();
-
-        try {
-            if (strIsEmpty(n) ||
-                    strIsEmpty(m)) {
-                throw new NullPointerException();
-            }
-
-            int x = Integer.parseInt(n);
-            int y = Integer.parseInt(m);
-
-            game.stepCoordinatHourse(x, y);
-        } catch (NullPointerException e) {
-            exception(new NullPointerException().getClass().getName());
-        } catch (NumberFormatException e) {
-            exception(new NumberFormatException().getClass().getName());
-        }
-
     }
 
     public static void squarePoint(BufferedReader reader) throws IOException {
@@ -106,7 +90,6 @@ public class ServiceApplication {
         print("Entry yC coordinat: ");
         String yC = reader.readLine();
 
-
         try {
             if (
                     strIsEmpty(xA) ||
@@ -119,7 +102,6 @@ public class ServiceApplication {
                 throw new NullPointerException();
             }
 
-            //create except numeric
             int xa = Integer.parseInt(xA);
             int ya = Integer.parseInt(yA);
 
@@ -130,7 +112,7 @@ public class ServiceApplication {
             int yc = Integer.parseInt(yC);
 
 
-            result(String.valueOf(Triangle.area(new Pointer(xa, ya), new Pointer(xb, yb), new Pointer(xc, yc))));
+            result(Triangle.area(new Pointer(xa, ya), new Pointer(xb, yb), new Pointer(xc, yc)));
         } catch (NullPointerException e) {
             exception(new NullPointerException().getClass().getName());
         } catch (NumberFormatException e) {
@@ -164,7 +146,7 @@ public class ServiceApplication {
                 throw new NullPointerException();
             }
             int size = Integer.parseInt(count);
-            addElementInTree(size, reader ,tree);
+            addElementInTree(size, reader, tree);
 
             result("Max depth tree -> " + Tree.countTreeDepth(tree.getRoot()));
         } catch (NullPointerException e) {
@@ -187,8 +169,8 @@ public class ServiceApplication {
     }
 
     public static void gameLife(BufferedReader reader) throws IOException {
-        print("Start game?" );
-        print("Choose command: ****| yes or no |****" );
+        print("Start game?");
+        print("Choose command: ****| yes or no |****");
         String n = reader.readLine();
 
         if (n.equals("no") || !n.equals("yes")) {

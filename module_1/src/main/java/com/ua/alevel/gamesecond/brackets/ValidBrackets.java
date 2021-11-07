@@ -9,6 +9,4 @@ public final class ValidBrackets {
     public static boolean isValidBracketsInStr(String str) {
        return StringerUtil.validationBrackets(str);
     }
-
-
 }

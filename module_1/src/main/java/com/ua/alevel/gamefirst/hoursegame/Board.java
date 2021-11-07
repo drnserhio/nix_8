@@ -1,9 +1,11 @@
 package com.ua.alevel.gamefirst.hoursegame;
 
+import static ua.com.alevel.StringerUtil.print;
+
 public final class Board {
 
     private static Board instance;
-    private Hourse[][] board;
+    private Hourse[][] board = new Hourse[8][8];
 
     private Board() {
         fillArrField();
@@ -31,12 +33,14 @@ public final class Board {
     }
 
     public void printBoard() {
+        int count = 1;
+        print("  1 2 3 4 5 6 7 8");
         for (int i = 0; i < board.length; i++) {
+            System.out.print(count++ + " ");
             for (int j = 0; j < board[i].length; j++) {
                 System.out.print(board[i][j] + " ");
             }
             System.out.println();
         }
     }
-
 }

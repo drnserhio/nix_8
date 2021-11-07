@@ -1,14 +1,12 @@
 package com.ua.alevel.gamesecond.treedepth;
 
-public final class Tree {
+public class Tree {
 
     private TreeNode root;
-
 
     public Tree() {
         this.root = null;
     }
-
 
     public void putChild(int value) {
 
@@ -43,7 +41,7 @@ public final class Tree {
         if (node == null) return 0;
         int L = countTreeDepth(node.leftChild);
         int R = countTreeDepth(node.rightChild);
-        return Math.max(L, R) + 1 ;
+        return Math.max(L, R) + 1;
     }
 
     public TreeNode getRoot() {
