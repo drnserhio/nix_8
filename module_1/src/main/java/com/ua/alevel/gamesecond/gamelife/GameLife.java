@@ -27,7 +27,7 @@ public class GameLife {
 
     public void go() {
         JFrame frame = new JFrame(NAME_OF_GAME);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(FIELD_SIZE, FIELD_SIZE + BTN_PANEL_HEIGHT);
         frame.setLocation(START_LOCATION, START_LOCATION);
         frame.setResizable(false);

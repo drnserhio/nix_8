@@ -175,7 +175,6 @@ public class ServiceApplication {
             }
 
             new GameLife().go();
-
         } catch (NullPointerException e) {
             exception(new NullPointerException().getClass().getName());
         }
