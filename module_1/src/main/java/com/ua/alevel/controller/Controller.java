@@ -57,7 +57,7 @@ public class Controller {
                 ServiceApplication.findCountDepthInTree(reader);
                 break;
             case "6":
-                ServiceApplication.gameLife(reader);
+                ServiceApplication.gameLife();
                 break;
             case "7":
                 System.exit(0);

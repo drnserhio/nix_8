@@ -160,23 +160,7 @@ public class ServiceApplication {
         }
     }
 
-    public static void gameLife(BufferedReader reader) throws IOException {
-        print("Start game?");
-        print("Choose command: ****| yes or no |****");
-        String n = reader.readLine();
-
-        if (n.equals("no") || !n.equals("yes")) {
-            return;
-        }
-
-        try {
-            if (strIsEmpty(n)) {
-                throw new NullPointerException();
-            }
-
-            new GameLife().go();
-        } catch (NullPointerException e) {
-            exception(new NullPointerException().getClass().getName());
-        }
+    public static void gameLife() throws IOException {
+        new GameLife().go();
     }
 }
