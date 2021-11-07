@@ -8,6 +8,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class Pointer {
     
-    private double x;
-    private double y;
+    private Double x;
+    private Double y;
+
+    public Pointer(String x, String y) {
+        this.x = new Double(x);
+        this.y = new Double(y);
+    }
 }

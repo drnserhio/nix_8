@@ -27,7 +27,7 @@ public class GameLife {
 
     public void go() {
         JFrame frame = new JFrame(NAME_OF_GAME);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(FIELD_SIZE, FIELD_SIZE + BTN_PANEL_HEIGHT);
         frame.setLocation(START_LOCATION, START_LOCATION);
         frame.setResizable(false);
@@ -111,9 +111,7 @@ public class GameLife {
             for (int y = 0; y < LIFE_SIZE; y++) {
                 int count = countNeighbors(x, y);
                 nextGeneration[x][y] = lifeGeneration[x][y];
-                // if are 3 live neighbors around empty cells - the cell becomes alive
                 nextGeneration[x][y] = (count == 3) ? true : nextGeneration[x][y];
-                // if cell has less than 2 or greater than 3 neighbors - it will be die
                 nextGeneration[x][y] = ((count < 2) || (count > 3)) ? false : nextGeneration[x][y];
             }
         }

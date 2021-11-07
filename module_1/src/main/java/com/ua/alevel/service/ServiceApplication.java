@@ -102,17 +102,9 @@ public class ServiceApplication {
                 throw new NullPointerException();
             }
 
-            int xa = Integer.parseInt(xA);
-            int ya = Integer.parseInt(yA);
-
-            int xb = Integer.parseInt(xB);
-            int yb = Integer.parseInt(yB);
-
-            int xc = Integer.parseInt(xC);
-            int yc = Integer.parseInt(yC);
 
 
-            result(Triangle.area(new Pointer(xa, ya), new Pointer(xb, yb), new Pointer(xc, yc)));
+            result(Triangle.area(new Pointer(xA, yA), new Pointer(xB, yB), new Pointer(xC, yC)));
         } catch (NullPointerException e) {
             exception(new NullPointerException().getClass().getName());
         } catch (NumberFormatException e) {
