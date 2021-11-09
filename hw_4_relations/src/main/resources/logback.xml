@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <appender name = "info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logger.info}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logger.path}/${logger.saveArchive.folder}/info/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>2MB</maxFileSize>
+            <totalSizeCap>3GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name = "error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logger.error}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logger.path}/${logger.saveArchive.folder}/error/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>2MB</maxFileSize>
+            <totalSizeCap>3GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name = "fatal" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logger.fatal}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logger.path}/${logger.saveArchive.folder}/fatal/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>2MB</maxFileSize>
+            <totalSizeCap>3GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="info" level="info" additivity="false">
+        <appender-ref ref="info"/>
+    </logger>
+
+    <logger name="error" level="error" additivity="false">
+        <appender-ref ref="error"/>
+    </logger>
+
+    <logger name="fatal" level="fatal" additivity="false">
+        <appender-ref ref="fatal"/>
+    </logger>
+
+
+</configuration>

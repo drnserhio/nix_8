@@ -147,4 +147,10 @@ public final class StringerUtil {
         System.out.println(str);
     }
 
+    public static void isNull(Object ob) {
+        if (ob == null) {
+
+        }
+    }
+
 }

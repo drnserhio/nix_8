@@ -32,7 +32,6 @@ public class FramenixContext {
     public void initBeanMap() {
        this.ServiceClasses.forEach((serviceClass) -> {
            Object ob = factory.createBeanByInterfaces(serviceClass);
-           System.out.println("ob " + ob);
 
            if (ob != null) {
                BeanStore.getInstance().getStore().put(serviceClass,ob);
