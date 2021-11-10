@@ -39,6 +39,23 @@ public class DoctorBeanList {
 
     }
 
+    public Doctor get(int index) {
+        if (index >= doctors.length) {
+            throw new IndexOutOfBoundsException();
+        }
+        return doctors[index];
+    }
+
+    public Doctor get(String lastname) {
+        for (int i = 0; i < doctors.length; i++) {
+            if (doctors[i].getLastname().equals(lastname)) {
+                return get(i);
+            }
+        }
+        return null;
+    }
+
+
     protected void increaseSizeArr() {
         doctors = Arrays.copyOf(doctors, doctors.length * 2);
 
@@ -53,9 +70,44 @@ public class DoctorBeanList {
         return true;
     }
 
-    public Doctor[] getDoctors() {
-        return doctors;
+
+    private boolean remove(int index) {
+        doctors[index] = null;
+        --size;
+        reductionSizeArr(index);
+        return true;
     }
+
+
+    public boolean remove(Long id) {
+
+        for (int i = 0; i < doctors.length; i++) {
+            if (doctors[i].getId().equals(id)) {
+                return remove(i);
+            }
+        }
+        return false;
+    }
+
+    public boolean remove(Object ob) {
+        for (int i = 0; i < doctors.length; i++) {
+            if (doctors[i].equals(ob)) {
+                return remove(i);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        findAndDropNull(doctors);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < doctors.length; i++) {
+            stringBuilder.append(doctors[i]).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
 
     private void reductionSizeArr(int indexDrop) {
         var first = Arrays.copyOfRange(doctors, 0, indexDrop);
@@ -75,6 +127,15 @@ public class DoctorBeanList {
         }
     }
 
+    public boolean isEmpty() {
+        if (doctors.length < 1 || doctors == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     protected boolean hasNext() {
         return positionIter < doctors.length;
     }
@@ -86,32 +147,6 @@ public class DoctorBeanList {
         } else {
             throw new NoSuchElementException();
         }
-    }
-
-    @Override
-    public String toString() {
-        findAndDropNull(doctors);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < doctors.length; i++) {
-            stringBuilder.append(doctors[i]).append("\n");
-        }
-        return stringBuilder.toString();
-    }
-
-    public Doctor get(int index) {
-        if (index >= doctors.length) {
-            throw new IndexOutOfBoundsException();
-        }
-        return doctors[index];
-    }
-
-    public Doctor get(String lastname) {
-        for (int i = 0; i < doctors.length; i++) {
-            if (doctors[i].getLastname().equals(lastname)) {
-                return get(i);
-            }
-        }
-        return null;
     }
 
 

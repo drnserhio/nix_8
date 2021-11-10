@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hw_4_relations</artifactId>
+    <artifactId>hw_4_logs_and_test</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -132,7 +132,7 @@
     </dependencies>
 
     <build>
-        <finalName>hw_4_relationship</finalName>
+        <finalName>hw_4_logs_and_test</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
