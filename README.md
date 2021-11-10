@@ -3,4 +3,6 @@
 
 To start my project you need download dependecy by run: deployeeFullProject.sh in root, module.
 
+And after You can run any modules.
+
 
