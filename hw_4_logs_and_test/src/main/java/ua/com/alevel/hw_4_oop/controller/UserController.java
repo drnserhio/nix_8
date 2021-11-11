@@ -5,18 +5,18 @@ import annotation.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.com.alevel.StringerUtil;
-import ua.com.alevel.hw_4_oop.myList.DoctorList;
 import ua.com.alevel.hw_4_oop.entity.Doctor;
 import ua.com.alevel.hw_4_oop.entity.Patient;
 import ua.com.alevel.hw_4_oop.myList.ArrList;
+import ua.com.alevel.hw_4_oop.myList.DoctorList;
 import ua.com.alevel.hw_4_oop.service.DocService;
 import ua.com.alevel.hw_4_oop.service.UserService;
 import ua.com.alevel.hw_4_oop.service.impl.DoctorService;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.util.Optional;
 
 import static ua.com.alevel.StringerUtil.exception;
@@ -43,7 +43,7 @@ public class UserController implements Controller {
 
         } catch (IOException e) {
             e.printStackTrace();
-            loggerInfo.error(e.getMessage());
+            loggerError.error(e.getMessage());
         }
     }
 
@@ -51,18 +51,21 @@ public class UserController implements Controller {
         System.out.println(
 
                 "\n\t\t| If you entry : |\n" +
+                        "------------------------\n" +
                         " 1 - Add Doctor\n" +
                         " 2 - Delete Doctor\n" +
                         " 3 - Update Doctor\n" +
                         " 4 - Find Doctor by id\n" +
                         " 5 - List Doctor\n" +
+                        "------------------------\n" +
                         " 6 - Add Patient \n" +
                         " 7 - Delete Patient\n" +
                         " 8 - Update Patient \n" +
                         " 9 - Find Patient by id \n" +
                         " 10 - View Patient \n" +
                         " 11 - Find Patients by lastname Doctor\n" +
-                        " 12 - Exit"
+                        " 12 - Exit\n" +
+                        "------------------------"
         );
     }
 
@@ -116,6 +119,7 @@ public class UserController implements Controller {
     private void findDoctorById(BufferedReader reader) throws IOException {
 
         if (!isDoctorsHaveInList()) {
+            loggerError.warn("Doctor list empty : Method findDoctorById");
             return;
         }
 
@@ -125,22 +129,24 @@ public class UserController implements Controller {
 
             Doctor doctor = serviceDoctor.findById(id);
             if (doctor == null) {
+                loggerError.error("Null doctor");
                 throw new NullPointerException();
             } else {
                 result(String.valueOf(doctor).trim());
             }
         } catch (NullPointerException e) {
             exception((e.getClass().getName() + " -> " + DoctorStateBD.DOCTOR_NOT_FOUND.name()));
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         } catch (NumberFormatException e) {
             exception((e.getClass().getName()));
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         }
     }
 
     private void updateDoctor(BufferedReader reader) throws IOException {
         if (!isDoctorsHaveInList()) {
             doctorsListIsEmpty();
+            loggerInfo.warn("Doctor list empty : Method updateDoctor");
             return;
         }
 
@@ -150,11 +156,10 @@ public class UserController implements Controller {
             long id = Long.parseLong(reader.readLine());
             loggerInfo.info("Doctor entry : " + id);
 
-
             print("Entry new Name doctor : ");
             String name = reader.readLine();
             if (StringerUtil.strIsEmpty(name)) {
-                loggerInfo.error("doctor entry name: " + name);
+                loggerError.error("doctor entry name: " + name);
                 throw new NullPointerException();
             }
             loggerInfo.info("doctrod entry name: " + name);
@@ -162,7 +167,7 @@ public class UserController implements Controller {
             print("Entry new LastName doctor : ");
             String lastName = reader.readLine();
             if (StringerUtil.strIsEmpty(lastName)) {
-                loggerInfo.error("doctor entry lastname: " + name);
+                loggerError.error("doctor entry lastname: " + name);
                 throw new NullPointerException();
             }
             loggerInfo.info("doctor entry lastname: " + name);
@@ -183,10 +188,10 @@ public class UserController implements Controller {
 
         } catch (NullPointerException e) {
             exception((e.getClass().getName() + " -> " + DoctorStateBD.DOCTOR_NOT_FOUND));
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         } catch (NumberFormatException e) {
             exception((e.getClass().getName()));
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         }
     }
 
@@ -194,6 +199,7 @@ public class UserController implements Controller {
 
         if (!isDoctorsHaveInList()) {
             doctorsListIsEmpty();
+            loggerInfo.warn("Doctor list empty : Method deleteDoctor");
             return;
         }
 
@@ -209,10 +215,12 @@ public class UserController implements Controller {
             loggerInfo.info(DoctorStateBD.DOCTOR_DROP.name() + " " + id);
         } catch (NullPointerException e) {
             exception(e.getClass().getName() + " -> " + DoctorStateBD.DOCTOR_NOT_FOUND.name());
-            loggerInfo.error(e.getMessage() + " -> " + DoctorStateBD.DOCTOR_NOT_FOUND.name());
+            loggerFatal.error("Method deleteDoctor");
+            loggerFatal.error(e.getMessage() + " -> " + DoctorStateBD.DOCTOR_NOT_FOUND.name());
         } catch (NumberFormatException e) {
             exception(e.getClass().getName());
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error("Method deleteDoctor");
+            loggerFatal.error(e.getMessage());
         }
     }
 
@@ -242,16 +250,19 @@ public class UserController implements Controller {
             loggerInfo.info(DoctorStateBD.DOCTOR_CREATE.name() + " -> " + serviceDoctor.findById(doctor.getId()));
         } catch (NullPointerException e) {
             exception(e.getClass().getName());
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error("Method createDoctor");
+            loggerFatal.error(e.getMessage());
         } catch (NumberFormatException e) {
             exception(e.getClass().getName());
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error("Method createDoctor");
+            loggerFatal.error(e.getMessage());
         }
     }
 
     private void findPatientsByLastName(BufferedReader reader) throws IOException {
         if (!isPatientsHaveInList()) {
             patientsListIsEmpty();
+            loggerInfo.warn("Patients list empty : Method findPatientsByLastName");
             return;
         }
         print("Entry LastName Doctor :");
@@ -260,7 +271,7 @@ public class UserController implements Controller {
             print(service.findAllPatientsByDoctor(doctorName).toString());
         } catch (NullPointerException e) {
             exception("Patients with this doctor not found");
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         }
 
     }
@@ -268,6 +279,7 @@ public class UserController implements Controller {
     public void create(BufferedReader reader) throws IOException {
         if (!isDoctorsHaveInList()) {
             doctorsListIsEmpty();
+            loggerInfo.warn("Doctors list empty : Method create");
             return;
         }
 
@@ -310,10 +322,10 @@ public class UserController implements Controller {
             loggerInfo.info(UserStateBD.USER_CREATE.name() + " -> " + service.findById(patient.getId()));
         } catch (NullPointerException e) {
             exception(e.getClass().getName());
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         } catch (NumberFormatException e) {
             exception(e.getClass().getName());
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         }
 
     }
@@ -321,6 +333,7 @@ public class UserController implements Controller {
     public void drop(BufferedReader reader) throws IOException {
         if (!isPatientsHaveInList()) {
             patientsListIsEmpty();
+            loggerInfo.warn("Patients list empty : Method drop");
             return;
         }
         try {
@@ -334,20 +347,24 @@ public class UserController implements Controller {
             loggerInfo.info(UserStateBD.USER_DROP.name());
         } catch (NullPointerException e) {
             exception(e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name());
-            loggerInfo.error(e.getMessage() + " -> " + UserStateBD.USER_NOT_FOUND.name());
+            loggerFatal.error("Method drop");
+            loggerFatal.error(e.getMessage() + " -> " + UserStateBD.USER_NOT_FOUND.name());
         } catch (NumberFormatException e) {
             exception(e.getClass().getName());
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error("Method drop");
+            loggerFatal.error(e.getMessage());
         }
     }
 
     public void update(BufferedReader reader) throws IOException {
         if (!isPatientsHaveInList()) {
             patientsListIsEmpty();
+            loggerInfo.warn("Patients list empty : Method update");
             return;
         }
         if (!isDoctorsHaveInList()) {
             doctorsListIsEmpty();
+            loggerInfo.warn("Doctors list empty : Method update");
             return;
         }
         try {
@@ -360,7 +377,7 @@ public class UserController implements Controller {
             print("Entry new Name user : ");
             String name = reader.readLine();
             if (StringerUtil.strIsEmpty(name)) {
-                loggerInfo.error("user entry name: " + name);
+                loggerFatal.error("user entry name: " + name);
                 throw new NullPointerException();
             }
             loggerInfo.info("user entry name: " + name);
@@ -368,7 +385,7 @@ public class UserController implements Controller {
             print("Entry new LastName user : ");
             String lastName = reader.readLine();
             if (StringerUtil.strIsEmpty(lastName)) {
-                loggerInfo.error("user entry lastname: " + name);
+                loggerFatal.error("user entry empty lastname: " + name);
                 throw new NullPointerException();
             }
             loggerInfo.info("user entry lastname: " + name);
@@ -385,10 +402,9 @@ public class UserController implements Controller {
                     .orElseThrow(() -> new NullPointerException("Doctor not found"));
 
             if (doctor == null) {
-                loggerInfo.error("Doctor not found " + doctor);
+                loggerFatal.error("Doctor not found " + doctor);
                 throw new NullPointerException();
             }
-            loggerInfo.info("Doctror found " + doctor);
 
 
             Patient updatePatient = new Patient();
@@ -403,16 +419,17 @@ public class UserController implements Controller {
 
         } catch (NullPointerException e) {
             exception((e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name()));
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         } catch (NumberFormatException e) {
             exception((e.getClass().getName()));
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         }
     }
 
     public void findById(BufferedReader reader) throws IOException {
         if (!isPatientsHaveInList()) {
             patientsListIsEmpty();
+            loggerInfo.warn("Patients list empty : Method findById");
             return;
         }
         try {
@@ -427,10 +444,10 @@ public class UserController implements Controller {
             }
         } catch (NullPointerException e) {
             exception((e.getClass().getName() + " -> " + UserStateBD.USER_NOT_FOUND.name()));
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         } catch (NumberFormatException e) {
             exception((e.getClass().getName()));
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         }
     }
 
@@ -468,7 +485,7 @@ public class UserController implements Controller {
             result("\n" + String.valueOf(doctorList).trim());
         } catch (NullPointerException e) {
             exception("List doctors are empty");
-            loggerInfo.error(e.getMessage());
+            loggerFatal.error(e.getMessage());
         }
     }
 
@@ -503,7 +520,7 @@ public class UserController implements Controller {
     }
 
     private void deleteDoctorInTwoDataBase(Doctor doctor) {
-       ArrList<Patient> patients = service.findAll();
+        ArrList<Patient> patients = service.findAll();
         while (patients.hasNext()) {
             Patient patient = patients.next();
             if (patient.getLastnameDoctor().equals(doctor.getLastname())) {
