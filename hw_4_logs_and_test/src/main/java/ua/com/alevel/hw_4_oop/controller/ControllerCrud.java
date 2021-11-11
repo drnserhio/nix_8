@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import ua.com.alevel.StringerUtil;
 import ua.com.alevel.hw_4_oop.entity.Doctor;
 import ua.com.alevel.hw_4_oop.entity.Patient;
+import ua.com.alevel.hw_4_oop.enumeration.DoctorStateBD;
+import ua.com.alevel.hw_4_oop.enumeration.UserStateBD;
 import ua.com.alevel.hw_4_oop.myList.ArrList;
 import ua.com.alevel.hw_4_oop.myList.DoctorList;
 import ua.com.alevel.hw_4_oop.service.DocService;
@@ -16,14 +18,13 @@ import ua.com.alevel.hw_4_oop.service.impl.DoctorService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.util.Optional;
 
 import static ua.com.alevel.StringerUtil.exception;
 import static ua.com.alevel.StringerUtil.print;
 
 @Service
-public class UserController implements Controller {
+public class ControllerCrud implements Controller {
 
     @Autowired
     private UserService service;

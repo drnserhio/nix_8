@@ -1,4 +1,4 @@
-package ua.com.alevel.hw_4_oop.controller;
+package ua.com.alevel.hw_4_oop.enumeration;
 
 public enum DoctorStateBD {
 
