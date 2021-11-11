@@ -133,11 +133,11 @@ public abstract class MyList {
     }
 
 
-    protected boolean hasNext() {
+    public boolean hasNext() {
         return positionIter < list.length;
     }
 
-    public Object next() {
+    public Patient next() {
         findAndDropNull(list);
         if (hasNext()) {
             return list[positionIter++];

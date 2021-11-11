@@ -1,4 +1,4 @@
-package ua.com.alevel.hw_4_oop.config;
+package ua.com.alevel.hw_4_oop.myList;
 
 import org.apache.commons.lang3.ArrayUtils;
 import ua.com.alevel.hw_4_oop.entity.Doctor;
@@ -6,15 +6,28 @@ import ua.com.alevel.hw_4_oop.entity.Patient;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
-public class DoctorBeanList {
+public class DoctorList {
 
-    private Doctor[] doctors = new Doctor[1];
+    private Doctor[] doctors;
     int size = 0;
     private int positionIter = 0;
+    private final int CAPACITY = 16;
 
-    public DoctorBeanList() {
-        addDoctors();
+
+    public DoctorList() {
+        doctors = new Doctor[CAPACITY];
+        //addDoctors();
+    }
+
+    public int size() {
+        return size;
+    }
+
+    protected void increaseSizeArr() {
+        doctors = Arrays.copyOf(doctors, doctors.length * 2);
+
     }
 
     private void addDoctors() {
@@ -46,19 +59,23 @@ public class DoctorBeanList {
         return doctors[index];
     }
 
-    public Doctor get(String lastname) {
+    public Object get(Long id) {
         for (int i = 0; i < doctors.length; i++) {
-            if (doctors[i].getLastname().equals(lastname)) {
+            if (doctors[i].getId().equals(id)) {
                 return get(i);
             }
+
         }
         return null;
     }
 
-
-    protected void increaseSizeArr() {
-        doctors = Arrays.copyOf(doctors, doctors.length * 2);
-
+    public Object get(Object ob) {
+        for (int i = 0; i < doctors.length; i++) {
+            if (doctors[i].equals(ob)) {
+                return get(i);
+            }
+        }
+        return null;
     }
 
 
@@ -150,4 +167,14 @@ public class DoctorBeanList {
     }
 
 
+    public Optional<Doctor> findByName(String name) {
+        for (int i = 0; i < doctors.length; i++) {
+            if (doctors[i] != null && doctors.length > 0) {
+                if (doctors[i].getLastname().equals(name)) {
+                    return Optional.ofNullable(doctors[i]);
+                }
+            }
+        }
+        return null;
+    }
 }
