@@ -1,11 +1,10 @@
 package ua.com.alevel.hw_4_oop.config;
 
-
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
-import ua.com.alevel.hw_4_oop.dataBase.UserDB;
-import ua.com.alevel.hw_4_oop.dataBase.impl.DataBase;
-import ua.com.alevel.hw_4_oop.dataBase.impl.SomeUserDB;
+import ua.com.alevel.hw_4_oop.database.UserDB;
+import ua.com.alevel.hw_4_oop.database.impl.DataBase;
+import ua.com.alevel.hw_4_oop.database.impl.SomeUserDB;
 import ua.com.alevel.hw_4_oop.util.ResourcesUtil;
 
 

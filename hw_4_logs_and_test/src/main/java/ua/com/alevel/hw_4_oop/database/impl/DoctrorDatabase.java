@@ -1,8 +1,8 @@
-package ua.com.alevel.hw_4_oop.dataBase.impl;
+package ua.com.alevel.hw_4_oop.database.impl;
 
-import ua.com.alevel.hw_4_oop.dataBase.DoctorDB;
+import ua.com.alevel.hw_4_oop.database.DoctorDB;
 import ua.com.alevel.hw_4_oop.entity.Doctor;
-import ua.com.alevel.hw_4_oop.myList.DoctorList;
+import ua.com.alevel.hw_4_oop.mylist.DoctorList;
 
 import java.util.Optional;
 

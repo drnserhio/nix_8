@@ -3,9 +3,8 @@ package ua.com.alevel.hw_4_oop.service.impl;
 import annotation.Autowired;
 import annotation.Service;
 import ua.com.alevel.hw_4_oop.dao.UserDao;
-import ua.com.alevel.hw_4_oop.entity.Doctor;
 import ua.com.alevel.hw_4_oop.entity.Patient;
-import ua.com.alevel.hw_4_oop.myList.ArrList;
+import ua.com.alevel.hw_4_oop.mylist.ArrList;
 import ua.com.alevel.hw_4_oop.service.UserService;
 
 

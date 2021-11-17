@@ -1,10 +1,8 @@
-package ua.com.alevel.hw_4_oop.dataBase.impl;
+package ua.com.alevel.hw_4_oop.database.impl;
 
-
-import ua.com.alevel.hw_4_oop.dataBase.UserDB;
-import ua.com.alevel.hw_4_oop.entity.Doctor;
+import ua.com.alevel.hw_4_oop.database.UserDB;
 import ua.com.alevel.hw_4_oop.entity.Patient;
-import ua.com.alevel.hw_4_oop.myList.ArrList;
+import ua.com.alevel.hw_4_oop.mylist.ArrList;
 
 public class DataBase implements UserDB {
 
@@ -21,7 +19,6 @@ public class DataBase implements UserDB {
             instance = new DataBase();
         }
         return instance;
-
     }
 
     public void create(Patient Patient) {
@@ -57,9 +54,7 @@ public class DataBase implements UserDB {
         return list;
     }
 
-
     public ArrList<Patient> findAllPatientsByDoctor(String doctorName) {
         return list.findAllPatientsByDoctor(doctorName);
     }
-
 }

@@ -1,8 +1,7 @@
-package ua.com.alevel.hw_4_oop.myList;
+package ua.com.alevel.hw_4_oop.mylist;
 
 import org.apache.commons.lang3.ArrayUtils;
 import ua.com.alevel.hw_4_oop.entity.Doctor;
-import ua.com.alevel.hw_4_oop.entity.Patient;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
