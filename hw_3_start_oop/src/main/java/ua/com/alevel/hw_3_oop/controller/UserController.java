@@ -16,19 +16,7 @@ public class UserController implements Controller {
     @Autowired
     private UserService service;
 
-    public void run() {
-        menu();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String in = "";
-        try {
-            while ((in = reader.readLine()) != null) {
-                choose(in, reader);
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void menu() {
         System.out.println(

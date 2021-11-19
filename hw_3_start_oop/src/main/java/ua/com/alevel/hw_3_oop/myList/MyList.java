@@ -26,7 +26,6 @@ public class MyList {
 
     protected void increaseSizeArr() {
         list = Arrays.copyOf(list, list.length * 2);
-
     }
 
 
