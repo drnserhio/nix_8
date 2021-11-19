@@ -142,6 +142,7 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
         }
     }
 
+
     @Override
     public void sortDesc(int firstIndex, int lastIndex) {
         if (arrayMath.length > 1) {
