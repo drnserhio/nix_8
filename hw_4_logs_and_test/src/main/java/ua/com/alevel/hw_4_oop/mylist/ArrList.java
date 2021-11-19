@@ -1,7 +1,6 @@
-package ua.com.alevel.hw_4_oop.myList;
+package ua.com.alevel.hw_4_oop.mylist;
 
 
-import ua.com.alevel.hw_4_oop.entity.Doctor;
 import ua.com.alevel.hw_4_oop.entity.Patient;
 
 public class ArrList<T extends Patient> extends MyList {

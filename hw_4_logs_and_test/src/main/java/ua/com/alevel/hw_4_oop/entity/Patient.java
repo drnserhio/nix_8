@@ -5,14 +5,11 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class Patient {
 
     private Long id;
     private String name;
     private String lastname;
     private int age;
-
     private String lastnameDoctor;
 }

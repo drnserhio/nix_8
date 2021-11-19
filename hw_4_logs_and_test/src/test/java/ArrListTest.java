@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.*;
 import ua.com.alevel.hw_4_oop.entity.Patient;
-import ua.com.alevel.hw_4_oop.myList.ArrList;
+import ua.com.alevel.hw_4_oop.mylist.ArrList;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ArrListTest {

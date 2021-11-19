@@ -1,8 +1,5 @@
 import org.junit.jupiter.api.*;
-import ua.com.alevel.hw_4_oop.dao.UserDao;
-import ua.com.alevel.hw_4_oop.dao.impl.UserDaoImpl;
 import ua.com.alevel.hw_4_oop.entity.Patient;
-import ua.com.alevel.hw_4_oop.myList.ArrList;
 import ua.com.alevel.hw_4_oop.service.impl.UserServiceImpl;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -58,8 +55,6 @@ public class UserServiceTest {
                 NullPointerException.class,
                 () -> userService.update(patient),
                 "user nullable");
-
-
     }
 
     @Test
@@ -74,7 +69,6 @@ public class UserServiceTest {
                 NullPointerException.class,
                 () -> userService.findById(patient.getId()),
                 "user nullable");
-
     }
 
     @Test
@@ -94,10 +88,4 @@ public class UserServiceTest {
                 () -> userService.findAllPatientsByDoctor(patient.getLastnameDoctor()),
                 "List doctors is null");
     }
-
-
-
-
-
-
 }

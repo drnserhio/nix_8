@@ -2,7 +2,7 @@ package ua.com.alevel.hw_4_oop.service.impl;
 
 import ua.com.alevel.hw_4_oop.dao.impl.DoctorDaoImpl;
 import ua.com.alevel.hw_4_oop.entity.Doctor;
-import ua.com.alevel.hw_4_oop.myList.DoctorList;
+import ua.com.alevel.hw_4_oop.mylist.DoctorList;
 import ua.com.alevel.hw_4_oop.service.DocService;
 
 import java.util.Optional;
