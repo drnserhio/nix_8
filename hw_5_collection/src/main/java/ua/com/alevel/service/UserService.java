@@ -1,7 +1,7 @@
 package ua.com.alevel.service;
 
 import org.apache.commons.lang3.math.NumberUtils;
-import ua.com.alevel.MathSetImpl;
+import ua.com.alevel.resource.MathSetImpl;
 import ua.com.alevel.controller.MathSetDoubleConroller;
 import ua.com.alevel.controller.MathSetFloatConroller;
 import ua.com.alevel.controller.MathSetIntegerConroller;
@@ -92,7 +92,6 @@ public class UserService {
         } catch (ArrayIndexOutOfBoundsException e) {
             printWarn(OUT_INDEX_ARRAY);
         }
-
     }
 
     public void toArrayWithIndex(BufferedReader reader) {
@@ -445,7 +444,8 @@ public class UserService {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
             printWarn(e.getMessage());
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
     }
 
     public void joinWithMathSet(BufferedReader reader) {
@@ -474,7 +474,8 @@ public class UserService {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
             printWarn(e.getMessage());
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
     }
 
     public void addVarargsNumber(BufferedReader reader) {
@@ -495,7 +496,7 @@ public class UserService {
             for (int i = 0; i < numberConver.length; i++) {
                 numberConver[i] = NumberUtils.createNumber(arrNumber[i]);
             }
-                mathSet.add(numberConver);
+            mathSet.add(numberConver);
         } catch (EmptyArrayException e) {
             printWarn(EMPTY_ARRAY);
         } catch (NullPointerException e) {
@@ -564,7 +565,6 @@ public class UserService {
 
     private void menu() {
         System.out.println(
-
                 "\n\t\t| Menu create random MathSet, choose type:  |\n" +
                         "------------------------\n" +
                         " 1 - MathSet<Integer> \n" +
@@ -615,6 +615,4 @@ public class UserService {
             throws Exception {
         return new MathSetFloatConroller().createSet(reader);
     }
-
-
 }

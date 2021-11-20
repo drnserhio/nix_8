@@ -1,6 +1,5 @@
-package ua.com.alevel;
+package ua.com.alevel.resource;
 
-import lombok.SneakyThrows;
 import ua.com.alevel.exception.EmptyArrayException;
 import ua.com.alevel.exception.NumberNullException;
 import ua.com.alevel.util.OffsetArrayHelper;
@@ -16,7 +15,6 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
     private Number[] arrayMath;
     private Number[] workArray;
 
-
     private int size = 0;
     private static final int CAPACITY = 10;
     private Number fisrtNumber;
@@ -25,7 +23,6 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
         arrayMath = new Number[CAPACITY];
         this.fisrtNumber = arrayMath[0];
     }
-
 
     public MathSetImpl(int capacity) {
         arrayMath = new Number[capacity];
@@ -82,19 +79,16 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
             if (isValueHasInSet(n)) {
                 return;
             }
-
         }
         if (arrayMath.length == size) {
             increaseSizeArr();
         }
         arrayMath[size++] = isNumberType(fisrtNumber, n);
-        ;
     }
 
     private void increaseSizeArr() {
         this.arrayMath = Arrays.copyOf(arrayMath, (arrayMath.length) * 2);
     }
-
 
     @Override
     public void add(Number... n) {
@@ -164,7 +158,7 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
             if (arrayMath.length > 1) {
                 for (MathSetImpl ob : ms) {
                     Number[] joiningArray = ob.killNullPointer(killNullPointer(ob.getArrayMath()));
-                  this.arrayMath = SortArray.joinArray(arrayMath, joiningArray);
+                    this.arrayMath = SortArray.joinArray(arrayMath, joiningArray);
                 }
                 this.arrayMath = killDublicate(killNullPointer(arrayMath));
                 SortArray.sort(arrayMath);

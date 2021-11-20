@@ -1,13 +1,10 @@
 package ua.com.alevel.controller;
 
-import ua.com.alevel.MathSetImpl;
+import ua.com.alevel.resource.MathSetImpl;
 import ua.com.alevel.util.RandomDoubleArray;
-import ua.com.alevel.util.RandomIntegerArray;
-
 import java.io.BufferedReader;
 
 public class MathSetDoubleConroller {
-
 
     private void menu() {
         System.out.println(
@@ -105,7 +102,6 @@ public class MathSetDoubleConroller {
         } catch (Exception e) {
             throw new Exception("createConstructorWithCapacity");
         }
-
     }
 
     private MathSetImpl createEmptyConstructor() {

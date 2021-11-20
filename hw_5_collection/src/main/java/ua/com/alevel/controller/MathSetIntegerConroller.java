@@ -1,12 +1,10 @@
 package ua.com.alevel.controller;
 
-import ua.com.alevel.MathSetImpl;
+import ua.com.alevel.resource.MathSetImpl;
 import ua.com.alevel.util.RandomIntegerArray;
-
 import java.io.BufferedReader;
 
 public class MathSetIntegerConroller {
-
 
     private void menu() {
         System.out.println(
@@ -48,7 +46,6 @@ public class MathSetIntegerConroller {
                 break;
         }
         return mathSet;
-
     }
 
     private MathSetImpl createConstructorWithVarArgsMathSet() throws InterruptedException {
@@ -93,7 +90,6 @@ public class MathSetIntegerConroller {
         }
         System.out.println("Successfull");
         return RandomIntegerArray.createConstructorWithArrayNumber();
-
     }
 
     private MathSetImpl createConstructorWithCapacity(BufferedReader reader) throws Exception {
@@ -104,7 +100,6 @@ public class MathSetIntegerConroller {
         } catch (Exception e) {
             throw new Exception("createConstructorWithCapacity");
         }
-
     }
 
     private MathSetImpl createEmptyConstructor() {
@@ -119,5 +114,4 @@ public class MathSetIntegerConroller {
             arrayMath[i] = 0;
         }
     }
-
 }

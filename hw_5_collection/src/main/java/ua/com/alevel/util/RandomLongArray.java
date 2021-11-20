@@ -1,12 +1,10 @@
 package ua.com.alevel.util;
 
-import ua.com.alevel.MathSetImpl;
+import ua.com.alevel.resource.MathSetImpl;
 
 import java.util.Random;
 
 public class RandomLongArray {
-
-
 
     public static MathSetImpl createConstructorWithVarArgsMathSet() {
         MathSetImpl[] mathSet = createArrSetWithArrays();

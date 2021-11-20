@@ -1,4 +1,4 @@
-package ua.com.alevel;
+package ua.com.alevel.resource;
 
 public interface MathSetInterface {
 
@@ -20,42 +20,29 @@ public interface MathSetInterface {
 
     void sortDesc(Number value);
 
-    //
     void sortAsc();
 
-    //
     void sortAsc(int firstIndex, int lastIndex);
 
-    //
     void sortAsc(Number value);
 
-    //
     Number get(int index);
 
-    //
     Number getMax();
 
-    //
     Number getMin();
 
-    //
     Number getAverage();
-
 
     Number getMedian();
 
-    //
     Number[] toArray();
 
-    //
     Number[] toArray(int firstIndex, int lastIndex);
 
-    //
     MathSetImpl cut(int firstIndex, int lastIndex);
 
-    //
     void clear();
 
-    //
     void clear(Number[] numbers);
 }

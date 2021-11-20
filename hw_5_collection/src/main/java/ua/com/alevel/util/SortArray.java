@@ -4,7 +4,6 @@ public final class SortArray {
 
     private SortArray() {}
 
-
     public static void sort(Number[] array) {
         for (int i = 0; i < array.length - 1; i++) {
             for (int j = array.length - 1; j > i; j--) {
@@ -30,7 +29,6 @@ public final class SortArray {
     }
 
     public static Number[] joinArray(Number[] first, Number[] second) {
-
         Number[]join = new Number[first.length + second.length];
         int count = 0;
         for(int i = 0; i<first.length; i++) {

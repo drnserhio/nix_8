@@ -15,7 +15,6 @@ public final class OffsetArrayHelper {
         var copyEnd = SortArray.cutArray(arrayMath, lastIndex+1, arrayMath.length);
         SortArray.sort(copyStart);
         return SortArray.joinArray(copyStart, copyEnd);
-
     }
 
     public static Number[] sortedMiddleAsc(Number[] arrayMath, int firstIndex, int lastIndex) {

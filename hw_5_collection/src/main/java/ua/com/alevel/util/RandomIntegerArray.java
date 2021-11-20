@@ -1,13 +1,9 @@
 package ua.com.alevel.util;
 
-import ua.com.alevel.MathSetImpl;
-
-import java.io.BufferedReader;
+import ua.com.alevel.resource.MathSetImpl;
 import java.util.Random;
 
 public class RandomIntegerArray {
-
-
 
     public static MathSetImpl createConstructorWithVarArgsMathSet() {
         MathSetImpl[] mathSet = createArrSetWithArrays();

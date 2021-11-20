@@ -1,9 +1,5 @@
 package ua.com.alevel.controller;
 
-import lombok.AllArgsConstructor;
-import ua.com.alevel.MathSetImpl;
-import ua.com.alevel.MathSetInterface;
-import ua.com.alevel.StringerUtil;
 import ua.com.alevel.service.UserService;
 
 import java.io.BufferedReader;
@@ -28,7 +24,6 @@ public class UserController {
             while ((in = reader.readLine()) != null) {
                 choose(in, reader);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -39,7 +34,6 @@ public class UserController {
     private void choose(String in, BufferedReader reader) throws Exception {
 
         switch (in) {
-
             case "1":
                 createSetMenu(reader);
                 break;
@@ -119,8 +113,6 @@ public class UserController {
                 exception("Empty wrong...");
         }
         menu();
-
-
     }
 
     private void showSet() {
@@ -216,12 +208,11 @@ public class UserController {
     }
 
     private void createSetMenu(BufferedReader reader) throws Exception {
-       service.createSetMenu(reader);
+        service.createSetMenu(reader);
     }
 
     private void menu() {
         System.out.println(
-
                 "\n\t\t| If you entry : |\n" +
                         "--------------------------------------------\n" +
                         " 1 - Create Set Menu\n" +
@@ -254,7 +245,5 @@ public class UserController {
                         " 25 - Exit\n" +
                         "--------------------------------------------"
         );
-
-
     }
 }

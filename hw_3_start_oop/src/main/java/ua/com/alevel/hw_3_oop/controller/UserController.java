@@ -177,4 +177,9 @@ public class UserController implements Controller {
                 + "You result: " + str + "\n"
                 + "___________________________________");
     }
+
+    @Override
+    public void run() {
+
+    }
 }
