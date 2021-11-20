@@ -8,7 +8,10 @@ public class ExceptionConstant {
     public static final String CREATE_SET = "Your set in null, Please create set in set menu";
     public static final String EMPTY_STR = "You entry bad string : ";
     public static final String IS_NOT_NUMBER = "You entry not number: ";
-    public static final String ERROR_CREATE_NEW_SET = "You can't create new set, because you use Math set him size : ";
+    public static final String ERROR_CREATE_NEW_SET = "You can't create new set, because you use Math set";
     public static final String CLEAR_SET = "Clear set - 22 number in menu";
     public static final String NOT_NUMBER_IN_SET = "Entry number don't has in set";
+    public static final String NOT_FOUND_THE_SAME_NUMBER_IN_SET = "Not found the same number in set";
 }
+
+

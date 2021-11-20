@@ -110,8 +110,15 @@ public class MathSetDoubleConroller {
 
     private MathSetImpl createEmptyConstructor() {
         System.out.println("You create empty MathSet");
-        return new MathSetImpl<Integer>();
+        MathSetImpl<Double> mathSet = new MathSetImpl<Double>();
+        fillArrZero(mathSet.getArrayMath());
+        return mathSet;
     }
 
-
+    private Number[] fillArrZero(Number[] arrayMath) {
+        for (int i = 0; i < arrayMath.length; i++) {
+            arrayMath[i] = 0.0d;
+        }
+        return arrayMath;
+    }
 }

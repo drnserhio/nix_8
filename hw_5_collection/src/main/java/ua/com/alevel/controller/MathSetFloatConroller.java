@@ -110,7 +110,15 @@ public class MathSetFloatConroller {
 
     private MathSetImpl createEmptyConstructor() {
         System.out.println("You create empty MathSet");
-        return new MathSetImpl<Float>();
+        MathSetImpl<Float> mathSet = new MathSetImpl<Float>();
+        fillArrZero(mathSet.getArrayMath());
+        return mathSet;
+    }
+
+    private void fillArrZero(Number[] arrayMath) {
+        for (int i = 0; i < arrayMath.length; i++) {
+            arrayMath[i] = 0.0f;
+        }
     }
 
 

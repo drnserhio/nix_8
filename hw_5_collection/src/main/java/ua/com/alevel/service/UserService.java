@@ -20,21 +20,33 @@ public class UserService {
 
     private MathSetImpl mathSet;
 
-
     public void clearWithArrayNumber(BufferedReader reader) {
+        print("Entry array number:");
         String n = "";
         try {
-
             if (mathSet == null ||
                     mathSet.getArrayMath().length < 1) {
                 throw new EmptyArrayException(CREATE_SET);
             }
+            n = reader.readLine();
+            if (strIsEmpty(n)) {
+                throw new NullPointerException();
+            }
+            String[] arrNumber = n.split(" ");
+            Number[] number = new Number[arrNumber.length];
+            for (int i = 0; i < arrNumber.length; i++) {
+                number[i] = NumberUtils.createNumber(arrNumber[i]);
+            }
+            mathSet.clear(number);
         } catch (EmptyArrayException e) {
             printWarn(EMPTY_ARRAY);
         } catch (NullPointerException e) {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
-            printWarn(e.getMessage());
+            printWarn(IS_NOT_NUMBER);
+        } catch (IllegalArgumentException e) {
+            printWarn(NOT_FOUND_THE_SAME_NUMBER_IN_SET);
+        } catch (IOException e) {
         }
     }
 
@@ -76,23 +88,41 @@ public class UserService {
             printWarn(EMPTY_STR + " start index: " + start + ", " + "end index: " + end);
         } catch (NumberFormatException e) {
             printWarn(e.getMessage());
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
+            printWarn(OUT_INDEX_ARRAY);
+        }
 
     }
 
     public void toArrayWithIndex(BufferedReader reader) {
-        String n = "";
+        String start = "";
+        String end = "";
         try {
             if (mathSet == null ||
                     mathSet.getArrayMath().length < 1) {
                 throw new EmptyArrayException(CREATE_SET);
             }
+            print("Entry start index: ");
+            start = reader.readLine();
+            if (strIsEmpty(start)) {
+                throw new NullPointerException();
+            }
+            print("Entry end index :");
+            end = reader.readLine();
+            if (strIsEmpty(end)) {
+                throw new NullPointerException();
+            }
+            print(Arrays.toString(mathSet.toArray(Integer.parseInt(start), Integer.parseInt(end))));
         } catch (EmptyArrayException e) {
             printWarn(EMPTY_ARRAY);
         } catch (NullPointerException e) {
-            printWarn(EMPTY_STR + n);
+            printWarn(EMPTY_STR + " start index: " + start + ", " + "end index: " + end);
         } catch (NumberFormatException e) {
-            printWarn(e.getMessage());
+            printWarn(IS_NOT_NUMBER);
+        } catch (IOException e) {
+        } catch (IndexOutOfBoundsException e) {
+            printWarn(OUT_INDEX_ARRAY);
         }
     }
 
@@ -313,66 +343,138 @@ public class UserService {
 
     public void interSectionWithVarargsMathSet(BufferedReader reader) {
         String n = "";
+        print("Entry number of ojects MathSet :");
+        ;
         try {
             if (mathSet == null ||
                     mathSet.getArrayMath().length < 1) {
                 throw new EmptyArrayException(CREATE_SET);
             }
+            String numberObject = reader.readLine();
+            if (strIsEmpty(numberObject)) {
+                throw new NullPointerException();
+            }
+            MathSetImpl[] bodySets = new MathSetImpl[Integer.parseInt(numberObject)];
+
+            for (int i = 0; i < bodySets.length; i++) {
+                print("You need entry array into him (example '1 2 3 4 5 6' )");
+                n = reader.readLine();
+                if (strIsEmpty(n)) {
+                    throw new NullPointerException();
+                }
+                String[] arrNumber = n.split(" ");
+                Number[] number = new Number[arrNumber.length];
+                for (int j = 0; j < arrNumber.length; j++) {
+                    number[j] = NumberUtils.createNumber(arrNumber[j]);
+                }
+                bodySets[i] = new MathSetImpl(number);
+            }
+            mathSet.intersection(bodySets);
         } catch (EmptyArrayException e) {
             printWarn(EMPTY_ARRAY);
         } catch (NullPointerException e) {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
-            printWarn(e.getMessage());
+            printWarn(IS_NOT_NUMBER);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     public void interSectionWithMathSet(BufferedReader reader) {
+        print("I am create for you object MathSet, but you need entry array into him (example '1 2 3 4 5 6' )");
+        print("Entry array numbers: ");
+
         String n = "";
         try {
             if (mathSet == null ||
                     mathSet.getArrayMath().length < 1) {
                 throw new EmptyArrayException(CREATE_SET);
             }
+            n = reader.readLine();
+            if (strIsEmpty(n)) {
+                throw new NullPointerException();
+            }
+            String[] arrNumber = n.split(" ");
+            Number[] number = new Number[arrNumber.length];
+            for (int i = 0; i < arrNumber.length; i++) {
+                number[i] = NumberUtils.createNumber(arrNumber[i]);
+            }
+            mathSet.intersection(new MathSetImpl(number));
         } catch (EmptyArrayException e) {
             printWarn(EMPTY_ARRAY);
         } catch (NullPointerException e) {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
             printWarn(e.getMessage());
+        } catch (IOException e) {
         }
     }
 
     public void joinWithVarArgsMathSet(BufferedReader reader) {
         String n = "";
+        print("Entry number of ojects MathSet :");
         try {
             if (mathSet == null ||
                     mathSet.getArrayMath().length < 1) {
                 throw new EmptyArrayException(CREATE_SET);
             }
+            String numberObject = reader.readLine();
+            if (strIsEmpty(numberObject)) {
+                throw new NullPointerException();
+            }
+            MathSetImpl[] bodySets = new MathSetImpl[Integer.parseInt(numberObject)];
+
+            for (int i = 0; i < bodySets.length; i++) {
+                print("You need entry array into him (example '1 2 3 4 5 6' )");
+                n = reader.readLine();
+                if (strIsEmpty(n)) {
+                    throw new NullPointerException();
+                }
+                String[] arrNumber = n.split(" ");
+                Number[] number = new Number[arrNumber.length];
+                for (int j = 0; j < arrNumber.length; j++) {
+                    number[j] = NumberUtils.createNumber(arrNumber[j]);
+                }
+                bodySets[i] = new MathSetImpl(number);
+            }
+            mathSet.join(bodySets);
         } catch (EmptyArrayException e) {
             printWarn(EMPTY_ARRAY);
         } catch (NullPointerException e) {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
             printWarn(e.getMessage());
-        }
+        } catch (IOException e) { }
     }
 
     public void joinWithMathSet(BufferedReader reader) {
+        print("I am create for you object MathSet, but you need entry array into him (example '1 2 3 4 5 6' )");
+        print("Entry array numbers: ");
+
         String n = "";
         try {
             if (mathSet == null ||
                     mathSet.getArrayMath().length < 1) {
                 throw new EmptyArrayException(CREATE_SET);
             }
+            n = reader.readLine();
+            if (strIsEmpty(n)) {
+                throw new NullPointerException();
+            }
+            String[] arrNumber = n.split(" ");
+            Number[] number = new Number[arrNumber.length];
+            for (int i = 0; i < arrNumber.length; i++) {
+                number[i] = NumberUtils.createNumber(arrNumber[i]);
+            }
+            mathSet.join(new MathSetImpl(number));
         } catch (EmptyArrayException e) {
             printWarn(EMPTY_ARRAY);
         } catch (NullPointerException e) {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
             printWarn(e.getMessage());
-        }
+        } catch (IOException e) {}
     }
 
     public void addVarargsNumber(BufferedReader reader) {
@@ -385,25 +487,30 @@ public class UserService {
             }
 
             n = reader.readLine();
-            String[] arrNumber = n.split(" ");
-            for (int i = 0; i < arrNumber.length; i++) {
-                mathSet.add(NumberUtils.createNumber(arrNumber[i]));
+            if (strIsEmpty(n)) {
+                throw new NullPointerException();
             }
+            String[] arrNumber = n.split(" ");
+            Number[] numberConver = new Number[arrNumber.length];
+            for (int i = 0; i < numberConver.length; i++) {
+                numberConver[i] = NumberUtils.createNumber(arrNumber[i]);
+            }
+                mathSet.add(numberConver);
         } catch (EmptyArrayException e) {
             printWarn(EMPTY_ARRAY);
         } catch (NullPointerException e) {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
             printWarn(IS_NOT_NUMBER);
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
     }
 
     public void addNumber(BufferedReader reader) {
         print("Entry number: ");
         String n = "";
         try {
-            if (mathSet == null ||
-                    mathSet.getArrayMath().length < 1) {
+            if (mathSet == null) {
                 throw new EmptyArrayException(CREATE_SET);
             }
             n = reader.readLine();
@@ -427,13 +534,11 @@ public class UserService {
             }
             if (mathSet == null) {
                 this.mathSet = createSet(reader);
-                result(mathSet.toString());
             }
-
         } catch (NullPointerException e) {
             printWarn("Error create set , because set is null");
         } catch (NotNullException e) {
-            printWarn(ERROR_CREATE_NEW_SET + mathSet.size());
+            printWarn(ERROR_CREATE_NEW_SET);
             printWarn(CLEAR_SET);
         }
     }
@@ -448,7 +553,6 @@ public class UserService {
         } catch (EmptyArrayException e) {
             printWarn(CREATE_SET);
         }
-
     }
 
     public static void printWarn(String str) {

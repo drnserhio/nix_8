@@ -249,9 +249,9 @@ public class UserController {
                         " 20 - Number toArray with (start -> end) index\n" +
                         " 21 - Cut array with (start -> end) index\n" +
                         " 22 - Clear\n" +
-                        " 23 - Clear array Number\n" +
+                        " 23 - Clear array Number (example \'1 2 3 4 5 6\' )\n" +
                         " 24 - Show Set\n" +
-                        " 25 - Exit" +
+                        " 25 - Exit\n" +
                         "--------------------------------------------"
         );
 

@@ -109,8 +109,15 @@ public class MathSetIntegerConroller {
 
     private MathSetImpl createEmptyConstructor() {
         System.out.println("You create empty MathSet");
-        return new MathSetImpl();
+        MathSetImpl<Integer> mathSet = new MathSetImpl<Integer>();
+        fillArrZero(mathSet.getArrayMath());
+        return mathSet;
     }
 
+    private void fillArrZero(Number[] arrayMath) {
+        for (int i = 0; i < arrayMath.length; i++) {
+            arrayMath[i] = 0;
+        }
+    }
 
 }

@@ -110,8 +110,15 @@ public class MathSetLongConroller {
 
     private MathSetImpl createEmptyConstructor() {
         System.out.println("You create empty MathSet");
-        return new MathSetImpl<Long>();
+        MathSetImpl<Long> mathSet = new MathSetImpl<Long>();
+        fillArrZero(mathSet.getArrayMath());
+        return mathSet;
     }
 
+    private void fillArrZero(Number[] arrayMath) {
+        for (int i = 0; i < arrayMath.length; i++) {
+            arrayMath[i] = 0L;
+        }
+    }
 
 }
