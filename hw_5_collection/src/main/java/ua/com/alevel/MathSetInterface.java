@@ -51,7 +51,7 @@ public interface MathSetInterface {
     Number[] toArray(int firstIndex, int lastIndex);
 
     //
-    MathSetInterface cut(int firstIndex, int lastIndex);
+    MathSetImpl cut(int firstIndex, int lastIndex);
 
     //
     void clear();

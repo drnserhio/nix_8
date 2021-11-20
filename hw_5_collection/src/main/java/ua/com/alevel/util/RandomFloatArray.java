@@ -2,39 +2,38 @@ package ua.com.alevel.util;
 
 import ua.com.alevel.MathSetImpl;
 
-import java.io.BufferedReader;
 import java.util.Random;
 
-public class RandomArray {
+public class RandomFloatArray {
 
 
 
     public static MathSetImpl createConstructorWithVarArgsMathSet() {
         MathSetImpl[] mathSet = createArrSetWithArrays();
-        return new MathSetImpl(mathSet);
+        return new MathSetImpl<Float>(mathSet);
     }
 
     public static MathSetImpl[] createArrSetWithArrays() {
         MathSetImpl[] sets = new MathSetImpl[randomSize()];
         for (int i = 0; i < sets.length; i++) {
-            sets[i] = new MathSetImpl(randomArray());
+            sets[i] = new MathSetImpl<Float>(randomArray());
         }
         return sets;
     }
 
     public static  MathSetImpl createConstructorWithMathSet() {
         MathSetImpl mathSet = createSetWithArray();
-        return new MathSetImpl(mathSet);
+        return new MathSetImpl<Float>(mathSet);
     }
 
     public static  MathSetImpl createSetWithArray() {
         Number[] array = randomArray();
-        return new MathSetImpl(array);
+        return new MathSetImpl<Float>(array);
     }
 
     public static  MathSetImpl createConstructorWithVargArgsNumber() {
         Number[][] array = randomDoubleArray();
-        return new MathSetImpl(array);
+        return new MathSetImpl<Float>(array);
     }
 
     public static  Number[][] randomDoubleArray() {
@@ -49,7 +48,7 @@ public class RandomArray {
 
     public static  MathSetImpl createConstructorWithArrayNumber() {
         Number[] array = randomArray();
-        return new MathSetImpl(array);
+        return new MathSetImpl<Float>(array);
     }
 
     public static  Number[] randomArray() {
@@ -61,7 +60,7 @@ public class RandomArray {
     }
 
     public static  Number randomValue() {
-        return randomSize();
+        return new Random().nextFloat(30F);
     }
 
     public static  int randomSize() {

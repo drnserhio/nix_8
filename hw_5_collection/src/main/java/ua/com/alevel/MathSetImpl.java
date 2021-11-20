@@ -7,15 +7,17 @@ import ua.com.alevel.util.SortArray;
 
 import java.util.Arrays;
 
+import static ua.com.alevel.StringerUtil.result;
 import static ua.com.alevel.constant.ExceptionConstant.*;
 
-public class MathSetImpl<N extends Number> implements MathSetInterface {
+public class MathSetImpl<N extends Number> implements MathSetInterface{
 
     private Number[] arrayMath;
     private Number[] workArray;
 
     private int size = 0;
     private static final int CAPACITY = 10;
+
 
     public MathSetImpl() {
         arrayMath = new Number[CAPACITY];
@@ -31,6 +33,7 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
             this.arrayMath = new Number[CAPACITY];
         } else {
             this.arrayMath = numbers;
+            this.size = arrayMath.length;
         }
     }
 
@@ -40,6 +43,7 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
             this.arrayMath = new Number[CAPACITY];
         } else {
             this.arrayMath = varArgsToArray(numbers);
+            this.size = arrayMath.length;
         }
     }
 
@@ -50,6 +54,7 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
             this.arrayMath = new Number[CAPACITY];
         } else {
             this.arrayMath = objectToArray(number);
+            this.size = arrayMath.length;
         }
     }
 
@@ -59,11 +64,16 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
             this.arrayMath = new Number[CAPACITY];
         } else {
             this.arrayMath = objectsToArray(numbers);
+            this.size = arrayMath.length;
         }
     }
 
     @Override
     public void add(Number n) {
+
+        if (size > 0) {
+          n = isNumberType(arrayMath[0], n);
+        }
         if (arrayMath.length == size) {
             increaseSizeArr();
         }
@@ -83,6 +93,33 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
             }
             arrayMath[size++] = number;
         }
+
+    }
+
+    private Number isNumberType(Number currenNumber, Number number) {
+        Number n = null;
+        if (currenNumber instanceof Integer) {
+            n = number.intValue();
+
+        }
+        if (currenNumber instanceof Long) {
+            n = number.longValue();
+        }
+        if (currenNumber instanceof Double) {
+            if (String.valueOf(number).contains(".")) {
+                n = n;
+            } else {
+                n = number.doubleValue();
+            }
+        }
+        if (currenNumber instanceof Float) {
+            if (String.valueOf(number).contains(".")) {
+                n = n;
+            } else {
+                n = number.floatValue();
+            }
+        }
+        return n;
     }
 
     @Override
@@ -96,6 +133,7 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
                 );
 
                 SortArray.sort(arrayMath);
+                this.size = arrayMath.length;
             } else {
                 throw new EmptyArrayException(EMPTY_ARRAY + Arrays.toString(arrayMath));
             }
@@ -167,7 +205,26 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
 
     @Override
     public void sortDesc(Number value) {
-        //TODO ????
+        if (arrayMath.length > 1) {
+            int index =  findIndexNumberByValue(value);
+            int lenght = arrayMath.length;
+            sortDesc(index, lenght);
+        } else {
+            throw new EmptyArrayException(EMPTY_ARRAY + Arrays.toString(arrayMath));
+        }
+    }
+
+    private int findIndexNumberByValue(Number value) {
+        if (arrayMath.length > 1) {
+            for (int i = 0; i < arrayMath.length; i++) {
+                if (arrayMath[i].equals(value)) {
+                   return i;
+                }
+            }
+        } else {
+            throw new EmptyArrayException(EMPTY_ARRAY + Arrays.toString(arrayMath));
+        }
+        return -1;
     }
 
     @Override
@@ -175,6 +232,7 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
         if (arrayMath.length > 1) {
             this.arrayMath = killFastDublicate(killNullPointer(arrayMath));
             SortArray.sort(arrayMath);
+
         } else {
             throw new EmptyArrayException(EMPTY_ARRAY + Arrays.toString(arrayMath));
         }
@@ -204,8 +262,14 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
 
     @Override
     public void sortAsc(Number value) {
-        this.arrayMath = killFastDublicate(killNullPointer(arrayMath));
-        //? TODO: What is this ??
+        if (arrayMath.length > 1) {
+            int index =  findIndexNumberByValue(value);
+            int lenght = arrayMath.length;
+            sortAsc(index, lenght);
+        } else {
+            throw new EmptyArrayException(EMPTY_ARRAY + Arrays.toString(arrayMath));
+        }
+
 
     }
 
@@ -291,6 +355,7 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
     public Number[] toArray() {
         if (arrayMath.length > 1) {
             this.arrayMath = killFastDublicate(killNullPointer(arrayMath));
+            this.size = arrayMath.length;
             return arrayMath;
         } else {
             throw new EmptyArrayException(EMPTY_ARRAY + Arrays.toString(arrayMath));
@@ -303,13 +368,14 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
     }
 
     @Override
-    public MathSetInterface cut(int firstIndex, int lastIndex) {
+    public MathSetImpl cut(int firstIndex, int lastIndex) {
         if (arrayMath.length > 1) {
             this.arrayMath = SortArray.cutArray(
                     killFastDublicate(killNullPointer(arrayMath))
                     , firstIndex, lastIndex + 1
             );
-            return new MathSetImpl<>(this.arrayMath);
+
+            return new MathSetImpl(this.arrayMath);
         } else {
             throw new EmptyArrayException(EMPTY_ARRAY + Arrays.toString(arrayMath));
         }
@@ -322,6 +388,7 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
                 for (int i = firstIndex; i <= lastIndex; i++) {
                     newArray[i] = arrayMath[i];
                 }
+                this.size = newArray.length;
                 return newArray;
             } else {
                 throw new IndexOutOfBoundsException(OUT_INDEX_ARRAY);
@@ -345,16 +412,19 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
     @Override
     public void clear() {
         this.arrayMath = new Number[CAPACITY];
+        this.size = arrayMath.length;
     }
 
     @Override
     public void clear(Number[] numbers) {
         numbers = new Number[CAPACITY];
+        this.size = arrayMath.length;
     }
 
 
     private Number[] varArgsToArray(Number[][] numbers) {
         this.workArray = addAllArrays(numbers);
+        this.size = workArray.length;
         return killFastDublicate(workArray);
     }
 
@@ -460,14 +530,16 @@ public class MathSetImpl<N extends Number> implements MathSetInterface {
 
     public void toPrint() {
         this.arrayMath = killNullPointer(arrayMath);
-        System.out.println(Arrays.toString(arrayMath));
+        result(arrayMath.toString());
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(arrayMath);
+        return SortArray.toLine(arrayMath);
 
     }
+
+
 }
 
 

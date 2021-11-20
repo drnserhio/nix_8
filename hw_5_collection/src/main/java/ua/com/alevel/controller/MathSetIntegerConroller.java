@@ -1,18 +1,17 @@
 package ua.com.alevel.controller;
 
 import ua.com.alevel.MathSetImpl;
-import ua.com.alevel.util.RandomArray;
+import ua.com.alevel.util.RandomIntegerArray;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 
-public class MathSetConroller {
+public class MathSetIntegerConroller {
 
 
     private void menu() {
         System.out.println(
 
-                "\n\t\t| Menu create MathSet: |\n" +
+                "\n\t\t| Menu create MathSet<Integer: |\n" +
                         "------------------------\n" +
                         " 1 - Empty Constructor \n" +
                         " 2 - Constructor with capacity\n" +
@@ -59,7 +58,7 @@ public class MathSetConroller {
             System.out.print(" .");
         }
         System.out.println("Successfull");
-        return RandomArray.createConstructorWithVarArgsMathSet();
+        return RandomIntegerArray.createConstructorWithVarArgsMathSet();
     }
 
     private MathSetImpl createConstructorWithMathSet() throws InterruptedException {
@@ -69,7 +68,7 @@ public class MathSetConroller {
             System.out.print(" .");
         }
         System.out.println("Successfull");
-        return RandomArray.createConstructorWithMathSet();
+        return RandomIntegerArray.createConstructorWithMathSet();
     }
 
     private MathSetImpl createConstructorWithVargArgsNumber() throws InterruptedException {
@@ -79,7 +78,7 @@ public class MathSetConroller {
             System.out.print(" .");
         }
         System.out.println("Successfull");
-        return RandomArray.createConstructorWithVargArgsNumber();
+        return RandomIntegerArray.createConstructorWithVargArgsNumber();
     }
 
     private MathSetImpl createConstructorWithArrayNumber() throws InterruptedException {
@@ -89,7 +88,7 @@ public class MathSetConroller {
             System.out.print(" .");
         }
         System.out.println("Successfull");
-        return RandomArray.createConstructorWithArrayNumber();
+        return RandomIntegerArray.createConstructorWithArrayNumber();
 
     }
 

@@ -225,7 +225,7 @@ public class UserController {
                         "--------------------------------------------\n" +
                         " 1 - Create Set Menu\n" +
                         " 2 - Add Number\n" +
-                        " 3 - Add varargs Number\n" +
+                        " 3 - Add varargs Number -> (example \'1 2 3 4 5 6\' )\n" +
                         " 4 - Join with MathSet\n" +
                         " 5 - Join with varargs MathSet\n" +
                         " 6 - InterSection with MathSet \n" +
