@@ -11,14 +11,14 @@ public class MathSetIntegerConroller {
     private void menu() {
         System.out.println(
 
-                "\n\t\t| Menu create MathSet<Integer: |\n" +
+                "\n\t\t| Menu create MathSet<Integer>: |\n" +
                         "------------------------\n" +
                         " 1 - Empty Constructor \n" +
                         " 2 - Constructor with capacity\n" +
                         " 3 - Constructor with array Number[]\n" +
                         " 4 - Constructor with varargs Number[]\n" +
                         " 5 - Constructor with MathSet\n" +
-                        " 6 - Constructor with varargs MathSets" +
+                        " 6 - Constructor with varargs MathSets\n" +
                         "------------------------"
         );
     }
@@ -53,6 +53,7 @@ public class MathSetIntegerConroller {
 
     private MathSetImpl createConstructorWithVarArgsMathSet() throws InterruptedException {
         System.out.println("I creat VarArgsMathSet for you ;)");
+        System.out.print("Paste VarArgsMathSet random in your set");
         for (int i = 0; i < 4; i++) {
             Thread.sleep(500);
             System.out.print(" .");
@@ -63,6 +64,7 @@ public class MathSetIntegerConroller {
 
     private MathSetImpl createConstructorWithMathSet() throws InterruptedException {
         System.out.println("I creat MathSet for you ;)");
+        System.out.print("Paste MathSet random in your set");
         for (int i = 0; i < 4; i++) {
             Thread.sleep(500);
             System.out.print(" .");
@@ -73,6 +75,7 @@ public class MathSetIntegerConroller {
 
     private MathSetImpl createConstructorWithVargArgsNumber() throws InterruptedException {
         System.out.println("I creat VargArgsNumber for you ;)");
+        System.out.print("Paste VargArgsNumber random in your set");
         for (int i = 0; i < 4; i++) {
             Thread.sleep(500);
             System.out.print(" .");
@@ -82,7 +85,8 @@ public class MathSetIntegerConroller {
     }
 
     private MathSetImpl createConstructorWithArrayNumber() throws InterruptedException {
-        System.out.println("I creat VargArgsNumber for you ;)");
+        System.out.println("I creat array Number for you ;)");
+        System.out.print("Paste array Number random in your set");
         for (int i = 0; i < 4; i++) {
             Thread.sleep(500);
             System.out.print(" .");

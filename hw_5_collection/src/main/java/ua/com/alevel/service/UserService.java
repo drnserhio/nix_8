@@ -11,8 +11,6 @@ import ua.com.alevel.exception.NotNullException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Arrays;
 
 import static ua.com.alevel.StringerUtil.*;
@@ -197,9 +195,9 @@ public class UserService {
         } catch (NullPointerException e) {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
-            printWarn("You don't entry number");
+            printWarn(IS_NOT_NUMBER);
         } catch (IndexOutOfBoundsException e) {
-            printWarn("Entry number don't has in set");
+            printWarn(NOT_NUMBER_IN_SET);
         } catch (IOException e) {
         }
     }
@@ -264,7 +262,7 @@ public class UserService {
         } catch (NumberFormatException e) {
             printWarn(IS_NOT_NUMBER);
         } catch (IndexOutOfBoundsException e) {
-            printWarn("Entry number don't has in set");
+            printWarn(NOT_NUMBER_IN_SET);
         } catch (IOException e) {
         }
     }
@@ -396,9 +394,8 @@ public class UserService {
         } catch (NullPointerException e) {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
-            printWarn(e.getMessage());
-        } catch (IOException e) {
-        }
+            printWarn(IS_NOT_NUMBER);
+        } catch (IOException e) {}
     }
 
     public void addNumber(BufferedReader reader) {
@@ -411,7 +408,7 @@ public class UserService {
             }
             n = reader.readLine();
             if (strIsEmpty(n)) {
-                throw new NullPointerException("Entry empty date: " + n);
+                throw new NullPointerException();
             }
             mathSet.add(NumberUtils.createNumber(n));
         } catch (EmptyArrayException | IOException e) {
@@ -419,7 +416,7 @@ public class UserService {
         } catch (NullPointerException e) {
             printWarn(EMPTY_STR + n);
         } catch (NumberFormatException e) {
-            printWarn(e.getMessage());
+            printWarn(IS_NOT_NUMBER);
         }
     }
 
