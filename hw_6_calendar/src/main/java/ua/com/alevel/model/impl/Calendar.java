@@ -1,12 +1,15 @@
-package ua.com.alevel.model;
+package ua.com.alevel.model.impl;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import ua.com.alevel.model.inf.ChangeCalendar;
+
+import static ua.com.alevel.constant.Month.JANUARY;
 
 
 @EqualsAndHashCode
 @Data
-public class Calendar {
+public class Calendar implements ChangeCalendar {
 
     public long timestamp;
 
@@ -47,6 +50,174 @@ public class Calendar {
     }
 
 
+    @Override
+    public void plusYears(long year) {
+        this.setYear(this.getYear() + year);
+        updateTimeStamp(this);
+    }
+
+    @Override
+    public void plusMonths(long month) {
+        long sumWithNewMonth = this.getMonth() + month;
+        if (sumWithNewMonth > MONTH_COUNT) {
+            long m = sumWithNewMonth - MONTH_COUNT;
+            if (m > MONTH_COUNT) {
+                long yearToAdd = 0;
+                while (countMonthToAddMonth(sumWithNewMonth) > 0) {
+                    if (sumWithNewMonth - MONTH_COUNT < 0) {
+                        break;
+                    }
+                    yearToAdd++;
+                    sumWithNewMonth -= MONTH_COUNT;
+                }
+                this.setYear(this.getYear() + yearToAdd);
+                this.setMonth(sumWithNewMonth);
+                return;
+            } else {
+                this.setYear(this.getYear() + 1);
+                this.setMonth(m);
+            }
+        } else {
+            this.setMonth(sumWithNewMonth);
+        }
+        updateTimeStamp(this);
+    }
+
+    @Override
+    public void plusDays(long days) {
+        long sumWihtNewDays = this.getDay() + days;
+        long updateYears = this.getYear();
+        int monthInTheMomement = (int) this.getMonth();
+        boolean isLeap = false;
+
+        long countMonthToAdd = 0;
+        long markerYear = JANUARY;
+        while (sumWihtNewDays > 0) {
+            if (isLeap(updateYears)) {
+                isLeap = true;
+            } else {
+                isLeap = false;
+            }
+            if (isMonthDiscorrect(monthInTheMomement)) {
+                monthInTheMomement = 0;
+            }
+
+            if ((sumWihtNewDays - MONTH_LENGTH[monthInTheMomement] < 0 ||
+                    sumWihtNewDays - LEAP_MONTH_LENGTH[monthInTheMomement] < 0)) {
+                break;
+            }
+
+
+            //If the same month what to do ??)))
+            if (markerYear == monthInTheMomement ) {
+                updateYears++;
+            }
+            if (isLeap) {
+                sumWihtNewDays -= LEAP_MONTH_LENGTH[monthInTheMomement];
+                monthInTheMomement++;
+                countMonthToAdd++;
+            } else {
+                sumWihtNewDays -= MONTH_LENGTH[monthInTheMomement];
+                monthInTheMomement++;
+                countMonthToAdd++;
+            }
+        }
+//        if (updateYears > 0) {
+//            this.setYear(updateYears);
+//        }
+        if (countMonthToAdd > 0) {
+            long correctMonth = this.getMonth() + countMonthToAdd;
+            if (isMonthDiscorrect((int) correctMonth)) {
+                this.plusMonths(countMonthToAdd);
+            } else {
+                this.setMonth(correctMonth);
+            }
+        }
+
+        if (isDayDiscorrect(sumWihtNewDays)) {
+            this.setDay(1);
+        } else {
+            this.setDay(sumWihtNewDays);
+        }
+        updateTimeStamp(this);
+    }
+
+    @Override
+    public void plusHours(long hours) {
+        long sumWithNewHours = this.getHour() + hours;
+        long saveHours = 0;
+
+        if (sumWithNewHours < 24) {
+            this.setHour(sumWithNewHours);
+            updateTimeStamp(this);
+            return;
+        }
+        saveHours = hoursConvertToDays(sumWithNewHours);
+        this.setHour(saveHours);
+        updateTimeStamp(this);
+    }
+
+    private long hoursConvertToDays(long hours) {
+        long days = hours / 24;
+        long saveHours = hours % 24;
+        if (days % 2 == 0 || isLeap(this.getYear())) {
+            plusDays(days);
+        } else {
+            plusDays(days - 1);
+        }
+
+        if (saveHours > 0) {
+            return saveHours;
+        } else {
+            return hours;
+        }
+
+    }
+
+    @Override
+    public void plusMinute(long minutes) {
+
+    }
+
+    @Override
+    public void plusSeconds(long seconds) {
+
+    }
+
+    @Override
+    public void plusMilliseconds(long milliseconds) {
+
+    }
+
+
+    private void updateTimeStamp(Calendar newCalendar) {
+        Calendar calendar = this.Builder().createTimestamp(newCalendar);
+        this.setTimestamp(calendar.getTimestamp());
+    }
+
+    private boolean isLeap(long year) {
+        return this.of().isLeap(year);
+    }
+
+    private boolean isDayDiscorrect(long day) {
+        if (day == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isMonthDiscorrect(int month) {
+        if (month > 11) {
+            return true;
+        }
+        return false;
+    }
+
+    private void millisToDate() {
+        this.Builder().convertMillisToDateTime(this.getMillsecond());
+    }
+
+
     public static String formattingCalendar(Calendar calendar) {
         String format = "%s year, %s month, %s days, %s hours, %s minutes, %s seconds, %s milliseconds";
         return String.format(
@@ -76,119 +247,6 @@ public class Calendar {
         return Math.max(firstDate, secondDate) - Math.min(firstDate, secondDate);
     }
 
-    public void millisToDate() {
-        this.Builder().convertMillisToDateTime(this.getMillsecond());
-    }
-
-    public void plusYear(long year) {
-        this.setYear(this.getYear() + year);
-        Calendar calendar = this.Builder().createTimestamp(this);
-        this.setTimestamp(calendar.getTimestamp());
-    }
-
-    public void plusMonths(long month) {
-        long sumWithNewMonth = this.getMonth() + month;
-        if (sumWithNewMonth > MONTH_COUNT) {
-            long m = sumWithNewMonth - MONTH_COUNT;
-            if (m > MONTH_COUNT) {
-                long yearToAdd = 0;
-                while (countMonthToAddMonth(sumWithNewMonth) > 0) {
-                    if (sumWithNewMonth - MONTH_COUNT < 0) {
-                        break;
-                    }
-                    yearToAdd++;
-                    sumWithNewMonth -= MONTH_COUNT;
-                }
-
-                this.setYear(this.getYear() + yearToAdd);
-                this.setMonth(sumWithNewMonth);
-                return;
-            } else {
-                this.setYear(this.getYear() + 1);
-                this.setMonth(m);
-            }
-        } else {
-            this.setMonth(sumWithNewMonth);
-        }
-        Calendar calendar = this.Builder().createTimestamp(this);
-        this.setTimestamp(calendar.getTimestamp());
-    }
-
-    public void plusDays(long days) {
-        long sumWihtNewDays = this.getDay() + days;
-        long updateYears = this.getYear();
-        int monthInTheMomement = (int) this.getMonth();
-        boolean isLeap = false;
-
-
-
-        long countMonthToAdd = 0;
-//        long markerYear = JANUARY;
-        while (sumWihtNewDays > 0) {
-            if (this.of().isLeap(updateYears)) {
-                isLeap = true;
-            } else {
-                isLeap = false;
-            }
-            if (isMonthDiscorrect(monthInTheMomement)) {
-                monthInTheMomement = 0;
-            }
-
-            if ((sumWihtNewDays - MONTH_LENGTH[monthInTheMomement] < 0 ||
-                    sumWihtNewDays - LEAP_MONTH_LENGTH[monthInTheMomement] < 0)) {
-                break;
-            }
-
-
-//            //If the same month what to do ??)))
-//            if (markerYear == monthInTheMomement ) {
-//                updateYears++;
-//            }
-            if (isLeap) {
-                sumWihtNewDays -= MONTH_LENGTH[monthInTheMomement ];
-                monthInTheMomement++;
-                countMonthToAdd++;
-            } else {
-                sumWihtNewDays -= LEAP_MONTH_LENGTH[monthInTheMomement ];
-                monthInTheMomement++;
-                countMonthToAdd++;
-            }
-        }
-//        if (updateYears > 0) {
-//            this.setYear(updateYears);
-//        }
-        if (countMonthToAdd > 0) {
-            long correctMonth = this.getMonth() + countMonthToAdd;
-            if (isMonthDiscorrect((int) correctMonth)) {
-                this.plusMonths(countMonthToAdd);
-            } else {
-                this.setMonth(correctMonth);
-            }
-        }
-
-        if (isDayDiscorrect(sumWihtNewDays)) {
-            this.setDay(1);
-        } else {
-            this.setDay(sumWihtNewDays);
-        }
-        Calendar calendar = this.Builder().createTimestamp(this);
-        this.setTimestamp(calendar.getTimestamp());
-
-    }
-
-    private boolean isDayDiscorrect(long day) {
-        if (day == 0) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isMonthDiscorrect(int month) {
-        if (month > 11) {
-            return true;
-        }
-        return false;
-    }
 
 //    private long countDaysToAddMonth(long days) {
 //

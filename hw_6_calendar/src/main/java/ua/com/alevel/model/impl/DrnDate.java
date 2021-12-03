@@ -1,9 +1,10 @@
-package ua.com.alevel.model;
+package ua.com.alevel.model.impl;
 
 import lombok.Data;
+import ua.com.alevel.model.inf.ChangeDate;
 
 @Data
-public class DrnDate {
+public class DrnDate{
 
     private final static String DASH = "-";
     private long day = 0;
@@ -22,4 +23,5 @@ public class DrnDate {
     public String toString() {
         return year + DASH + month + DASH + day;
     }
+
 }

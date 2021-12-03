@@ -1,32 +1,34 @@
 package ua.com.alevel;
 
-import ua.com.alevel.model.Calendar;
+import ua.com.alevel.model.impl.Calendar;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 
 public class ApplicationRun {
 
     public static void main(String[] args) throws ParseException {
+        LocalDateTime localDateTime = LocalDateTime.of(2012,1, 23, 11,31, 33 );
+        LocalDateTime localDateTime1 = localDateTime.plusHours(0);
+        System.out.println(localDateTime1);
 
         Calendar calendar = Calendar.of()
-                .month(10)
+                .month(1)
                 .year(2012)
                 .day(23)
                         .hour(11)
                                 .minute(31)
                                         .second(33).build();
 
-        calendar.plusDays(100);
+        calendar.plusHours(0);
 
-//        calendar.plusMonths(2);
+
 //        System.out.println(calendar);
-//
-//        LocalDateTime localDateTime = LocalDateTime.of(2012,5, 23, 11,31, 33 );
-//        localDateTime.plusMonths(33);
-//        System.out.println(localDateTime);
-
-
         System.out.println(Calendar.formattingCalendar(calendar));
+//
+
+
+
 
 
 

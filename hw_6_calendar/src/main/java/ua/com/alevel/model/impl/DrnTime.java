@@ -1,12 +1,13 @@
-package ua.com.alevel.model;
+package ua.com.alevel.model.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.com.alevel.model.inf.ChangeTime;
 
 @Data
 
-public class DrnTime {
+public class DrnTime implements ChangeTime {
     private final static String COLON = ":";
     private long hour = 0;
     private long minute = 0;
@@ -18,6 +19,28 @@ public class DrnTime {
         this.minute = minute;
         this.second = second;
         this.millsecond = millsecond;
+    }
+
+
+
+    @Override
+    public void plusHours(long hours) {
+
+    }
+
+    @Override
+    public void plusMinute(long minutes) {
+
+    }
+
+    @Override
+    public void plusSeconds(long seconds) {
+
+    }
+
+    @Override
+    public void plusMilliseconds(long milliseconds) {
+
     }
 
     @Override
