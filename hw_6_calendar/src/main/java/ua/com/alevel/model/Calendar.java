@@ -291,7 +291,7 @@ public class Calendar {
         }
 
         public Builder month(long month) {
-            Calendar.this.month = month - 1;
+            Calendar.this.month = month;
             return this;
         }
 
