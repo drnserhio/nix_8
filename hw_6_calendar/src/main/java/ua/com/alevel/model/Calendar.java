@@ -1,6 +1,7 @@
 package ua.com.alevel.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 @EqualsAndHashCode
@@ -28,6 +29,7 @@ public class Calendar {
 
     public static final int MONTH_COUNT = 12;
 
+
     private long hour = 0;
     private long minute = 0;
     private long second = 0;
@@ -43,9 +45,6 @@ public class Calendar {
 
     private Calendar() {
     }
-
-
-
 
 
     public static String formattingCalendar(Calendar calendar) {
@@ -88,17 +87,17 @@ public class Calendar {
     }
 
     public void plusMonths(long month) {
-      long sumWithNewMonth = this.getMonth() +  month;
+        long sumWithNewMonth = this.getMonth() + month;
         if (sumWithNewMonth > MONTH_COUNT) {
             long m = sumWithNewMonth - MONTH_COUNT;
             if (m > MONTH_COUNT) {
                 long yearToAdd = 0;
-                while ( countMonthToAddMonth(sumWithNewMonth) > 0) {
+                while (countMonthToAddMonth(sumWithNewMonth) > 0) {
                     if (sumWithNewMonth - MONTH_COUNT < 0) {
                         break;
                     }
                     yearToAdd++;
-                    sumWithNewMonth -=MONTH_COUNT;
+                    sumWithNewMonth -= MONTH_COUNT;
                 }
 
                 this.setYear(this.getYear() + yearToAdd);
@@ -115,11 +114,101 @@ public class Calendar {
         this.setTimestamp(calendar.getTimestamp());
     }
 
-    private long countMonthToAddMonth(long month) {
-       return  month-=12;
+    public void plusDays(long days) {
+        long sumWihtNewDays = this.getDay() + days;
+        long updateYears = this.getYear();
+        int monthInTheMomement = (int) this.getMonth();
+        boolean isLeap = false;
+
+
+
+        long countMonthToAdd = 0;
+//        long markerYear = JANUARY;
+        while (sumWihtNewDays > 0) {
+            if (this.of().isLeap(updateYears)) {
+                isLeap = true;
+            } else {
+                isLeap = false;
+            }
+            if (isMonthDiscorrect(monthInTheMomement)) {
+                monthInTheMomement = 0;
+            }
+
+            if ((sumWihtNewDays - MONTH_LENGTH[monthInTheMomement] < 0 ||
+                    sumWihtNewDays - LEAP_MONTH_LENGTH[monthInTheMomement] < 0)) {
+                break;
+            }
+
+
+//            //If the same month what to do ??)))
+//            if (markerYear == monthInTheMomement ) {
+//                updateYears++;
+//            }
+            if (isLeap) {
+                sumWihtNewDays -= MONTH_LENGTH[monthInTheMomement ];
+                monthInTheMomement++;
+                countMonthToAdd++;
+            } else {
+                sumWihtNewDays -= LEAP_MONTH_LENGTH[monthInTheMomement ];
+                monthInTheMomement++;
+                countMonthToAdd++;
+            }
+        }
+//        if (updateYears > 0) {
+//            this.setYear(updateYears);
+//        }
+        if (countMonthToAdd > 0) {
+            long correctMonth = this.getMonth() + countMonthToAdd;
+            if (isMonthDiscorrect((int) correctMonth)) {
+                this.plusMonths(countMonthToAdd);
+            } else {
+                this.setMonth(correctMonth);
+            }
+        }
+
+        if (isDayDiscorrect(sumWihtNewDays)) {
+            this.setDay(1);
+        } else {
+            this.setDay(sumWihtNewDays);
+        }
+        Calendar calendar = this.Builder().createTimestamp(this);
+        this.setTimestamp(calendar.getTimestamp());
+
     }
 
+    private boolean isDayDiscorrect(long day) {
+        if (day == 0) {
+            return true;
+        }
+        return false;
+    }
 
+    private boolean isMonthDiscorrect(int month) {
+        if (month > 11) {
+            return true;
+        }
+        return false;
+    }
+
+//    private long countDaysToAddMonth(long days) {
+//
+//    }
+
+//    public boolean isTheNextMonthLeap(long month) {
+//        switch ((int) month) {
+//            case FEBRUARY: return true;
+//            case APRIL: return true;
+//            case JUNE: return true;
+//            case SEPTEMBER: return true;
+//            case NOVEMBER:return true;
+//        }
+//        return false;
+//    }
+
+
+    private long countMonthToAddMonth(long month) {
+        return month -= 12;
+    }
 
 
     @Override
@@ -137,9 +226,36 @@ public class Calendar {
 //    }
 
 
-
     ///Builder--->
-    public static Builder Builder() {
+
+    public static Builder of() {
+        return Builder();
+    }
+
+    public static Builder of(long year, long month, long day, long hour, long minute, long second) {
+        Builder builder = new Calendar().new Builder();
+        builder.year(year);
+        builder.month(month);
+        builder.day(day);
+        builder.hour(hour);
+        builder.minute(minute);
+        builder.second(second);
+        return builder;
+    }
+
+    public static Builder of(long year, long month, long day, long hour, long minute, long second, long millsecond) {
+        Builder builder = new Calendar().new Builder();
+        builder.year(year);
+        builder.month(month);
+        builder.day(day);
+        builder.hour(hour);
+        builder.minute(minute);
+        builder.second(second);
+        builder.millSecond(millsecond);
+        return builder;
+    }
+
+    private static Builder Builder() {
         return new Calendar().new Builder();
     }
 
@@ -148,38 +264,38 @@ public class Calendar {
         private Builder() {
         }
 
-        public Builder setHour(long hour) {
+        public Builder hour(long hour) {
             Calendar.this.hour = hour;
             return this;
         }
 
-        public Builder setMinute(long minute) {
+        public Builder minute(long minute) {
             Calendar.this.minute = minute;
             return this;
         }
 
-        public Builder setSecond(long second) {
+        public Builder second(long second) {
             Calendar.this.second = second;
             return this;
         }
 
-        public Builder setMillsecond(long millsecond) {
+        public Builder millSecond(long millsecond) {
             Calendar.this.millsecond = millsecond;
             return this;
         }
 
-        public Builder setDay(long day) {
+        public Builder day(long day) {
             Calendar.this.day = day;
             return this;
 
         }
 
-        public Builder setMonth(long month) {
-            Calendar.this.month = month;
+        public Builder month(long month) {
+            Calendar.this.month = month - 1;
             return this;
         }
 
-        public Builder setYear(long year) {
+        public Builder year(long year) {
             Calendar.this.year = year;
             return this;
         }
@@ -188,10 +304,10 @@ public class Calendar {
             Calendar calendar = Calendar.this;
             if (calendar.getYear() == 0 &&
                     calendar.getDay() == 0 &&
-                        calendar.getHour() == 0 &&
-                            calendar.getMinute() == 0 &&
-                                calendar.getSecond() == 0 &&
-                                    calendar.getMillsecond() ==0) {
+                    calendar.getHour() == 0 &&
+                    calendar.getMinute() == 0 &&
+                    calendar.getSecond() == 0 &&
+                    calendar.getMillsecond() == 0) {
                 return calendar;
             } else {
                 return createTimestamp(calendar);
@@ -206,7 +322,7 @@ public class Calendar {
         private Calendar createTimestamp(Calendar calendar) {
             long millis = 0L;
             long year = 0;
-            while (year <  calendar.getYear()) {
+            while (year < calendar.getYear()) {
 
                 if (isLeap(year)) {
                     millis += LEAP_YEAR_IN_MILLIS;
@@ -222,7 +338,7 @@ public class Calendar {
             }
 
 
-            long millisDays = calendar.getDay() -1  - ONE_DAY;
+            long millisDays = calendar.getDay() - 1 - ONE_DAY;
             long millisHours = calendar.getHour() * ONE_HOUR;
             long millisMinutes = calendar.getMinute() * ONE_MINUTE;
             long millisSeconds = calendar.getSecond() * ONE_SECOND;
@@ -242,17 +358,17 @@ public class Calendar {
             while (true) {
 
                 if (isLeap(year)) {
-                    if (millis + LEAP_YEAR_IN_MILLIS >  timeStatampDateTime) {
+                    if (millis + LEAP_YEAR_IN_MILLIS > timeStatampDateTime) {
                         break;
-                    } else  {
+                    } else {
                         millis += LEAP_YEAR_IN_MILLIS;
                     }
                 } else {
-                   if (millis + YEAR_IN_MILLIS > timeStatampDateTime) {
-                       break;
-                   } else {
-                       millis += YEAR_IN_MILLIS;
-                   }
+                    if (millis + YEAR_IN_MILLIS > timeStatampDateTime) {
+                        break;
+                    } else {
+                        millis += YEAR_IN_MILLIS;
+                    }
                 }
                 year++;
             }
@@ -260,7 +376,7 @@ public class Calendar {
             millis = 0L;
             long monthInMillis = timeStatampDateTime - millis;
 
-            for (int m = 0; m < 11; m++) {
+            for (int m = 0; m < 12; m++) {
                 long millisMonth = convertMonthToMillis(m, isLeap(year));
                 if (millis + millisMonth > monthInMillis) {
                     m++;
@@ -291,7 +407,6 @@ public class Calendar {
                 return MONTH_LENGTH[month] * ONE_DAY;
             }
         }
-
 
 
     }
