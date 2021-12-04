@@ -7,7 +7,7 @@ import ua.com.alevel.model.inf.ChangeTime;
 
 @Data
 
-public class DrnTime implements ChangeTime {
+public class DrnTime {
     private final static String COLON = ":";
     private long hour = 0;
     private long minute = 0;
@@ -19,28 +19,6 @@ public class DrnTime implements ChangeTime {
         this.minute = minute;
         this.second = second;
         this.millsecond = millsecond;
-    }
-
-
-
-    @Override
-    public void plusHours(long hours) {
-
-    }
-
-    @Override
-    public void plusMinute(long minutes) {
-
-    }
-
-    @Override
-    public void plusSeconds(long seconds) {
-
-    }
-
-    @Override
-    public void plusMilliseconds(long milliseconds) {
-
     }
 
     @Override

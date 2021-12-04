@@ -6,4 +6,8 @@ public interface ChangeDate {
     void plusMonths(long month);
     void plusYears(long year);
 
+    void minusYears(long years);
+    void minusDays(long days);
+    void minusMonths(long months);
+
 }

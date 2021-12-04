@@ -31,6 +31,9 @@ public class Calendar implements ChangeCalendar {
     private static final long LEAP_YEAR_IN_MILLIS = LEAP_YEAR * ONE_DAY;
 
     public static final int MONTH_COUNT = 12;
+    public static final int MINUTE_COUNT = 60;
+    public static final int SECOND_COUNT = 60;
+    public static final int MILLSECOND_COUNT = 1000;
 
 
     private long hour = 0;
@@ -49,6 +52,134 @@ public class Calendar implements ChangeCalendar {
     private Calendar() {
     }
 
+    @Override
+    public void minusYears(long years) {
+        long minusWithYears = this.getYear() - years;
+        if (minusWithYears < 0) {
+            this.setYear(0);
+            updateTimeStamp(this);
+            return;
+        }
+        this.setYear(minusWithYears);
+        updateTimeStamp(this);
+    }
+
+    @Override
+    public void minusDays(long days) {
+        long minusWihtNewDays = this.getDay() - days;
+
+        if ( minusWihtNewDays > 0) {
+            this.setDay(minusWihtNewDays);
+            updateTimeStamp(this);
+            return;
+        } else {
+            minusWihtNewDays = Math.abs(minusWihtNewDays);
+            if (days > 120) {
+                --minusWihtNewDays;
+            }
+        }
+        long updateYears = this.getYear();
+        int monthInTheMomement = (int) this.getMonth();
+        boolean isLeap = false;
+
+        long countMonthToDell = 0;
+        while (minusWihtNewDays > 0) {
+            if (isLeap(updateYears)) {
+                isLeap = true;
+            } else {
+                isLeap = false;
+            }
+
+            if (monthInTheMomement == -1) {
+                updateYears--;
+                monthInTheMomement = 11;
+                if (isLeap(updateYears)) {
+                    isLeap = true;
+                } else {
+                    isLeap = false;
+                }
+            }
+
+            if (isLeap) {
+                minusWihtNewDays -= LEAP_MONTH_LENGTH[monthInTheMomement--];
+                countMonthToDell--;
+            } else {
+                minusWihtNewDays -= MONTH_LENGTH[monthInTheMomement--];
+                countMonthToDell--;
+            }
+        }
+
+
+
+        if (Math.abs(countMonthToDell) > 0) {
+            long correctMonth = this.getMonth() - countMonthToDell;
+            if (isMonthDiscorrect((int) correctMonth)) {
+                this.minusMonths(Math.abs(countMonthToDell));
+            } else {
+                this.setMonth(correctMonth);
+            }
+        }
+
+        if (isDayDiscorrect(minusWihtNewDays)) {
+            this.setDay(1);
+        } else {
+                this.setDay(Math.abs(++minusWihtNewDays));
+            }
+
+        updateTimeStamp(this);
+
+    }
+
+    @Override
+    public void minusMonths(long months) {
+        long minusWithNewMonth = Math.abs(this.getMonth() - months);
+        if (minusWithNewMonth < 0) {
+
+        }
+        if (minusWithNewMonth > MONTH_COUNT) {
+            long m = minusWithNewMonth - MONTH_COUNT;
+            if (m > MONTH_COUNT) {
+                long yearToAdd = 0;
+                while (countMonthToAddMonth(minusWithNewMonth) > 0) {
+                    if (minusWithNewMonth - MONTH_COUNT < 0) {
+                        break;
+                    }
+                    yearToAdd++;
+                    minusWithNewMonth -= MONTH_COUNT;
+                }
+                this.setYear((this.getYear() - yearToAdd) - 1);
+                this.setMonth(Math.abs(MONTH_COUNT - minusWithNewMonth));
+                return;
+            } else {
+                this.setYear(this.getYear() - 1);
+                this.setMonth(MONTH_COUNT - m);
+            }
+        } else {
+            this.setYear(this.year - 1);
+            this.setMonth(minusWithNewMonth );
+        }
+        updateTimeStamp(this);
+    }
+
+    @Override
+    public void minusHours(long hours) {
+
+    }
+
+    @Override
+    public void minusMinutes(long minutes) {
+
+    }
+
+    @Override
+    public void minusSeconds(long seconds) {
+
+    }
+
+    @Override
+    public void minusMilliseconds(long milliseconds) {
+
+    }
 
     @Override
     public void plusYears(long year) {
@@ -109,7 +240,7 @@ public class Calendar implements ChangeCalendar {
 
 
             //If the same month what to do ??)))
-            if (markerYear == monthInTheMomement ) {
+            if (markerYear == monthInTheMomement) {
                 updateYears++;
             }
             if (isLeap) {
@@ -175,18 +306,71 @@ public class Calendar implements ChangeCalendar {
     }
 
     @Override
-    public void plusMinute(long minutes) {
+    public void plusMinutes(long minutes) {
+        long sumWithMinutes = this.getMinute() + minutes;
+        long saveMinutes = sumWithMinutes % MINUTE_COUNT;
+        if (sumWithMinutes > MINUTE_COUNT) {
+            long hours = convertMinuteToHours(sumWithMinutes);
+            if (saveMinutes > 0) {
+                this.setMinute(saveMinutes);
+            }
+            plusHours(hours);
 
+            return;
+        } else {
+            this.setMinute(sumWithMinutes);
+            updateTimeStamp(this);
+            return;
+        }
+    }
+
+    private long convertMinuteToHours(long minutes) {
+        return minutes / MINUTE_COUNT;
     }
 
     @Override
     public void plusSeconds(long seconds) {
+        long sumWithSeconds = this.getSecond() + seconds;
+        long saveSeconds = sumWithSeconds % SECOND_COUNT;
+        if (sumWithSeconds > SECOND_COUNT) {
+            long minute = convertSecondToMinute(sumWithSeconds);
+            if (saveSeconds > 0) {
+                this.setSecond(saveSeconds);
+            }
+            plusMinutes(minute);
+            return;
+        } else {
+            this.setSecond(sumWithSeconds);
+            updateTimeStamp(this);
+            return;
+        }
+    }
 
+    private long convertSecondToMinute(long seconds) {
+        return seconds / SECOND_COUNT;
     }
 
     @Override
     public void plusMilliseconds(long milliseconds) {
 
+        long sumWithMillseconds = this.getMillsecond() + milliseconds;
+        long saveSeconds = sumWithMillseconds % MILLSECOND_COUNT;
+        if (sumWithMillseconds > MILLSECOND_COUNT) {
+            long seconds = convertMillsecondsToSeconds(sumWithMillseconds);
+            if (saveSeconds > 0) {
+                this.setMillsecond(saveSeconds);
+            }
+            plusSeconds(seconds);
+            return;
+        } else {
+            this.setMillsecond(sumWithMillseconds);
+            updateTimeStamp(this);
+            return;
+        }
+    }
+
+    private long convertMillsecondsToSeconds(long millseconds) {
+        return millseconds / MILLSECOND_COUNT;
     }
 
 
