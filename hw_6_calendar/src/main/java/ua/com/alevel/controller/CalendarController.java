@@ -1,4 +1,4 @@
-package ua.com.alevel;
+package ua.com.alevel.controller;
 
 import ua.com.alevel.service.CalendarService;
 
@@ -98,9 +98,12 @@ public class CalendarController {
                 calendarService.getTime();
                 break;
             case "18":
-                calendarService.getTimeJavaStyle();
+                calendarService.getFullDateTime();
                 break;
             case "19":
+                calendarService.compareDate(reader);
+                break;
+            case "20":
                 System.exit(0);
             default:
                 print("Entry wrong...");
@@ -132,8 +135,9 @@ public class CalendarController {
                         "16 - Minus milliseconds\n" +
                         "--------------------------------------------\n" +
                         "17 - Get DataTime\n" +
-                        "18 - Get DateTime JavaStyle\n" +
-                        "19 - Exit\n" +
+                        "18 - Get DateTime full\n" +
+                        "19 - Compare date\n" +
+                        "20 - Exit\n" +
                         "--------------------------------------------"
         );
     }

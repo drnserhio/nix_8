@@ -15,8 +15,7 @@ import java.util.Objects;
 import static ua.com.alevel.StringerUtil.print;
 import static ua.com.alevel.constant.CalendarPatterConst.*;
 import static ua.com.alevel.constant.ExceptionConst.*;
-import static ua.com.alevel.constant.InfoConst.DATE_WAS_CREATE_SUCCEFULL;
-import static ua.com.alevel.constant.InfoConst.INFO_CREATE_DATE;
+import static ua.com.alevel.constant.InfoConst.*;
 
 public class CalendarService {
 
@@ -47,7 +46,7 @@ public class CalendarService {
         try {
             isNotCreatePattern();
             calendar = isValidWithPattern(reader.readLine());
-            print(DATE_WAS_CREATE_SUCCEFULL);
+            print(DATE_WAS_CREATE_SUCCESSFULL);
         } catch (PatternNotFoundException e) {
             printWarn(e.getMessage());
         } catch (NullPointerException e) {
@@ -154,7 +153,7 @@ public class CalendarService {
         long month = Long.parseLong(validation[1]);
         long year = Long.parseLong(validation[2]);
         isValidEntryDate(year, month, day, 0, 0, 0, 0);
-        return Calendar.of(year,month,day,0, 0, 0, 0).build();
+        return Calendar.of(year, month, day, 0, 0, 0, 0).build();
     }
 
     private void isValidEntryDate(long year,
@@ -165,33 +164,33 @@ public class CalendarService {
                                   long second,
                                   long milliseconds) {
         if (
-            year > Long.MAX_VALUE || year < 0 ||
-                month > 12 || month < 0 ||
-                    day > 31 || day < 0 ||
+                year > Long.MAX_VALUE || year < 0 ||
+                        month > 12 || month < 0 ||
+                        day > 31 || day < 0 ||
                         hour > 24 || hour < 0 ||
-                            minute > 60 || minute < 0 ||
-                                second > 60 || second < 0 ||
-                                    milliseconds > 1000 || milliseconds < 0
+                        minute > 60 || minute < 0 ||
+                        second > 60 || second < 0 ||
+                        milliseconds > 1000 || milliseconds < 0
         ) {
             throw new PatternNotFoundException(BIG_SIZE_NUMBER);
         }
     }
 
     private void isValidUpdateDate(long year,
-                                  long month,
-                                  long day,
-                                  long hour,
-                                  long minute,
-                                  long second,
-                                  long milliseconds) {
+                                   long month,
+                                   long day,
+                                   long hour,
+                                   long minute,
+                                   long second,
+                                   long milliseconds) {
         if (
-            year >= Long.MAX_VALUE || year < 0 ||
-                month >= Long.MAX_VALUE || month < 0 ||
-                     day >= Long.MAX_VALUE || day < 0 ||
+                year >= Long.MAX_VALUE || year < 0 ||
+                        month >= Long.MAX_VALUE || month < 0 ||
+                        day >= Long.MAX_VALUE || day < 0 ||
                         hour >= Long.MAX_VALUE || hour < 0 ||
-                            minute >= Long.MAX_VALUE || minute < 0 ||
-                                second >= Long.MAX_VALUE || second < 0 ||
-                                    milliseconds >= Long.MAX_VALUE || milliseconds < 0
+                        minute >= Long.MAX_VALUE || minute < 0 ||
+                        second >= Long.MAX_VALUE || second < 0 ||
+                        milliseconds >= Long.MAX_VALUE || milliseconds < 0
         ) {
             throw new PatternNotFoundException(BIG_SIZE_NUMBER);
         }
@@ -225,7 +224,7 @@ public class CalendarService {
             String d = reader.readLine();
             isValidEntry(d);
             long days = isNumber(d);
-            isValidUpdateDate(0,0, days, 0, 0, 0, 0);
+            isValidUpdateDate(0, 0, days, 0, 0, 0, 0);
             calendar.plusDays(days);
         } catch (CalendarNotFoundException e) {
             printWarn(e.getMessage());
@@ -314,7 +313,7 @@ public class CalendarService {
             String d = reader.readLine();
             isValidEntry(d);
             long days = isNumber(d);
-            isValidUpdateDate(0,0, days, 0, 0, 0, 0);
+            isValidUpdateDate(0, 0, days, 0, 0, 0, 0);
             calendar.minusDays(days);
         } catch (CalendarNotFoundException e) {
             printWarn(e.getMessage());
@@ -359,7 +358,7 @@ public class CalendarService {
             String h = reader.readLine();
             isValidEntry(h);
             long hours = isNumber(h);
-            isValidUpdateDate(0,0, 0, hours, 0, 0, 0);
+            isValidUpdateDate(0, 0, 0, hours, 0, 0, 0);
             calendar.plusHours(hours);
         } catch (CalendarNotFoundException e) {
             printWarn(e.getMessage());
@@ -382,7 +381,7 @@ public class CalendarService {
             String m = reader.readLine();
             isValidEntry(m);
             long minute = isNumber(m);
-            isValidUpdateDate(0,0, 0, 0, minute, 0, 0);
+            isValidUpdateDate(0, 0, 0, 0, minute, 0, 0);
             calendar.plusMinutes(minute);
         } catch (CalendarNotFoundException e) {
             printWarn(e.getMessage());
@@ -405,7 +404,7 @@ public class CalendarService {
             String s = reader.readLine();
             isValidEntry(s);
             long second = isNumber(s);
-            isValidUpdateDate(0,0, 0, 0, 0, second, 0);
+            isValidUpdateDate(0, 0, 0, 0, 0, second, 0);
             calendar.plusSeconds(second);
         } catch (CalendarNotFoundException e) {
             printWarn(e.getMessage());
@@ -428,7 +427,7 @@ public class CalendarService {
             String ms = reader.readLine();
             isValidEntry(ms);
             long milliseconds = isNumber(ms);
-            isValidUpdateDate(0,0, 0, 0, 0, 0, milliseconds);
+            isValidUpdateDate(0, 0, 0, 0, 0, 0, milliseconds);
             calendar.plusMilliseconds(milliseconds);
         } catch (CalendarNotFoundException e) {
             printWarn(e.getMessage());
@@ -451,7 +450,7 @@ public class CalendarService {
             String h = reader.readLine();
             isValidEntry(h);
             long hours = isNumber(h);
-            isValidUpdateDate(0,0, 0, hours, 0, 0, 0);
+            isValidUpdateDate(0, 0, 0, hours, 0, 0, 0);
             calendar.minusHours(hours);
         } catch (CalendarNotFoundException e) {
             printWarn(e.getMessage());
@@ -474,7 +473,7 @@ public class CalendarService {
             String m = reader.readLine();
             isValidEntry(m);
             long minute = isNumber(m);
-            isValidUpdateDate(0,0, 0, 0, minute, 0, 0);
+            isValidUpdateDate(0, 0, 0, 0, minute, 0, 0);
             calendar.minusMinutes(minute);
         } catch (CalendarNotFoundException e) {
             printWarn(e.getMessage());
@@ -497,7 +496,7 @@ public class CalendarService {
             String s = reader.readLine();
             isValidEntry(s);
             long second = isNumber(s);
-            isValidUpdateDate(0,0, 0, 0, 0, second, 0);
+            isValidUpdateDate(0, 0, 0, 0, 0, second, 0);
             calendar.minusSeconds(second);
         } catch (CalendarNotFoundException e) {
             printWarn(e.getMessage());
@@ -520,7 +519,7 @@ public class CalendarService {
             String ms = reader.readLine();
             isValidEntry(ms);
             long milliseconds = isNumber(ms);
-            isValidUpdateDate(0,0, 0, 0, 0, 0, milliseconds);
+            isValidUpdateDate(0, 0, 0, 0, 0, 0, milliseconds);
             calendar.minusMilliseconds(milliseconds);
         } catch (CalendarNotFoundException e) {
             printWarn(e.getMessage());
@@ -533,6 +532,31 @@ public class CalendarService {
         }
     }
 
+    public void compareDate(BufferedReader reader)
+            throws IOException, InterruptedException {
+        try {
+            isNotCreatePattern();
+            getTime();
+            print(INFO_CREATE_COMPARE_DATE + FormatCalendar.formattingCalendar(calendar));
+            print(String.format(INFO_CREATE_DATE, pattern));
+            Calendar compareCalendar = isValidWithPattern(reader.readLine());
+            thinkProgram();
+            print(COMPARE_DATE_SUCCESSFULL);
+            viewDate(calendar.compare(compareCalendar));
+        } catch (PatternNotFoundException e) {
+            printWarn(e.getMessage());
+        } catch (NullPointerException e) {
+            printWarn(NOT_CREATE_CALENDAR);
+        }
+    }
+
+    private void thinkProgram() throws InterruptedException {
+        print("I create your date:\n waiting");
+        for (int i = 0; i < 5; i++) {
+            Thread.sleep(500);
+            System.out.print(".");
+        }
+    }
 
     public void getTime() {
         try {
@@ -545,10 +569,10 @@ public class CalendarService {
         }
     }
 
-    public void getTimeJavaStyle() {
+    public void getFullDateTime() {
         try {
             isNotCreatePattern();
-            viewDate(calendar.toString());
+            viewDate(FormatCalendar.formattingCalendar(calendar));
         } catch (PatternNotFoundException e) {
             printWarn(e.getMessage());
         } catch (NullPointerException e) {
@@ -583,7 +607,6 @@ public class CalendarService {
         }
         throw new NumberFormatException(IS_NOT_NUMBER + number);
     }
-
 
 }
 

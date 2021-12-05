@@ -1,7 +1,6 @@
 package ua.com.alevel;
 
-import ua.com.alevel.resources.impl.Calendar;
-import ua.com.alevel.resources.impl.FormatCalendar;
+import ua.com.alevel.controller.CalendarController;
 
 import java.text.ParseException;
 

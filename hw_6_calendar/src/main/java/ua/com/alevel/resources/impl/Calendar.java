@@ -490,19 +490,18 @@ public class Calendar implements ChangeCalendar {
 
 
 
-    public String compareCalendar(Calendar calendar) {
-        String format = "The same date: %s year, %s days, %s hours,  %s minutes, %s seconds, %s milliseconds";
-        long year = compareDateCalendar(this.getYear(), calendar.getYear());
-        long days = compareDateCalendar(this.getDay(), calendar.getDay());
-        long hours = compareDateCalendar(this.getHour(), calendar.getHour());
-        long minute = compareDateCalendar(this.getMinute(), calendar.getMinute());
-        long seconds = compareDateCalendar(this.getSecond(), calendar.getSecond());
-        long milliseconds = compareDateCalendar(this.getMillsecond(), calendar.getMillsecond());
-        return String.format(format, year, days, hours, minute, seconds, milliseconds);
+    private String compareCalendar(Calendar calendar) {
+        String format = "The same date: %s year, %s month, %s days, %s hours, %s minutes, %s seconds, %s milliseconds";
+        return String.format(format, calendar.getYear(), calendar.getMonth(), calendar.getDay(), calendar.getHour(),  calendar.getMinute(), calendar.getSecond(), calendar.getMillsecond());
     }
 
-    private static long compareDateCalendar(long firstDate, long secondDate) {
-        return Math.max(firstDate, secondDate) - Math.min(firstDate, secondDate);
+
+    public String compare(Calendar calendar) {
+        long f = this.getTimestamp();
+        long s = calendar.getTimestamp();
+        long compare = Math.abs(f - s);
+        Calendar c = this.Builder().convertMillisToDateTimeForCompare(compare);
+        return compareCalendar(c);
     }
 
     @Override
@@ -711,6 +710,53 @@ public class Calendar implements ChangeCalendar {
             second += (millisToSeconds / ONE_SECOND);
             millsecond += (millisToSeconds % ONE_SECOND);
 
+        }
+
+        private Calendar convertMillisToDateTimeForCompare(long timeStatampDateTime) {
+            long millis = 0L;
+            while (true) {
+
+                if (isLeap(year)) {
+                    if (millis + LEAP_YEAR_IN_MILLIS > timeStatampDateTime) {
+                        break;
+                    } else {
+                        millis += LEAP_YEAR_IN_MILLIS;
+                    }
+                } else {
+                    if (millis + YEAR_IN_MILLIS > timeStatampDateTime) {
+                        break;
+                    } else {
+                        millis += YEAR_IN_MILLIS;
+                    }
+                }
+                year++;
+            }
+
+            millis = 0L;
+            long monthInMillis = timeStatampDateTime - millis;
+
+            for (int m = 0; m < MONTH_COUNT; m++) {
+                long millisMonth = convertMonthToMillis(m, isLeap(year));
+                if (millis + millisMonth > monthInMillis) {
+                    m++;
+                    break;
+                }
+                millis += monthInMillis;
+            }
+
+
+            long millisToDays = monthInMillis - millis;
+            long millisToHours = millisToDays % ONE_DAY;
+            long millisToMinutes = millisToHours % ONE_HOUR;
+            long millisToSeconds = millisToMinutes % ONE_MINUTE;
+
+
+            day += (millisToDays / ONE_DAY) + 1;
+            hour += (millisToHours / ONE_HOUR);
+            minute += (millisToMinutes / ONE_MINUTE);
+            second += (millisToSeconds / ONE_SECOND);
+            millsecond += (millisToSeconds % ONE_SECOND);
+            return Calendar.of(year, month, day, minute, second, millsecond).build();
         }
 
         private long convertMonthToMillis(int month, boolean leap) {
