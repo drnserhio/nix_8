@@ -1,9 +1,6 @@
-package ua.com.alevel.model.impl;
+package ua.com.alevel.resources.impl;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import ua.com.alevel.model.inf.ChangeTime;
 
 @Data
 
@@ -23,6 +20,10 @@ public class DrnTime {
 
     @Override
     public String toString() {
-        return hour + COLON + minute + COLON + second + COLON + millsecond;
+        String h = hour > 9? String.valueOf(hour) : "0" + hour;
+        String m = minute > 9? String.valueOf(minute) : "0" + minute;
+        String s = second > 9? String.valueOf(second) : "0" + second;
+        String ms = millsecond > 9? String.valueOf(millsecond) : "0" + millsecond;
+        return h + COLON + m + COLON + s + COLON + ms;
     }
 }

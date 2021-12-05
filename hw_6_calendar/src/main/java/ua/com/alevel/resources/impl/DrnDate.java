@@ -1,7 +1,6 @@
-package ua.com.alevel.model.impl;
+package ua.com.alevel.resources.impl;
 
 import lombok.Data;
-import ua.com.alevel.model.inf.ChangeDate;
 
 @Data
 public class DrnDate{
@@ -21,7 +20,10 @@ public class DrnDate{
 
     @Override
     public String toString() {
-        return year + DASH + month + DASH + day;
+      String m = month > 9? String.valueOf(month) : "0" + month;
+      String d = day > 9? String.valueOf(day) : "0" + day;
+
+        return year + DASH + m + DASH + d;
     }
 
 }

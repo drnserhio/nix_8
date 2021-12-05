@@ -1,4 +1,4 @@
-package ua.com.alevel.model.inf;
+package ua.com.alevel.resources.inf;
 
 public interface ChangeDate {
 
