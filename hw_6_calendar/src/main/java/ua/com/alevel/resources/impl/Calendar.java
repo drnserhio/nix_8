@@ -490,7 +490,23 @@ public class Calendar implements ChangeCalendar {
 
 
 
-    private String compareCalendar(Calendar calendar) {
+    public String compareCalendar(Calendar calendar) {
+        String format = "The same date: %s year, %s month, %s days, %s hours, %s minutes, %s seconds, %s milliseconds";
+        long year = compareDateCalendar(this.getYear(), calendar.getYear());
+        long days = compareDateCalendar(this.getDay(), calendar.getDay());
+        long hours = compareDateCalendar(this.getHour(), calendar.getHour());
+        long month = compareDateCalendar(this.getMonth(), calendar.getMonth());
+        long minute = compareDateCalendar(this.getMinute(), calendar.getMinute());
+        long seconds = compareDateCalendar(this.getSecond(), calendar.getSecond());
+        long milliseconds = compareDateCalendar(this.getMillsecond(), calendar.getMillsecond());
+        return String.format(format, year, month, days, hours, minute, seconds, milliseconds);
+    }
+
+    private static long compareDateCalendar(long firstDate, long secondDate) {
+        return Math.max(firstDate, secondDate) - Math.min(firstDate, secondDate);
+    }
+
+    private String compared(Calendar calendar) {
         String format = "The same date: %s year, %s month, %s days, %s hours, %s minutes, %s seconds, %s milliseconds";
         return String.format(format, calendar.getYear(), calendar.getMonth(), calendar.getDay(), calendar.getHour(),  calendar.getMinute(), calendar.getSecond(), calendar.getMillsecond());
     }
@@ -501,7 +517,7 @@ public class Calendar implements ChangeCalendar {
         long s = calendar.getTimestamp();
         long compare = Math.abs(f - s);
         Calendar c = this.Builder().convertMillisToDateTimeForCompare(compare);
-        return compareCalendar(c);
+        return compared(c);
     }
 
     @Override

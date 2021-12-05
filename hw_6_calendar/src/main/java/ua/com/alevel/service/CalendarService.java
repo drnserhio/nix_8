@@ -542,7 +542,7 @@ public class CalendarService {
             Calendar compareCalendar = isValidWithPattern(reader.readLine());
             thinkProgram();
             print(COMPARE_DATE_SUCCESSFULL);
-            viewDate(calendar.compare(compareCalendar));
+            viewDate(calendar.compareCalendar(compareCalendar));
         } catch (PatternNotFoundException e) {
             printWarn(e.getMessage());
         } catch (NullPointerException e) {
