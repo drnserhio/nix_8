@@ -15,3 +15,50 @@ hw_4 = 9
 ну вот вижу работу, но 9 - это натянуто, сам поймешь
 
 hw_5 = 9
+hw_6 = 9
+
+module_2 = 8
+
+Серхио ... а вот теперь попробуй удали все до bydgoszcz)
+а оно якось то й робе))) и считает так, словно городов 4
+
+а попробуй вообще очистить файл
+и почему я получаю это
+
+java.lang.NumberFormatException: For input string: ""
+        at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+        at java.base/java.lang.Integer.parseInt(Integer.java:678)
+        at java.base/java.lang.Integer.parseInt(Integer.java:786)
+        at com.ua.alevel.service.WeigthGraphService.saveCountCountry(WeigthGraphService.java:137)
+        at com.ua.alevel.service.WeigthGraphService.parseStingToArray(WeigthGraphService.java:47)
+        at com.ua.alevel.service.WeigthGraphService.readFromFile(WeigthGraphService.java:41)
+        at com.ua.alevel.resources.FilesResources.findInDepth(FilesResources.java:107)
+        at com.ua.alevel.resources.FilesResources.choose(FilesResources.java:62)
+        at com.ua.alevel.resources.FilesResources.run(FilesResources.java:38)
+        at com.ua.alevel.ApplicationRun.main(ApplicationRun.java:14)
+java.lang.NumberFormatException: For input string: ""
+        at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+        at java.base/java.lang.Integer.parseInt(Integer.java:678)
+        at java.base/java.lang.Integer.parseInt(Integer.java:786)
+        at com.ua.alevel.service.WeigthGraphService.saveCountWay(WeigthGraphService.java:130)
+        at com.ua.alevel.service.WeigthGraphService.parseStingToArray(WeigthGraphService.java:54)
+        at com.ua.alevel.service.WeigthGraphService.readFromFile(WeigthGraphService.java:41)
+        at com.ua.alevel.resources.FilesResources.findInDepth(FilesResources.java:107)
+        at com.ua.alevel.resources.FilesResources.choose(FilesResources.java:62)
+        at com.ua.alevel.resources.FilesResources.run(FilesResources.java:38)
+        at com.ua.alevel.ApplicationRun.main(ApplicationRun.java:14)
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+        at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+        at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+        at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:266)
+        at java.base/java.util.Objects.checkIndex(Objects.java:359)
+        at java.base/java.util.ArrayList.remove(ArrayList.java:504)
+        at com.ua.alevel.service.WeigthGraphService.parseToCountryObject(WeigthGraphService.java:102)
+        at com.ua.alevel.service.WeigthGraphService.parseStingToArray(WeigthGraphService.java:67)
+        at com.ua.alevel.service.WeigthGraphService.readFromFile(WeigthGraphService.java:41)
+        at com.ua.alevel.resources.FilesResources.findInDepth(FilesResources.java:107)
+        at com.ua.alevel.resources.FilesResources.choose(FilesResources.java:62)
+        at com.ua.alevel.resources.FilesResources.run(FilesResources.java:38)
+        at com.ua.alevel.ApplicationRun.main(ApplicationRun.java:14)
+
+и апка падает - вместо: "дорогой идиот! что вы от меня хотите?)"
