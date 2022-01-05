@@ -17,7 +17,6 @@ public class Employee extends BaseUser {
     private String firstname;
     private String lastname;
     private String username;
-    private final Set<Department> departments = new HashSet<>();
 
     public Employee(Long id, Date create, Date update, String firstname, String lastname, String username) {
         super(id, create, update);
@@ -53,17 +52,12 @@ public class Employee extends BaseUser {
         this.username = username;
     }
 
-    public Set<Department> getDepartments() {
-        return departments;
-    }
-
     @Override
     public String toString() {
         return "Employee{" +
                 "firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", username='" + username + '\'' +
-                ", departments=" + departments +
                 '}';
     }
 }

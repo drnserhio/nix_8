@@ -3,19 +3,19 @@ package ua.com.alevel.dao.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.dao.DepartmentDao;
-import ua.com.alevel.datatable.ResponseTable;
+import ua.com.alevel.exception.UsernameExistsException;
 import ua.com.alevel.jdbc.DefaultDateBaseConnectSevice;
-import ua.com.alevel.model.BaseUser;
 import ua.com.alevel.model.impl.Department;
 import ua.com.alevel.model.impl.Employee;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import static java.lang.System.out;
-import static ua.com.alevel.constant.DataBaseConstant.*;
+import static ua.com.alevel.constant.DepartmentSqlConstant.*;
+import static ua.com.alevel.constant.EmployeeSqlConstant.*;
 
 @Service
 @AllArgsConstructor
@@ -25,14 +25,19 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
 
     @Override
-    public void delete(Long id) {
+    public void deleteDepartment(Long id) {
+        try (Statement statement = connectSevice.getConnection().createStatement()) {
+            statement.executeUpdate(DELETE_DEPARTMENT + id);
+        } catch (SQLException throwables) {
+            out.println("e: " + throwables.getMessage());
+        }
 
     }
 
     @Override
     public Department findById(Long id) {
         Department department = null;
-        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(FIND_DEPARTMENT_BY_ID)) {
+        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(FIND_DEPARTMENT_BY_ID + id)) {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 department = convertToDepartment(resultSet);
@@ -61,85 +66,199 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     }
 
-    private String saveResToString(ResultSet resultSet)
-            throws SQLException {
-        return resultSet.getString(0);
-    }
-
-    public List<Department> findDepartmentsByEmployee(Long id) {
-        List<String> departments = new ArrayList<>();
-        try (Statement statement = connectSevice.getConnection().createStatement()) {
-
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_DEPARTMENTS_BY_EMPLOYEE_ID + id);
-
-            while (resultSet.next()) {
-                departments.add(saveResToString(resultSet));
-            }
-        } catch (SQLException throwables) {
-            out.println("e: " + throwables);
-        }
-        if (departments.size() < 1) {
-            throw new RuntimeException("Employee don't have any department");
-        }
-        List<Department> department = convertResultToDepartments(departments);
-        return department;
-    }
-
-    public List<Department> convertResultToDepartments(List<String> list) {
-
-        List<Department> departments = new ArrayList<>();
-        for (String id : list) {
-            try (Statement statement = connectSevice.getConnection().createStatement()) {
-
-                ResultSet resultSet = statement.executeQuery(FIND_DEPARTMENT_BY_ID + Long.parseLong(id));
-
-                if (resultSet.next()) {
-                    departments.add(convertToDepartment(resultSet));
-                }
-            } catch (SQLException throwables) {
-                out.println("e: " + throwables);
-            }
-        }
-        return departments;
-    }
 
     @Override
-    public boolean existsById(Long id) {
+    public boolean existsDepartmentById(Long id) {
         return false;
     }
 
     @Override
     public List<Department> findAll() {
-        return null;
+        List<Department> list = new ArrayList<>();
+        try (Statement statement = connectSevice.getConnection().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_DEPARTMENT);
+            while (resultSet.next()) {
+                list.add(convertToDepartment(resultSet));
+            }
+        } catch (SQLException throwables) {
+            out.println("Message: " + throwables.getMessage());
+        }
+        return list;
     }
 
     @Override
-    public ResponseTable findAll(ResponseTable responseTable) {
-        return null;
+    public void addEmployeeForDepartment(Long department_id, Long employee_id) {
+        if (findById(department_id) == null) {
+            throw new RuntimeException("Department don't find with id: " + department_id);
+        }
+        if (findEmployeeById(employee_id) == null) {
+            throw new RuntimeException("Employee don't find with id: " + employee_id);
+        }
+
+        try (Statement statement = connectSevice.getConnection().createStatement()) {
+            statement.executeUpdate(String.format(ADD_EMPLOYEE_FOR_DEPARTMENT, department_id, employee_id));
+        } catch (SQLException throwables) {
+            out.println("Message: " + throwables.getMessage());
+        }
+    }
+
+    private Employee findEmployeeById(Long employee_id) {
+        Employee employee = null;
+        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(FIND_EMPLOYEE_BY_ID + employee_id)) {
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                employee = convertResultToEmployee(resultSet);
+            }
+        } catch (SQLException throwables) {
+            out.println("Message: " + throwables.getMessage());
+        }
+        return employee;
+    }
+
+    private Employee convertResultToEmployee(ResultSet resultSet)
+            throws SQLException {
+        long id = resultSet.getLong(1);
+        Timestamp created = resultSet.getTimestamp(2);
+        Timestamp update = resultSet.getTimestamp(3);
+        String firstname = resultSet.getString(4);
+        String lastname = resultSet.getString(5);
+        String username = resultSet.getString(6);
+        Employee convert = new Employee();
+        convert.setId(id);
+        convert.setCreate(created);
+        convert.setUpdate(update);
+        convert.setFirstname(firstname);
+        convert.setLastname(lastname);
+        convert.setUsername(username);
+        return convert;
     }
 
     @Override
-    public long count() {
-        return 0;
+    public void deleteEmployeeForDepartment(Long department_id, Long employee_id) {
+        if (findById(department_id) == null) {
+            throw new RuntimeException("Department don't find with id: " + department_id);
+        }
+        if (findEmployeeById(employee_id) == null) {
+            throw new RuntimeException("Employee don't find with id: " + employee_id);
+        }
+
+        try (Statement statement = connectSevice.getConnection().createStatement()) {
+            statement.executeUpdate(String.format(DELETE_EMPLOYEE_FOR_DEPARTMENT, department_id, employee_id));
+        } catch (SQLException throwables) {
+            Employee employee = findEmployeeById(department_id);
+            Department department = findById(employee_id);
+            throw new RuntimeException("Employee : " + employee.getUsername() + " dont't work in department - " + department.getNameCompany());
+        }
     }
 
     @Override
-    public Map<String, Object> findEmployeeById(Long id) {
-        return null;
+    public List<Employee> findEmployeesByDepartment(Long id) {
+        List<String> employees = new ArrayList<>();
+        try (Statement statement = connectSevice.getConnection().createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_EMPLOYEE_BY_DEPARTMENT_ID + id);
+
+            while (resultSet.next()) {
+                employees.add(saveToString(resultSet));
+            }
+        } catch (SQLException throwables) {
+            out.println("e: " + throwables);
+        }
+        if (employees.size() < 1) {
+            throw new RuntimeException("Department don't have any employee");
+        }
+        List<Employee> department = convertResultToEmployees(employees);
+        return department;
+    }
+
+    private List<Employee> convertResultToEmployees(List<String> employees) {
+        List<Employee> em = new ArrayList<>();
+        for (String id : employees) {
+            try (Statement statement = connectSevice.getConnection().createStatement()) {
+
+                ResultSet resultSet = statement.executeQuery(FIND_EMPLOYEE_BY_ID + Long.parseLong(id));
+
+                if (resultSet.next()) {
+                    em.add(convertToEmployee(resultSet));
+                }
+            } catch (SQLException throwables) {
+                out.println("e: " + throwables);
+            }
+        }
+        return em;
+    }
+
+    private Employee convertToEmployee(ResultSet resultSet)
+            throws SQLException {
+        long id = resultSet.getLong(1);
+        Timestamp created = resultSet.getTimestamp(2);
+        Timestamp update = resultSet.getTimestamp(3);
+        String firstname = resultSet.getString(4);
+        String lastname = resultSet.getString(5);
+        String username = resultSet.getString(6);
+        Employee convert = new Employee();
+        convert.setId(id);
+        convert.setCreate(created);
+        convert.setUpdate(update);
+        convert.setFirstname(firstname);
+        convert.setLastname(lastname);
+        convert.setUsername(username);
+        return convert;
+    }
+
+
+    private String saveToString(ResultSet resultSet)
+            throws SQLException {
+        return resultSet.getString(2);
     }
 
     @Override
-    public Map<String, Object> findDepartmentById(Long id) {
-        return null;
+    public void createDepartment(Department create) {
+
+        if (existsByNameCompany(create.getNameCompany())) {
+            throw new UsernameExistsException("Name company already taken");
+        }
+        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(CREATE_DEPARTMENT)) {
+            statement.setTimestamp(1, new Timestamp(new Date().getTime()));
+            statement.setTimestamp(2, new Timestamp(new Date().getTime()));
+            statement.setString(3, create.getNameCompany());
+            statement.setString(4, create.getAddress());
+            statement.execute();
+        } catch (SQLException throwables) {
+            out.println("Message: " + throwables.getMessage());
+        }
+    }
+
+    private boolean existsByNameCompany(String nameCompany) {
+        if (findDepartmentByNameCompany(nameCompany) == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public Department findDepartmentByNameCompany(String nameCompany) {
+        Department department = null;
+        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(String.format(FIND_DEPARTMENT_BY_NAME_COMPANY, nameCompany))) {
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                department = convertToDepartment(resultSet);
+            }
+        } catch (SQLException throwables) {
+            out.println("Message: " + throwables.getMessage());
+        }
+        return department;
     }
 
     @Override
-    public void create(Department create) {
-
+    public void updateDepartment(Department update) {
+        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(UPDATE_DEPARTMENT)) {
+            statement.setTimestamp(2, new Timestamp(new Date().getTime()));
+            statement.setString(3, update.getNameCompany());
+            statement.setString(4, update.getNameCompany());
+            statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-    @Override
-    public void update(Department update) {
-
-    }
 }

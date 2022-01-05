@@ -13,7 +13,6 @@ import java.util.List;
 public class Department extends BaseUser {
     private String nameCompany;
     private String address;
-    private final List<Employee> employees = new ArrayList<>();
 
     public Department(Long id, Date create, Date update, String nameCompany, String address) {
         super(id, create, update);
@@ -39,10 +38,6 @@ public class Department extends BaseUser {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public List<Employee> getEmployees() {
-        return employees;
     }
 
 }

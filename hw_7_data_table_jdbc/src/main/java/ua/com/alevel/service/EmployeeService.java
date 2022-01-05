@@ -2,33 +2,35 @@ package ua.com.alevel.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
 import ua.com.alevel.dao.EmployeeDao;
+import ua.com.alevel.datatable.PageArray;
+import ua.com.alevel.datatable.PagingRequest;
+import ua.com.alevel.model.impl.Department;
 import ua.com.alevel.model.impl.Employee;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class EmployeeService{
+public class EmployeeService {
 
     private final EmployeeDao employeeDao;
+    private PagingService pagingService;
 
     public void createEmployee(Employee employee) {
-        employeeDao.create(employee);
+        employeeDao.createEmployee(employee);
     }
 
     public void updateEmployee(Employee employee) {
-        employeeDao.update(employee);
+        employeeDao.updateEmployee(employee);
     }
 
     public void deleteEmployee(Long id) {
-        employeeDao.delete(id);
+        employeeDao.deleteEmployee(id);
     }
 
     public Employee findById(Long id) {
-       return employeeDao.findById(id);
+        return employeeDao.findEmployeeById(id);
     }
 
     public boolean existsById(Long id) {
@@ -46,4 +48,26 @@ public class EmployeeService{
     public boolean existEmployeeByUsername(String username) {
         return employeeDao.existsByUsername(username);
     }
+
+    public void addDepartmentForEmployee(Long employee_id, Long department_id) {
+        employeeDao.addDepartmentForEmployee(employee_id, department_id);
+    }
+
+    public List<Department> findDepartmentsByEmployee(Long id) {
+        return employeeDao.findDepartmentsByEmployee(id);
+    }
+
+    public void deleteDepartment(Long department_id, Long employee_id) {
+        employeeDao.deleteDepartment(department_id, employee_id);
+    }
+
+    public List<List<String>> list() {
+
+        PagingRequest pagingRequest = new PagingRequest();
+        pagingRequest.setStart(3);
+        pagingRequest.setLength(10);
+        PageArray employees = pagingService.getEmployeesArray(pagingRequest, findAll());
+        return employees.getData();
+    }
+
 }

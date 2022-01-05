@@ -3,7 +3,7 @@ package ua.com.alevel.resource;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.com.alevel.model.BaseUser;
+import ua.com.alevel.model.impl.Department;
 import ua.com.alevel.model.impl.Employee;
 import ua.com.alevel.service.EmployeeService;
 
@@ -36,9 +36,10 @@ public class EmployeeResources {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Employee> getEmployee(Long id) {
-        Employee byId = employeeService.findById(id);
-        return new ResponseEntity<>(byId, OK);
+    public ResponseEntity<Employee> getEmployee(
+            @PathVariable("id") Long id) {
+        Employee employee = employeeService.findById(id);
+        return new ResponseEntity<>(employee, OK);
     }
 
     @GetMapping("/list-employee")
@@ -47,7 +48,7 @@ public class EmployeeResources {
         return new ResponseEntity<>(employees, OK);
     }
 
-    @PostMapping("/find/{username}")
+    @GetMapping("/find/{username}")
     public ResponseEntity<Employee> getEmployeeByUsername(
             @PathVariable("username") String username) {
         Employee employee = employeeService.findByUsername(username);
@@ -55,6 +56,30 @@ public class EmployeeResources {
     }
 
 
+    @PostMapping("/add/{department_id}/{employee_id}")
+    public void addDepartmentForEmployee(
+            @PathVariable("employee_id") Long employee_id,
+            @PathVariable("department_id") Long department_id) {
+        employeeService.addDepartmentForEmployee(employee_id, department_id);
+    }
+
+    @DeleteMapping("/del/{department_id}/{employee_id}")
+    public void deleteDepartment(
+            @PathVariable("department_id") Long department_id,
+            @PathVariable("employee_id") Long employee_id) {
+        employeeService.deleteDepartment(department_id, employee_id);
+    }
+
+    @GetMapping("/get/all-departments/{id}")
+    public List<Department> findDepartmentsByEmployee(
+            @PathVariable("id") Long id) {
+        return employeeService.findDepartmentsByEmployee(id);
+    }
+
+    @GetMapping("/limit-list")
+    public List<List<String>> limitList() {
+        return employeeService.list();
+    }
 
 
 }

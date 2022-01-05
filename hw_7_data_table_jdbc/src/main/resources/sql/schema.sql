@@ -29,6 +29,6 @@ create table if not exists relations(
     department_id bigint not null,
     employee_id bigint not null,
     primary key (department_id, employee_id),
-    foreign key (department_id) references department(id),
-    foreign key (employee_id) references employee(id)
+    foreign key (department_id) references department(id) on delete cascade,
+    foreign key (employee_id) references employee(id) on delete cascade
 );
