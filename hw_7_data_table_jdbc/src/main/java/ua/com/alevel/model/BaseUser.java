@@ -1,5 +1,7 @@
 package ua.com.alevel.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,11 @@ import java.util.UUID;
 public abstract class BaseUser {
 
     private Long id;
-    private Date create;
-    private Date update;
+    @JsonFormat(pattern = "yyyy/MM/dd")
+    @JsonProperty("dateCreate")
+    private Date dateCreate;
+    @JsonFormat(pattern = "yyyy/MM/dd")
+    @JsonProperty("dateUpdate")
+    private Date dateUpdate;
 
 }

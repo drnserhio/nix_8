@@ -27,12 +27,12 @@ public class EmployeeComparators {
         map.put(new Key("id", Direction.desc), Comparator.comparing(Employee::getId)
                 .reversed());
 
-        map.put(new Key("dateCreate", Direction.asc), Comparator.comparing(Employee::getCreate));
-        map.put(new Key("dateCreate", Direction.desc), Comparator.comparing(Employee::getCreate)
+        map.put(new Key("dateCreate", Direction.asc), Comparator.comparing(Employee::getDateCreate));
+        map.put(new Key("dateCreate", Direction.desc), Comparator.comparing(Employee::getDateCreate)
                 .reversed());
 
-        map.put(new Key("dateupdate", Direction.asc), Comparator.comparing(Employee::getUpdate));
-        map.put(new Key("dateupdate", Direction.desc), Comparator.comparing(Employee::getUpdate)
+        map.put(new Key("dateupdate", Direction.asc), Comparator.comparing(Employee::getDateUpdate));
+        map.put(new Key("dateupdate", Direction.desc), Comparator.comparing(Employee::getDateUpdate)
                 .reversed());
 
         map.put(new Key("firstname", Direction.asc), Comparator.comparing(Employee::getFirstname));

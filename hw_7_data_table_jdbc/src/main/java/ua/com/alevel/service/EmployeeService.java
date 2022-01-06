@@ -3,11 +3,12 @@ package ua.com.alevel.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.dao.EmployeeDao;
-import ua.com.alevel.datatable.PageArray;
-import ua.com.alevel.datatable.PagingRequest;
+import ua.com.alevel.datatable.*;
+import ua.com.alevel.enumeration.Direction;
 import ua.com.alevel.model.impl.Department;
 import ua.com.alevel.model.impl.Employee;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -61,13 +62,13 @@ public class EmployeeService {
         employeeDao.deleteDepartment(department_id, employee_id);
     }
 
-    public List<List<String>> list() {
-
-        PagingRequest pagingRequest = new PagingRequest();
-        pagingRequest.setStart(3);
-        pagingRequest.setLength(10);
+    public PageArray getEmployeesArray(PagingRequest pagingRequest) {
         PageArray employees = pagingService.getEmployeesArray(pagingRequest, findAll());
-        return employees.getData();
+        return employees;
+    }
+
+    public Page<Employee> getEmployees(PagingRequest pagingRequest) {
+        return pagingService.getEmployees(pagingRequest, findAll());
     }
 
 }

@@ -1,33 +1,30 @@
 package ua.com.alevel.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ua.com.alevel.datatable.*;
 import ua.com.alevel.model.impl.Employee;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Service
+@Component
 @AllArgsConstructor
 public class PagingService {
 
 
     private static final Comparator<Employee> EMPTY_COMPARATOR = (e1, e2) -> 0;
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     public PageArray getEmployeesArray(PagingRequest pagingRequest, List<Employee> employees) {
-        pagingRequest.setColumns(Stream.of("id", "dateCreate", "dateupdate", "firstname", "lastname", "username")
+        pagingRequest.setColumns(Stream.of("id", "dateCreate", "dateUpdate", "firstname", "lastname", "username")
                 .map(Column::new)
                 .collect(Collectors.toList()));
         Page<Employee> employeePage = getEmployees(pagingRequest, employees);
@@ -36,24 +33,12 @@ public class PagingService {
         pageArray.setRecordsFiltered(employeePage.getRecordsFiltered());
         pageArray.setRecordsTotal(employeePage.getRecordsTotal());
         pageArray.setDraw(employeePage.getDraw());
-        pageArray.setData(employeePage.getData()
-                .stream()
-                .map(this::toStringList)
-                .collect(Collectors.toList()));
+        pageArray.setData(employeePage.getData());
         return pageArray;
     }
 
-    private List<String> toStringList(Employee employee) {
-        return Arrays.asList(employee.getId().toString(), sdf.format(employee.getCreate()), sdf.format(employee.getUpdate()),
-                        employee.getFirstname(), employee.getLastname(), employee.getUsername());
-    }
-
     public Page<Employee> getEmployees(PagingRequest pagingRequest, List<Employee> employees) {
-
-
         try {
-
-
             return getPage(employees, pagingRequest);
 
         } catch (Exception e) {

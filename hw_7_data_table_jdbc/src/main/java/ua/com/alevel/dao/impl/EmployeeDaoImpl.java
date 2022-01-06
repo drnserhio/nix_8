@@ -103,8 +103,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
         String username = resultSet.getString(6);
         Employee convert = new Employee();
         convert.setId(id);
-        convert.setCreate(created);
-        convert.setUpdate(update);
+        convert.setDateCreate(created);
+        convert.setDateUpdate(update);
         convert.setFirstname(firstname);
         convert.setLastname(lastname);
         convert.setUsername(username);
@@ -178,8 +178,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
         String address = resultSet.getString(5);
         Department convert = new Department();
         convert.setId(id);
-        convert.setCreate(created);
-        convert.setUpdate(update);
+        convert.setDateCreate(created);
+        convert.setDateUpdate(update);
         convert.setNameCompany(nameCompany);
         convert.setAddress(address);
         return convert;
@@ -258,8 +258,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         Department convert = new Department();
         convert.setId(id);
-        convert.setCreate(created);
-        convert.setUpdate(update);
+        convert.setDateCreate(created);
+        convert.setDateUpdate(update);
         convert.setNameCompany(nameCompany);
         convert.setAddress(address);
         return convert;

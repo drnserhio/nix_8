@@ -13,7 +13,6 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@CrossOrigin("http://localhost:4200")
 @RequestMapping("/department")
 @AllArgsConstructor
 public class DepartmentResources {

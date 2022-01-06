@@ -1,6 +1,7 @@
 package ua.com.alevel.model.impl;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +15,12 @@ import java.util.Set;
 
 
 public class Employee extends BaseUser {
+
+    @JsonProperty("firstname")
     private String firstname;
+    @JsonProperty("lastname")
     private String lastname;
+    @JsonProperty("username")
     private String username;
 
     public Employee(Long id, Date create, Date update, String firstname, String lastname, String username) {

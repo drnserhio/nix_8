@@ -3,6 +3,9 @@ package ua.com.alevel.resource;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.com.alevel.datatable.Page;
+import ua.com.alevel.datatable.PageArray;
+import ua.com.alevel.datatable.PagingRequest;
 import ua.com.alevel.model.impl.Department;
 import ua.com.alevel.model.impl.Employee;
 import ua.com.alevel.service.EmployeeService;
@@ -12,7 +15,6 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@CrossOrigin("http://locahost:4200")
 @AllArgsConstructor
 @RequestMapping(value = {"/", "/employee"})
 public class EmployeeResources {
@@ -76,9 +78,16 @@ public class EmployeeResources {
         return employeeService.findDepartmentsByEmployee(id);
     }
 
-    @GetMapping("/limit-list")
-    public List<List<String>> limitList() {
-        return employeeService.list();
+    @PostMapping("/limit-list")
+    public PageArray getEmployeesArray(
+            @RequestBody PagingRequest pagingRequest) {
+        return employeeService.getEmployeesArray(pagingRequest);
+    }
+
+    @PostMapping("/list")
+    public Page<Employee> getEmployees(
+           @RequestBody PagingRequest pagingRequest) {
+        return employeeService.getEmployees(pagingRequest);
     }
 
 
