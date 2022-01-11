@@ -6,74 +6,94 @@
 
   <nav class="navbar navbar-dark bg-primary navbar-expand-md py-md-2">
     <a class="navbar-brand" href="#">Bootstrap 4</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-collapse collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item py-md-2"><a href="#" class="nav-link">Employee-list</a></li>
         <li class="nav-item py-md-2"><a href="" routerLink="/departments-list" class="nav-link">Department-list</a></li>
-        <li class="nav-item py-md-2"><a href="#" class="nav-link">Add Employee</a></li>
-        <li class="nav-item py-md-2"><a href="#" class="nav-link">Add Department</a></li>
+        <li class="nav-item py-md-2"><a href="#" routerLink="/add-employee" class="nav-link">Add Employee</a></li>
+        <li class="nav-item py-md-2"><a href="#" routerLink="/add-department" class="nav-link">Add Department</a></li>
       </ul>
     </div>
   </nav>
 
   <div class="row">
 
-    <form #value="ngForm" (change)="showEntity(value)" >
-    <div class="col-sm-12 col-md-6">
-      <div class="dataTables_length" id="example_length"><label>Show
-        <select name="showEntity" ngModel required aria-controls="example" class="custom-select custom-select-sm form-control form-control-sm">
-        <option *ngFor="let value of ListValueOption">{{value}}</option>
-      </select> entries</label>
+    <form #value="ngForm" (change)="showEntity(value)">
+      <div class="col-sm-12 col-md-6">
+        <div class="dataTables_length" id="example_length"><label>Show
+          <select name="showEntity" ngModel required aria-controls="example"
+                  class="custom-select custom-select-sm form-control form-control-sm">
+            <option *ngFor="let value of ListValueOption">{{value}}</option>
+          </select> entries</label>
+        </div>
       </div>
-    </div>
     </form>
 
-    <div class="col-sm-12 col-md-6">
-      <div id="example_filter" class="dataTables_filter"><label>Search:
-        <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example"></label></div>
+    <div class="container">
+      <form class="form-inline my-2 my-lg-0">
+        <input name="searchTerm" #searchInput="ngModel" ngModel (ngModelChange)="search(searchInput.value)"
+               class="form-control mr-sm-2" type="search" placeholder="Search employee...">
+      </form>
     </div>
-  </div>
 
+  </div>
   <table id="example" class="table table-striped table-bordered" style="width:100%">
     <thead>
     <tr>
-      <th (click)="sortById()" class="btn-light">ID</th>
-      <th (click)="sortByDate('dateCreate')" class="btn-light">Date create</th>
-      <th (click)="sortByDate('dateUpdate')" class="btn-light">Date update</th>
-      <th (click)="sortByFirstname()" class="btn-light">First name</th>
-      <th (click)="sortByLastname()" class="btn-light">Last name</th>
-      <th (click)="sortByUsername()" class="btn-light">Username</th>
+      <th style="cursor: pointer" (click)="sortById()" class="btn-light">ID</th>
+      <th style="cursor: pointer" (click)="sortByDate('dateCreate')" class="btn-light">Date create</th>
+      <th style="cursor: pointer" (click)="sortByDate('dateUpdate')" class="btn-light">Date update</th>
+      <th style="cursor: pointer" (click)="sortByFirstname()" class="btn-light">First name</th>
+      <th style="cursor: pointer" (click)="sortByLastname()" class="btn-light">Last name</th>
+      <th style="cursor: pointer" (click)="sortByUsername()" class="btn-light">Username</th>
+      <th style="cursor: pointer" class="btn-light">Work in Department</th>
+      <th style="cursor: no-drop; width: 1%" >Delete</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let employee of employeeList ">
-      <td id="id" >{{ employee.id }}</td>
-      <td id="dateCreate" (click)="chooseEmployee(employee.id)"  >{{ employee.dateCreate }}</td>
-      <td id="dateUpdate" (click)="chooseEmployee(employee.id)">{{ employee.dateUpdate }}</td>
-      <td id="firstname" (click)="chooseEmployee(employee.id)">{{ employee.firstname }}</td>
-      <td id="lastname" (click)="chooseEmployee(employee.id)">{{ employee.lastname }}</td>
-      <td id="username" (click)="chooseEmployee(employee.id)">{{ employee.username }}</td>
+      <td style="cursor: crosshair" class="btn-light" (click)="chooseEmployee(employee.id)">{{ employee.id }}</td>
+      <td style="cursor: crosshair" class="btn-light" (click)="chooseEmployee(employee.id)">{{ employee.dateCreate }}</td>
+      <td style="cursor: crosshair" class="btn-light" (click)="chooseEmployee(employee.id)">{{ employee.dateUpdate }}</td>
+      <td style="cursor: crosshair" class="btn-light" (click)="chooseEmployee(employee.id)">{{ employee.firstname }}</td>
+      <td style="cursor: crosshair" class="btn-light" (click)="chooseEmployee(employee.id)">{{ employee.lastname }}</td>
+      <td style="cursor: crosshair" class="btn-light" (click)="chooseEmployee(employee.id)">{{ employee.username }}</td>
+      <td style="cursor: crosshair; width: 1%" class="btn-light" (click)="findDepartmentsByEmployee(employee.id)" ><i class="fas fa-list"></i></td>
+      <td style="cursor: crosshair; width: 1%"  class="btn-danger" (click)="deleteEmployee(employee.id)"> <i class="fas fa-user-times"></i></td>
     </tr>
-
-    <td valign="top" colspan="6" class="dataTables_empty">No data available in table</td>
+    <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#myModal"
+            (click)="openModal(mymodal)">Open Modal
+    </button>
+    <button id="openModalWorkDepartment" [hidden]="true"  data-toggle="modal" data-target="#Workdepartment"
+            (click)="openModal(Workdepartment)">Open Modal
+    </button>
     </tbody>
   </table>
 
+
   <div class="row">
     <div class="col-sm-12 col-md-5">
-      <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing to {{responseEmployee.employees.length}} of {{responseEmployee.countEntity}} entries</div>
+      <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing
+        to {{responseEmployee.employees.length}} of {{responseEmployee.countEntity}} entries
+      </div>
     </div>
     <div class="col-sm-12 col-md-7">
       <div class="dataTables_paginate paging_simple_numbers" id="example_paginate">
         <ul class="pagination">
           <li class="paginate_button page-item previous disabled" id="example_previous">
-            <button  aria-controls="example" [disabled]="responseEmployee.page ==  1" (click)="pagePrevious()" tabindex="0" class="btn btn-link">Previous</button>
+            <button aria-controls="example" [disabled]="responseEmployee.page ==  1" (click)="pagePrevious()"
+                    tabindex="0" class="btn btn-link">Previous
+            </button>
           </li>
           <li class="paginate_button page-item next disabled" id="example_next">
-            <button aria-controls="example" (click)="pageNext()" [disabled]="flag" tabindex="0" class="btn btn-link">Next</button></li>
+            <button aria-controls="example" (click)="pageNext()" [disabled]="flag" tabindex="0" class="btn btn-link">
+              Next
+            </button>
+          </li>
         </ul>
       </div>
     </div>
@@ -82,35 +102,85 @@
 
 <!--Modal update employee-->
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form #update="ngForm" ngForm required class="form-group">
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit employee</h4>
+  </div>
 
 
-          <input [disabled]="true"  type="text" id="id" required [(ngModel)]="updateEmployee.id">
-          <input [disabled]="true" type="text" id="dateCreate" required [(ngModel)]="updateEmployee.dateCreate">
-          <input type="text" id="dateUpdate" required [(ngModel)]="updateEmployee.dateUpdate">
-          <input type="text" id="firstname" required [(ngModel)]="updateEmployee.firstname">
-          <input type="text" id="lastname" required [(ngModel)]="updateEmployee.lastname">
-          <input type="text" id="username" required [(ngModel)]="updateEmployee.username">
+  <form class="form-group">
 
+    <input [hidden]="true" type="text" name="id" required [(ngModel)]="updateEmployee.id">
+    <input [hidden]="true" type="date" name="dateCreate" required [(ngModel)]="updateEmployee.dateCreate">
 
-          <button type="submit" (click)="updateEmp(update.value)" [disabled]="update.invalid"></button>
-
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Last update</label>
+      <div class="col-sm-10">
+        <input [disabled]="true" type="datetime-local" class="form-control"  name="dateUpdate" required [(ngModel)]="updateEmployee.dateUpdate">
       </div>
     </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">First name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control"  name="firstname" required [(ngModel)]="updateEmployee.firstname">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Last name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="lastname" required [(ngModel)]="updateEmployee.lastname">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Username</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="username" required [(ngModel)]="updateEmployee.username">
+      </div>
+    </div>
+
+
+  </form>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+    <button type="button" class="btn btn-outline-dark" (click)="updateEmp(updateEmployee)">Update employee</button>
   </div>
-</div>
+</ng-template>
+
+<!--Modal view work in department-->
+
+<ng-template #Workdepartment let-modal>
+
+  <div class="container">
+    <div class="modal-header modal-lg">
+      <h4 class="modal-title" id="modal-my">Department list</h4>
+    </div>
+
+
+    <form class="form-group">
+      <table id="example1" class="table table-striped table-bordered table-sm " style="width:100%">
+        <thead>
+        <tr>
+          <th style="cursor: pointer" class="btn-light">Name company</th>
+          <th style="cursor: pointer" class="btn-light">Address</th>
+          <th style="cursor: no-drop">Go out</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let department of departmentsByEmployee ">
+
+          <td style="cursor: crosshair" >{{ department.nameCompany }}</td>
+          <td style="cursor: crosshair" >{{ department.address }}</td>
+          <td style="cursor: crosshair" class="btn-danger" (click)="deleteDepartmentInEmployee(department.id, saveIdEmployee)"> <i class="fas fa-user-times"></i></td>
+        </tr>
+        </tbody>
+      </table>
+
+    </form>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+  </div>
+  </div>
+  </ng-template>

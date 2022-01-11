@@ -7,6 +7,7 @@ import {ResponseDepartment} from "../model/response-department";
 import {Department} from "../model/department";
 import {EmployeeService} from "../service/employee.service";
 import {DepartmentService} from "../service/department.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-department-list',
@@ -23,9 +24,14 @@ export class DepartmentsListComponent implements OnInit {
   private flag: boolean;
   private columnSave: string;
   private saveSort: string = 'asc';
+  private updateDepartment: Department = new Department();
 
-  constructor(private http: HttpClient,
-              private departmentService: DepartmentService) {
+  public listSearch: Department[] = [];
+  private employeesByDepartment: Employee[];
+  private saveIdDepartment: number;
+
+  constructor(private departmentService: DepartmentService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -83,8 +89,6 @@ export class DepartmentsListComponent implements OnInit {
 
   public isBoundEntity() {
     this.saveCounterEntity =  this.saveCounterEntity - this.responseDepartment.showEntity ;
-    console.log(this.saveCounterEntity);
-
 
     if (this.saveCounterEntity >= 0) {
       this.flag = false;
@@ -93,12 +97,10 @@ export class DepartmentsListComponent implements OnInit {
     }
   }
 
-
   public saveResponseField(showSaveEntity: number, column: string, sort: string) {
     this.columnSave = column;
     this.showDepartment = showSaveEntity;
     this.saveSort = sort;
-
   }
 
   public sort(page: number, showSaveEntity: number, column: string, sort: string) {
@@ -166,5 +168,94 @@ export class DepartmentsListComponent implements OnInit {
       this.sort(1, this.showDepartment, 'address', this.saveSort);
     }
   }
+
+
+  public chooseDepartment(id: number) {
+    this.departmentService.get(id).subscribe(
+      (response: Department) => {
+        this.updateDepartment = response;
+        console.log(response);
+        document.getElementById('openModalButton').click();
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+      }
+    );
+  }
+
+  public updateEmp(department: Department): void {
+    this.departmentService.update(department).subscribe(
+      any => {
+        alert("Update successfull");
+        window.location.reload();
+      },
+      (error: HttpErrorResponse) => {
+        alert("Update didn't work, check your fields");
+        console.log(error.message);
+      }
+    );
+  }
+
+  public openModal(content) {
+    this.modalService.open(content, {size: 'lg'});
+  }
+
+  public close() {
+    this.modalService.dismissAll();
+  }
+
+  public deleteDepartment(id: number) {
+    this.departmentService.delete(id).subscribe(
+      any => {
+        alert("Delete successfull");
+        window.location.reload();
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+        alert("Delete faild");
+      }
+    );
+  }
+
+  public search(searchUsers: string): void {
+    const res: Department[] = [];
+    for (const department of this.departmentList) {
+      if (department.nameCompany.toLowerCase().indexOf(searchUsers.toLowerCase()) !== -1 ||
+        department.address.toLowerCase().indexOf(searchUsers.toLowerCase()) !== -1) {
+        res.push(department);
+      }
+    }
+    this.departmentList = res;
+    if (res.length === 0 ||
+      !searchUsers) {
+      this.limitList(1, this.showDepartment);
+    }
+  }
+
+  public findAllEmployeeByDepartment(id: number) {
+    this.departmentService.findAllEmployeeByDepartment(id).subscribe(
+      (response: Employee[]) => {
+        this.employeesByDepartment = response;
+        this.saveIdDepartment = id;
+        document.getElementById('openModalWorkEmployee').click();
+      },
+      (error: HttpErrorResponse) => {
+        alert("Department don't have employees.")
+      }
+    )
+  }
+
+  public deleteEmployeeFromDeparment(department_id: number, employee_id: number) {
+    this.departmentService.deleteEmployeeFromDeparment(department_id, employee_id).subscribe(
+      any => {
+        alert("Employee delete for department successfull.")
+        window.location.reload();
+      },
+      (error: HttpErrorResponse) => {
+        alert("Employee didn't delete for department successfull.")
+      }
+    )
+  }
+
 
 }

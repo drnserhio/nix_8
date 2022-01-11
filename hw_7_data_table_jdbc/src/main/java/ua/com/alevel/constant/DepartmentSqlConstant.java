@@ -3,7 +3,7 @@ package ua.com.alevel.constant;
 public class DepartmentSqlConstant {
 
     public static final String CREATE_DEPARTMENT = "insert into department values(default, ?, ?, ?, ?)";
-    public static final String UPDATE_DEPARTMENT = "update from department set id = ";
+    public static final String UPDATE_DEPARTMENT = "update department set dateUpdate=?, nameCompany=?, address=? where id = ";
     public static final String DELETE_DEPARTMENT = "delete from department where id =";
     public static final String FIND_DEPARTMENT_BY_ID = "select * from department where id =";
     public static final String FIND_DEPARTMENT_BY_NAME_COMPANY = "select * from department where nameCompany = '%s'";

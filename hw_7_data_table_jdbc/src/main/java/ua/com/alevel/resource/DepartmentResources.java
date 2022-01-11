@@ -3,11 +3,9 @@ package ua.com.alevel.resource;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.com.alevel.dao.DepartmentDao;
 import ua.com.alevel.model.impl.Department;
 import ua.com.alevel.model.impl.DepartmentResponse;
 import ua.com.alevel.model.impl.Employee;
-import ua.com.alevel.model.impl.EmployeeResponse;
 import ua.com.alevel.service.DepartmentService;
 
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/department")
+@RequestMapping(value = "/department")
 @AllArgsConstructor
 @CrossOrigin("http://localhost:4209")
 public class DepartmentResources {

@@ -6,6 +6,8 @@ import {Employee} from "../model/employee";
 import {Sort} from "../enum/sort-enum";
 import {NgForm} from "@angular/forms";
 import {ResponseEmployee} from "../model/response-employee";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {Department} from "../model/department";
 
 @Component({
   selector: 'app-employees-list',
@@ -22,11 +24,16 @@ export class EmployeesListComponent implements OnInit {
   private flag: boolean;
   private columnSave: string;
   private saveSort: string = 'asc';
-  private updateEmployee: Employee;
+  private updateEmployee: Employee = new Employee();
+
+  public listSearch: Employee[] = [];
+  private departmentsByEmployee: Department[];
+  private saveIdEmployee: number;
 
 
   constructor(private http: HttpClient,
-              private employeeService: EmployeeService) {
+              private employeeService: EmployeeService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -94,8 +101,6 @@ export class EmployeesListComponent implements OnInit {
 
   public isBoundEntity() {
     this.saveCounterEntity =  this.saveCounterEntity - this.responseEmployee.showEntity ;
-    console.log(this.saveCounterEntity);
-
 
     if (this.saveCounterEntity >= 0) {
       this.flag = false;
@@ -194,8 +199,7 @@ export class EmployeesListComponent implements OnInit {
     this.employeeService.get(id).subscribe(
       (response: Employee) => {
         this.updateEmployee = response;
-        document.getElementById('exampleModal');
-
+        document.getElementById('openModalButton').click();
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -206,9 +210,78 @@ export class EmployeesListComponent implements OnInit {
   public updateEmp(employee: Employee): void {
     console.log(employee);
     this.employeeService.update(employee).subscribe(
+      any => {
+        alert("Update successfull");
+        window.location.reload();
+      },
       (error: HttpErrorResponse) => {
         console.log(error.message);
+        alert("Update faild");
       }
     );
+  }
+
+  public openModal(content) {
+    this.modalService.open(content, {size: 'lg'});
+  }
+
+  public close() {
+    this.modalService.dismissAll();
+  }
+
+  public deleteEmployee(id: number) {
+    this.employeeService.delete(id).subscribe(
+      any => {
+        alert("Delete successfull");
+        window.location.reload();
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+        alert("Delete faild");
+      }
+    );
+  }
+
+  public search(searchUsers: string): void {
+    const res: Employee[] = [];
+    for (const employee of this.employeeList) {
+
+      if (employee.firstname.toLowerCase().indexOf(searchUsers.toLowerCase()) !== -1 ||
+        employee.lastname.toLowerCase().indexOf(searchUsers.toLowerCase()) !== -1 ||
+        employee.username.toLowerCase().indexOf(searchUsers.toLowerCase()) !== -1) {
+        res.push(employee);
+      }
+    }
+    this.employeeList = res;
+    if (res.length === 0 ||
+      !searchUsers) {
+      this.limitList(1, this.showEmployee);
+    }
+  }
+
+  public findDepartmentsByEmployee(id: number) {
+    this.employeeService.findDepartmentsByEmployee(id).subscribe(
+      (response: Department[]) => {
+        this.departmentsByEmployee = response;
+        this.saveIdEmployee = id;
+        document.getElementById('openModalWorkDepartment').click();
+      },
+      (error: HttpErrorResponse) => {
+        alert("Employee don't work in all department.")
+      }
+    )
+
+  }
+
+  public deleteDepartmentInEmployee(department_id: number, employee_id: number) {
+    this.employeeService.deleteDepartment(department_id, employee_id).subscribe(
+      any => {
+        alert("Employee went out for department successfull.")
+        window.location.reload();
+      },
+      (error: HttpErrorResponse) => {
+        alert("Employee didn't go out for department successfull.")
+      }
+    )
   }
 }

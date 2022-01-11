@@ -4,7 +4,7 @@ public class EmployeeSqlConstant {
 
 
     public static final String CREATE_EMPLOYEE = "insert into employee values(default, ?, ?, ?, ?, ?)";
-    public static final String UPDATE_EMPLOYEE = "update from employee set dateUpdate=?, firstname=?, lastname=?  where id=";
+    public static final String UPDATE_EMPLOYEE = "update employee set dateUpdate=?, firstname=?, lastname=?, username=? where id=";
     public static final String DELETE_EMPLOYEE = "delete from employee where id = ";
     public static final String FIND_EMPLOYEE_BY_ID = "select * from employee where id =";
     public static final String FIND_EMPLOYEE_BY_USERNAME = "select * from employee where username ='%s'";

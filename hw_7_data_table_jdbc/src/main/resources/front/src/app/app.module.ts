@@ -8,19 +8,25 @@ import {HttpClientModule} from "@angular/common/http";
 import {DataTablesModule} from "angular-datatables";
 import {FormsModule} from "@angular/forms";
 import { DepartmentsListComponent } from './department-list/departments-list.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { AddEmployeeComponent } from './add-employee/add-employee.component';
+import { AddDepartmentComponent } from './add-department/add-department.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmployeesListComponent,
-    DepartmentsListComponent
+    DepartmentsListComponent,
+    AddEmployeeComponent,
+    AddDepartmentComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     DataTablesModule,
-    FormsModule
+    FormsModule,
+    NgbModule
 
   ],
   providers: [],

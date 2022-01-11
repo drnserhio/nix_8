@@ -178,10 +178,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public void updateEmployee(Employee update) {
         try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(UPDATE_EMPLOYEE + update.getId())) {
-            statement.setTimestamp(3, new Timestamp(new Date().getTime()));
-            statement.setString(4, update.getFirstname());
-            statement.setString(5, update.getLastname());
-            statement.setString(6, update.getUsername());
+            statement.setTimestamp(1, new Timestamp(new Date().getTime()));
+            statement.setString(2, update.getFirstname());
+            statement.setString(3, update.getLastname());
+            statement.setString(4, update.getUsername());
             statement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

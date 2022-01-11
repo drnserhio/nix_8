@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Employee} from "../model/employee";
 import {ResponseEmployee} from "../model/response-employee";
 import {Sort} from "../enum/sort-enum";
+import {Department} from "../model/department";
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,11 @@ export class EmployeeService {
   }
 
 
+  public findDepartmentsByEmployee(id: number):Observable<Department[] | HttpErrorResponse> {
+    return this.http.get<Department[] | HttpErrorResponse>(`${this.host}/employee/get/all-departments/${id}`);
+  }
 
-
+  public deleteDepartment(department_id: number, employee_id: number): Observable<void | HttpErrorResponse> {
+    return this.http.delete<void | HttpErrorResponse>(`${this.host}/employee/del/${department_id}/${employee_id}`);
+  }
 }

@@ -1,0 +1,39 @@
+<div class="container h-100">
+  <div class="row h-100">
+    <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+      <div class="d-table-cell align-middle">
+
+        <div class="text-center mt-4">
+          <h1 class="h2">Create Department</h1>
+          <p class="lead">
+            Template for add department
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="m-sm-4">
+              <form  #createDepartment="ngForm" (ngSubmit)="create(createDepartment.value)">
+                <div class="form-group">
+                  <label>Name company</label>
+                  <input class="form-control form-control-lg" type="text" name="nameCompany"
+                         ngModel required placeholder="Enter name company">
+                </div>
+                <div class="form-group">
+                  <label>Address</label>
+                  <input class="form-control form-control-lg" type="text" name="address"
+                         ngModel required placeholder="Enter address company">
+                </div>
+
+                <div class="text-center mt-3">
+                  <button [disabled]="createDepartment.invalid  " class="btn btn-lg btn-primary">Create department</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

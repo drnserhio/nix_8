@@ -295,10 +295,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     @Override
     public void updateDepartment(Department update) {
-        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(UPDATE_DEPARTMENT)) {
-            statement.setTimestamp(2, new Timestamp(new Date().getTime()));
-            statement.setString(3, update.getNameCompany());
-            statement.setString(4, update.getNameCompany());
+        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(UPDATE_DEPARTMENT + update.getId())) {
+            statement.setTimestamp(1, new Timestamp(new Date().getTime()));
+            statement.setString(2, update.getNameCompany());
+            statement.setString(3, update.getAddress());
             statement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
