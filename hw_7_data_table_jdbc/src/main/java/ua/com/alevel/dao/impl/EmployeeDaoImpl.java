@@ -7,6 +7,7 @@ import ua.com.alevel.exception.UsernameExistsException;
 import ua.com.alevel.jdbc.DefaultDateBaseConnectSevice;
 import ua.com.alevel.model.impl.Department;
 import ua.com.alevel.model.impl.Employee;
+import ua.com.alevel.model.impl.EmployeeResponse;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -93,6 +94,52 @@ public class EmployeeDaoImpl implements EmployeeDao {
         return list;
     }
 
+    @Override
+    public EmployeeResponse findAllLimit(int page, int pageSave, int showEntity) {
+        List<Employee> list = new ArrayList<>();
+      try (Statement statement = connectSevice.getConnection().createStatement()){
+          ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL_LIMIT + (page - 1) + "," + showEntity);
+          while (resultSet.next()) {
+              list.add(convertResultToEmployee(resultSet));
+          }
+      } catch (SQLException throwables) {
+          out.println("Message: " + throwables.getMessage());
+      }
+      EmployeeResponse employeeResponse = new EmployeeResponse();
+      employeeResponse.setEmployees(list);
+      employeeResponse.setPage(pageSave);
+      employeeResponse.setShowEntity(showEntity);
+      employeeResponse.setCountEntity(list.size());
+      employeeResponse.setAllSizeEntity(countEmployees());
+
+      return employeeResponse;
+    }
+
+    @Override
+    public EmployeeResponse findAllWithSortColumn(int page, int pageSave, int showEntity, String column, String sort) {
+        List<Employee> list = new ArrayList<>();
+        try (Statement statement = connectSevice.getConnection().createStatement()){
+            ResultSet resultSet = statement.executeQuery(String.format(FIND_ALL_SQL_LIMIT_WITH_SORT, column, sort) + (page - 1) + "," + showEntity);
+            while (resultSet.next()) {
+                list.add(convertResultToEmployee(resultSet));
+            }
+        } catch (SQLException throwables) {
+            out.println("Message: " + throwables.getMessage());
+        }
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+        employeeResponse.setEmployees(list);
+        employeeResponse.setPage(pageSave);
+        employeeResponse.setShowEntity(showEntity);
+        employeeResponse.setCountEntity(list.size());
+        employeeResponse.setAllSizeEntity(countEmployees());
+        employeeResponse.setSort(sort);
+        return employeeResponse;
+    }
+
+    private int countEmployees() {
+        return findAll().size();
+    }
+
     public Employee convertResultToEmployee(ResultSet resultSet)
             throws SQLException {
         long id = resultSet.getLong(1);
@@ -130,7 +177,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public void updateEmployee(Employee update) {
-        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(UPDATE_EMPLOYEE)) {
+        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(UPDATE_EMPLOYEE + update.getId())) {
             statement.setTimestamp(3, new Timestamp(new Date().getTime()));
             statement.setString(4, update.getFirstname());
             statement.setString(5, update.getLastname());
@@ -224,6 +271,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         List<Department> department = convertResultToDepartments(departments);
         return department;
     }
+
 
     private String saveResToString(ResultSet resultSet)
             throws SQLException {

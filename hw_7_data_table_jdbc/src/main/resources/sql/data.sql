@@ -4,7 +4,15 @@ insert into employee(id, dateCreate, dateUpdate, firstname, lastname, username) 
 (3, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'Konstantin', 'Ivanov', 'ks1234'),
 (4, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'Kiril', 'Kirilov', 'kr'),
 (5, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'Oram', 'Hayam', 'ohayam'),
-(6, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'Krostopher', 'Columb', 'krio');
+(6, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'Krostopher', 'Columb', 'krio'),
+(7, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'Abab', 'Bab', 'Cac'),
+(8, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'DD', 'DD', 'DD'),
+(9, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'CC', 'CC', 'CC'),
+(10, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'TT', 'TT', 'TT'),
+(11, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'ZZ', 'ZZ', 'ZZ'),
+(12, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'VV', 'VV', 'VV'),
+(13, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'NN', 'NN', 'NN'),
+(14, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'YY', 'YY', 'CaYYc');
 
 
 insert into department (id, dateCreate, dateUpdate, nameCompany, address) VALUES

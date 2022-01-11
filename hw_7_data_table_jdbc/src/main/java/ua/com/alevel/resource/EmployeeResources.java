@@ -3,20 +3,20 @@ package ua.com.alevel.resource;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.com.alevel.datatable.Page;
-import ua.com.alevel.datatable.PageArray;
-import ua.com.alevel.datatable.PagingRequest;
 import ua.com.alevel.model.impl.Department;
 import ua.com.alevel.model.impl.Employee;
+import ua.com.alevel.model.impl.EmployeeResponse;
 import ua.com.alevel.service.EmployeeService;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = {"/", "/employee"})
+@CrossOrigin("http://localhost:4209")
 public class EmployeeResources {
     private final EmployeeService employeeService;
 
@@ -78,17 +78,24 @@ public class EmployeeResources {
         return employeeService.findDepartmentsByEmployee(id);
     }
 
-    @PostMapping("/limit-list")
-    public PageArray getEmployeesArray(
-            @RequestBody PagingRequest pagingRequest) {
-        return employeeService.getEmployeesArray(pagingRequest);
+    @GetMapping("/limit-list/{page}/{showEntity}")
+    public EmployeeResponse findAllLimit(
+            @PathVariable("page") int page,
+            @PathVariable( "showEntity") int showEntity) {
+        return employeeService.findAllLimit(page, showEntity);
     }
 
-    @PostMapping("/list")
-    public Page<Employee> getEmployees(
-           @RequestBody PagingRequest pagingRequest) {
-        return employeeService.getEmployees(pagingRequest);
+    @GetMapping("/limit-list/{page}/{showEntity}/{column}/{sort}")
+    public EmployeeResponse findAllWithSortColumn(
+            @PathVariable("page") int page,
+            @PathVariable( "showEntity") int showEntity,
+            @PathVariable("column") String columnSort,
+            @PathVariable("sort") String sort) {
+        return employeeService.findAllWithSortColumn(page, showEntity, columnSort, sort);
     }
+
+
+
 
 
 }

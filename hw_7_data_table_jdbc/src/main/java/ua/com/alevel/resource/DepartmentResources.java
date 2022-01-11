@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.dao.DepartmentDao;
 import ua.com.alevel.model.impl.Department;
+import ua.com.alevel.model.impl.DepartmentResponse;
 import ua.com.alevel.model.impl.Employee;
+import ua.com.alevel.model.impl.EmployeeResponse;
 import ua.com.alevel.service.DepartmentService;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/department")
 @AllArgsConstructor
+@CrossOrigin("http://localhost:4209")
 public class DepartmentResources {
 
     private final DepartmentService departmentService;
@@ -75,6 +78,22 @@ public class DepartmentResources {
     public List<Employee> findDEmployeesByDepartment(
             @PathVariable("id") Long id) {
         return departmentService.findEmployeesByDepartment(id);
+    }
+
+    @GetMapping("/limit-list/{page}/{showEntity}")
+    public DepartmentResponse findAllLimit(
+            @PathVariable("page") int page,
+            @PathVariable( "showEntity") int showEntity) {
+        return departmentService.findAllLimit(page, showEntity);
+    }
+
+    @GetMapping("/limit-list/{page}/{showEntity}/{column}/{sort}")
+    public DepartmentResponse findAllWithSortColumn(
+            @PathVariable("page") int page,
+            @PathVariable( "showEntity") int showEntity,
+            @PathVariable("column") String columnSort,
+            @PathVariable("sort") String sort) {
+        return departmentService.findAllWithSortColumn(page, showEntity, columnSort, sort);
     }
 
 

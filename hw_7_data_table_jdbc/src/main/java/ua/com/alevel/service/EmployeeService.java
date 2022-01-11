@@ -3,20 +3,18 @@ package ua.com.alevel.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.dao.EmployeeDao;
-import ua.com.alevel.datatable.*;
-import ua.com.alevel.enumeration.Direction;
 import ua.com.alevel.model.impl.Department;
 import ua.com.alevel.model.impl.Employee;
+import ua.com.alevel.model.impl.EmployeeResponse;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
 public class EmployeeService {
 
     private final EmployeeDao employeeDao;
-    private PagingService pagingService;
 
     public void createEmployee(Employee employee) {
         employeeDao.createEmployee(employee);
@@ -62,13 +60,28 @@ public class EmployeeService {
         employeeDao.deleteDepartment(department_id, employee_id);
     }
 
-    public PageArray getEmployeesArray(PagingRequest pagingRequest) {
-        PageArray employees = pagingService.getEmployeesArray(pagingRequest, findAll());
-        return employees;
+    public EmployeeResponse findAllLimit(int page, int showEntity) {
+        int find = page;
+        if(find==1){}
+        else{
+            find=(find-1)*showEntity+1;
+        }
+        EmployeeResponse response = employeeDao.findAllLimit(find, page, showEntity);
+
+        if(Objects.isNull(response.getEmployees())) {
+            throw new RuntimeException("employees don't have in base");
+        }
+        return response;
     }
 
-    public Page<Employee> getEmployees(PagingRequest pagingRequest) {
-        return pagingService.getEmployees(pagingRequest, findAll());
-    }
 
+    public EmployeeResponse findAllWithSortColumn(int page, int showEntity, String column, String sort) {
+        int find = page;
+        if(find==1){}
+        else{
+            find=(find-1)*showEntity+1;
+        }
+        EmployeeResponse response = employeeDao.findAllWithSortColumn(find, page, showEntity, column, sort);
+        return response;
+    }
 }

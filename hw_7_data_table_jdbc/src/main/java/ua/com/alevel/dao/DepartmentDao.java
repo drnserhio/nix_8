@@ -2,6 +2,8 @@ package ua.com.alevel.dao;
 
 import ua.com.alevel.model.BaseUser;
 import ua.com.alevel.model.impl.Department;
+import ua.com.alevel.model.impl.DepartmentResponse;
+import ua.com.alevel.model.impl.EmployeeResponse;
 
 import java.util.List;
 
@@ -22,5 +24,9 @@ public interface DepartmentDao <E extends BaseUser> {
     void addEmployeeForDepartment(Long department_id, Long employee_id);
     void deleteEmployeeForDepartment(Long department_id, Long employee_id);
     List<Department> findEmployeesByDepartment(Long id);
+
+    DepartmentResponse findAllLimit(int page, int pageSave, int showEntity);
+
+    DepartmentResponse findAllWithSortColumn(int find, int page, int showEntity, String column,  String sort);
 }
 

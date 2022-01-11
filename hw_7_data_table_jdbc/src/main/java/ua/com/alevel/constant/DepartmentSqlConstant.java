@@ -13,5 +13,14 @@ public class DepartmentSqlConstant {
     public static final String DELETE_EMPLOYEE_FOR_DEPARTMENT = "delete from relations where department_id= %d and employee_id = %d";
 
 
+    public static final String FIND_ALL_SQL_LIMIT_DEPARTMENT = "select * from department limit ";
+    public static final String FIND_ALL_SQL_LIMIT_WITH_SORT_DEPARTMENT = "select * from department order by %s %s limit ";
+
+
+
+
     public static final String FIND_EMPLOYEE_BY_DEPARTMENT = "select id, firstname, lastname from employee left join relations ed on employee.id = ed.id where employee_id = ";
+
+
+
 }

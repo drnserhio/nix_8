@@ -6,7 +6,9 @@ import ua.com.alevel.dao.DepartmentDao;
 import ua.com.alevel.exception.UsernameExistsException;
 import ua.com.alevel.jdbc.DefaultDateBaseConnectSevice;
 import ua.com.alevel.model.impl.Department;
+import ua.com.alevel.model.impl.DepartmentResponse;
 import ua.com.alevel.model.impl.Employee;
+import ua.com.alevel.model.impl.EmployeeResponse;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.List;
 import static java.lang.System.out;
 import static ua.com.alevel.constant.DepartmentSqlConstant.*;
 import static ua.com.alevel.constant.EmployeeSqlConstant.*;
+import static ua.com.alevel.constant.EmployeeSqlConstant.FIND_ALL_SQL_LIMIT;
 
 @Service
 @AllArgsConstructor
@@ -171,6 +174,47 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return department;
     }
 
+    @Override
+    public DepartmentResponse findAllLimit(int page, int pageSave, int showEntity) {
+        List<Department> list = new ArrayList<>();
+        try (Statement statement = connectSevice.getConnection().createStatement()){
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL_LIMIT_DEPARTMENT + (page - 1) + "," + showEntity);
+            while (resultSet.next()) {
+                list.add(convertToDepartment(resultSet));
+            }
+        } catch (SQLException throwables) {
+            out.println("Message: " + throwables.getMessage());
+        }
+        DepartmentResponse departmentResponse = new DepartmentResponse();
+        departmentResponse.setDepartments(list);
+        departmentResponse.setPage(pageSave);
+        departmentResponse.setShowEntity(showEntity);
+        departmentResponse.setCountEntity(list.size());
+        departmentResponse.setAllSizeEntity(countDepartments());
+        return departmentResponse;
+    }
+
+    @Override
+    public DepartmentResponse findAllWithSortColumn(int page, int pageSave, int showEntity, String column, String sort) {
+        List<Department> list = new ArrayList<>();
+        try (Statement statement = connectSevice.getConnection().createStatement()){
+            ResultSet resultSet = statement.executeQuery(String.format(FIND_ALL_SQL_LIMIT_WITH_SORT_DEPARTMENT, column, sort) + (page - 1) + "," + showEntity);
+            while (resultSet.next()) {
+                list.add(convertToDepartment(resultSet));
+            }
+        } catch (SQLException throwables) {
+            out.println("Message: " + throwables.getMessage());
+        }
+        DepartmentResponse departmentResponse = new DepartmentResponse();
+        departmentResponse.setDepartments(list);
+        departmentResponse.setPage(pageSave);
+        departmentResponse.setShowEntity(showEntity);
+        departmentResponse.setCountEntity(list.size());
+        departmentResponse.setAllSizeEntity(countDepartments());
+        departmentResponse.setSort(sort);
+        return departmentResponse;
+    }
+
     private List<Employee> convertResultToEmployees(List<String> employees) {
         List<Employee> em = new ArrayList<>();
         for (String id : employees) {
@@ -260,5 +304,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
             throwables.printStackTrace();
         }
     }
+
+    private int countDepartments() {
+        return findAll().size();
+    }
+
 
 }
