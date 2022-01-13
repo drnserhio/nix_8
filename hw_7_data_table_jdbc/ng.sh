@@ -1,2 +1,3 @@
 cd front
-ng serve --port 4201
+npm install
+ng serve --port 4221
