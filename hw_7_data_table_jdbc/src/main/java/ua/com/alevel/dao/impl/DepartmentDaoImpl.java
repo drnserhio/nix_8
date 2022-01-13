@@ -8,17 +8,14 @@ import ua.com.alevel.jdbc.DefaultDateBaseConnectSevice;
 import ua.com.alevel.model.impl.Department;
 import ua.com.alevel.model.impl.DepartmentResponse;
 import ua.com.alevel.model.impl.Employee;
-import ua.com.alevel.model.impl.EmployeeResponse;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 
 import static java.lang.System.out;
 import static ua.com.alevel.constant.DepartmentSqlConstant.*;
 import static ua.com.alevel.constant.EmployeeSqlConstant.*;
-import static ua.com.alevel.constant.EmployeeSqlConstant.FIND_ALL_SQL_LIMIT;
 
 @Service
 @AllArgsConstructor
@@ -98,8 +95,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
             throw new RuntimeException("Employee don't find with id: " + employee_id);
         }
 
-        try (Statement statement = connectSevice.getConnection().createStatement()) {
-            statement.executeUpdate(String.format(ADD_EMPLOYEE_FOR_DEPARTMENT, department_id, employee_id));
+        try (PreparedStatement statement = connectSevice.getConnection().prepareStatement(ADD_EMPLOYEE_FOR_DEPARTMENT)) {
+            statement.setLong(1, department_id);
+            statement.setLong(2, employee_id);
+            statement.execute();
         } catch (SQLException throwables) {
             out.println("Message: " + throwables.getMessage());
         }
@@ -307,6 +306,24 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     private int countDepartments() {
         return findAll().size();
+    }
+
+
+    public List<Employee> listEmployees(int department_id) {
+        List<String> list = new ArrayList<>();
+        try (Statement statement = connectSevice.getConnection().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(String.format(FIND_ALL_EMPLOYEE_WITH_OUT_DEPARTMENT, department_id));
+            while (resultSet.next()) {
+                list.add(resultSet.getString(1));
+            }
+        } catch (SQLException throwables) {
+            out.println("Message: " + throwables.getMessage());
+        }
+        List<Employee> employees = convertResultToEmployees(list);
+        if (employees.size() < 1) {
+            throw new RuntimeException("Employees doesn't have");
+        }
+        return employees;
     }
 
 

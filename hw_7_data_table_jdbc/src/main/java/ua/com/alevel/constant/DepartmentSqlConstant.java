@@ -9,7 +9,7 @@ public class DepartmentSqlConstant {
     public static final String FIND_DEPARTMENT_BY_NAME_COMPANY = "select * from department where nameCompany = '%s'";
     public static final String FIND_ALL_DEPARTMENT = "select * from department";
     public static final String FIND_ALL_EMPLOYEE_BY_DEPARTMENT_ID = "select * from relations where department_id = ";
-    public static final String ADD_EMPLOYEE_FOR_DEPARTMENT = "insert into relations values (%d, %d)";
+    public static final String ADD_EMPLOYEE_FOR_DEPARTMENT = "insert into relations values (?, ?)";
     public static final String DELETE_EMPLOYEE_FOR_DEPARTMENT = "delete from relations where department_id= %d and employee_id = %d";
 
 

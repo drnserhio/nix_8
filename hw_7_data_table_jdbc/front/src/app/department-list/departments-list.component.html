@@ -70,9 +70,9 @@
           (click)="chooseDepartment(department.id)">{{ department.address }}</td>
       <td style="cursor: crosshair; width: 1%" (click)="findAllEmployeeByDepartment(department.id)" class="btn-light"><i
         class="fas fa-list"></i></td>
-      <th style="cursor: crosshair; width: 1%" (click)="addEmployeesToDepartment(department.id)" class="btn-light"><i
+      <th style="cursor: crosshair; width: 1%" (click)="addToModel(department.id)" class="btn-light"><i
         class="fas fa-user-plus"></i></th>
-      <td style="cursor: crosshair" class="btn-danger" (click)="deleteEmployeeFromDeparment(department.id,employee.id)">
+      <td style="cursor: crosshair" class="btn-danger" (click)="deleteDepartment(department.id)">
         <i class="fas fa-user-times"></i></td>
     </tr>
     <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#myModal"
@@ -82,6 +82,11 @@
     <button id="openModalWorkEmployee" [hidden]="true" data-toggle="modal" data-target="#workEmployee"
             (click)="openModal(workEmployee)">Open Modal
     </button>
+
+    <button id="openModalADDEmployee" [hidden]="true" data-toggle="modal" data-target="#addEmployees"
+            (click)="openModal(addEmployees)">Open Modal
+    </button>
+
     </tbody>
   </table>
 
@@ -204,3 +209,87 @@
 
 
 <!--Modal add employee in Department-->
+
+<ng-template #addEmployees let-modal>
+
+  <div class="container">
+    <div class="modal-lg">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-my">Add employee to Department</h4>
+      </div>
+
+
+      <form class="form-group">
+
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="table-responsive">
+                  <table class="table table-sm">
+                    <thead class="thead-light">
+                    <tr>
+
+                      <th scope="col"><i class="far fa-check-square"></i></th>
+                      <th scope="col">ID</th>
+                      <th scope="col">Date Create</th>
+                      <th scope="col">Date Update</th>
+                      <th scope="col">First name</th>
+                      <th scope="col">Last name</th>
+                      <th scope="col">Username name</th>
+                    </tr>
+                    </thead>
+                    <tbody class="customtable">
+                    <tr *ngFor="let employee of employeesByDepartment">
+                      <th> <label class="customcheckbox"> <input type="checkbox" (click)="saveToArrayEmployee(employee.id)" class="listCheckbox"> <span class="checkmark"></span> </label> </th>
+                      <td>{{employee.id}}</td>
+                      <td>{{employee.dateCreate}}</td>
+                      <td>{{employee.dateUpdate}}</td>
+                      <td>{{employee.firstname}}</td>
+                      <td>{{employee.lastname}}</td>
+                      <td>{{employee.username}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+<!--        <table id="example" class="table table-striped table-bordered table-sm" style="width:100%">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th style="cursor: pointer">ID</th>-->
+<!--            <th style="cursor: pointer">Date create</th>-->
+<!--            <th style="cursor: pointer">Date update</th>-->
+<!--            <th style="cursor: pointer">First name</th>-->
+<!--            <th style="cursor: pointer">Last name</th>-->
+<!--            <th style="cursor: pointer">Username</th>-->
+<!--            <th style="cursor: no-drop">Delete from department</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          <tr *ngFor="let employee of employeesByDepartment ">-->
+<!--            <td style="cursor: crosshair">{{ employee.id }}</td>-->
+<!--            <td style="cursor: crosshair">{{ employee.dateCreate }}</td>-->
+<!--            <td style="cursor: crosshair">{{ employee.dateUpdate }}</td>-->
+<!--            <td style="cursor: crosshair">{{ employee.firstname }}</td>-->
+<!--            <td style="cursor: crosshair">{{ employee.lastname }}</td>-->
+<!--            <td style="cursor: crosshair">{{ employee.username }}</td>-->
+<!--            <td style="cursor: crosshair; width: 4%" (click)="deleteEmployeeFromDeparment(saveIdDepartment, employee.id)"-->
+<!--                class="btn-danger"><i class="fas fa-user-times"></i></td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--        </table>-->
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="addEmployeesToDepartment()">Add employees to department</button>
+      <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+    </div>
+  </div>
+</ng-template>

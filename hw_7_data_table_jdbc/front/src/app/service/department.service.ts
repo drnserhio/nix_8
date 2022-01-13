@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {ResponseEmployee} from "../model/response-employee";
-import {ResponseDepartment} from "../model/response-department";
-import {Department} from "../model/department";
-import {Employee} from "../model/employee";
+import {environment} from '../../environments/environment';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {ResponseEmployee} from '../model/response-employee';
+import {ResponseDepartment} from '../model/response-department';
+import {Department} from '../model/department';
+import {Employee} from '../model/employee';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class DepartmentService {
     return this.http.get<ResponseDepartment | HttpErrorResponse>(`${this.host}/department/limit-list/${page}/${showEntity}`);
   }
 
-  public listWithSortColumn(page: number, showEntity: number,column: string, sort: string): Observable<ResponseDepartment | HttpErrorResponse> {
+  public listWithSortColumn(page: number, showEntity: number, column: string, sort: string): Observable<ResponseDepartment | HttpErrorResponse> {
     return this.http.get<ResponseDepartment | HttpErrorResponse>(`${this.host}/department/limit-list/${page}/${showEntity}/${column}/${sort}`);
   }
 
@@ -41,7 +41,15 @@ export class DepartmentService {
     return this.http.get<Employee[] | HttpErrorResponse>(`${this.host}/department/get/all-employees/${id}`);
   }
 
-  public deleteEmployeeFromDeparment(department_id: number, employee_id: number): Observable<void | HttpErrorResponse> {
-    return this.http.delete<void | HttpErrorResponse>(`${this.host}/department/del/${department_id}/${employee_id}`);
+  public deleteEmployeeFromDeparment(departmentId: number, employeeId: number): Observable<void | HttpErrorResponse> {
+    return this.http.delete<void | HttpErrorResponse>(`${this.host}/department/del/${departmentId}/${employeeId}`);
+  }
+
+  public addEmployeesToDepartment(departmentId: number, employeeId: number): Observable<void | HttpErrorResponse> {
+    return this.http.get<void | HttpErrorResponse>(`${this.host}/department/add/${departmentId}/${employeeId}`);
+  }
+
+  public findAllEmployees(departmentId: number): Observable<Employee[] | HttpErrorResponse> {
+    return this.http.get<Employee[] | HttpErrorResponse>(`${this.host}/department/list-employees/${departmentId}`);
   }
 }

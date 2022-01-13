@@ -17,4 +17,5 @@ public class EmployeeSqlConstant {
     public static final String FIND_ALL_SQL_LIMIT_WITH_SORT = "select * from employee order by %s %s limit ";
 
 
+    public static final String FIND_ALL_EMPLOYEE_WITH_OUT_DEPARTMENT = "select distinct id from employee e, relations r where e.id = r.employee_id and department_id != %s or e.id not in (select employee_id from relations)";
 }

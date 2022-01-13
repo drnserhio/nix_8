@@ -15,6 +15,7 @@ insert into employee(id, dateCreate, dateUpdate, firstname, lastname, username) 
 (14, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'YY', 'YY', 'CaYYc');
 
 
+
 insert into department (id, dateCreate, dateUpdate, nameCompany, address) VALUES
 (1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'Nix-Solution', 'Karazina St, 2'),
 (2, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 'Epam', 'Kolomenskaya St, 63'),
