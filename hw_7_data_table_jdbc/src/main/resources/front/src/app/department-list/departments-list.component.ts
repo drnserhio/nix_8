@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {ResponseEmployee} from "../model/response-employee";
-import {Employee} from "../model/employee";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {NgForm} from "@angular/forms";
-import {ResponseDepartment} from "../model/response-department";
-import {Department} from "../model/department";
-import {EmployeeService} from "../service/employee.service";
-import {DepartmentService} from "../service/department.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ResponseEmployee} from '../model/response-employee';
+import {Employee} from '../model/employee';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {NgForm} from '@angular/forms';
+import {ResponseDepartment} from '../model/response-department';
+import {Department} from '../model/department';
+import {EmployeeService} from '../service/employee.service';
+import {DepartmentService} from '../service/department.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-department-list',
@@ -18,17 +18,19 @@ export class DepartmentsListComponent implements OnInit {
 
   public responseDepartment: ResponseDepartment;
   public ListValueOption: number[] = [10, 25, 50, 100];
-  public showDepartment: number = 10;
+  public showDepartment = 10;
   private departmentList: Department[];
   private saveCounterEntity: number;
   private flag: boolean;
   private columnSave: string;
-  private saveSort: string = 'asc';
+  private saveSort = 'asc';
   private updateDepartment: Department = new Department();
 
   public listSearch: Department[] = [];
   private employeesByDepartment: Employee[];
   private saveIdDepartment: number;
+
+  public listEmployeeForAddDepartment: number[] = [];
 
   constructor(private departmentService: DepartmentService,
               private modalService: NgbModal) {
@@ -44,7 +46,7 @@ export class DepartmentsListComponent implements OnInit {
       (response: ResponseDepartment) => {
         this.responseDepartment = response;
         this.departmentList = response.departments;
-        if (this.saveCounterEntity == 0 ||
+        if (this.saveCounterEntity === 0 ||
           this.saveCounterEntity == null) {
           this.saveCounterEntity = response.allSizeEntity;
         }
@@ -53,15 +55,15 @@ export class DepartmentsListComponent implements OnInit {
       (error: HttpErrorResponse) => {
         console.log(error.message);
       }
-    )
+    );
   }
 
 
   public showEntity(value: NgForm) {
     this.saveCounterEntity = null;
-    this.showDepartment = value.controls['showEntity'].value;
+    this.showDepartment = value.controls.showEntity.value;
     if (this.saveSort == null ||
-      this.saveSort == 'asc') {
+      this.saveSort === 'asc') {
       this.limitList(1, this.showDepartment);
     } else {
       this.sort(1, this.showDepartment, this.columnSave, this.saveSort);
@@ -70,7 +72,7 @@ export class DepartmentsListComponent implements OnInit {
 
   public pagePrevious() {
     if (this.saveSort == null ||
-      this.saveSort == 'asc') {
+      this.saveSort === 'asc') {
       this.limitList(--this.responseDepartment.page, this.showDepartment);
     }  else {
       this.sort(--this.responseDepartment.page, this.responseDepartment.showEntity, this.columnSave, this.saveSort);
@@ -80,7 +82,7 @@ export class DepartmentsListComponent implements OnInit {
   public pageNext() {
 
     if (this.saveSort == null ||
-      this.saveSort == 'asc') {
+      this.saveSort === 'asc') {
       this.limitList(++this.responseDepartment.page, this.showDepartment);
     } else {
       this.sort(++this.responseDepartment.page, this.responseDepartment.showEntity, this.columnSave, this.saveSort);
@@ -110,7 +112,7 @@ export class DepartmentsListComponent implements OnInit {
         this.responseDepartment = response;
         this.departmentList = response.departments;
         this.saveSort = response.sort;
-        if (this.saveCounterEntity == 0 ||
+        if (this.saveCounterEntity === 0 ||
           this.saveCounterEntity == null) {
           this.saveCounterEntity = response.allSizeEntity;
         }
@@ -120,12 +122,12 @@ export class DepartmentsListComponent implements OnInit {
       (error: HttpErrorResponse) => {
         console.log(error.message);
       }
-    )
+    );
   }
 
   public sortById() {
     this.saveCounterEntity = null;
-    if (this.saveSort == 'asc') {
+    if (this.saveSort === 'asc') {
       this.saveSort = 'desc';
       this.sort(1, this.showDepartment, 'id', this.saveSort);
     } else {
@@ -137,7 +139,7 @@ export class DepartmentsListComponent implements OnInit {
 
   public sortByDate(date: string) {
     this.saveCounterEntity = null;
-    if (this.saveSort == 'asc') {
+    if (this.saveSort === 'asc') {
       this.saveSort = 'desc';
       this.sort(1, this.showDepartment, date, this.saveSort);
     } else {
@@ -149,7 +151,7 @@ export class DepartmentsListComponent implements OnInit {
 
   public sortByNameCompany() {
     this.saveCounterEntity = null;
-    if (this.saveSort == "asc") {
+    if (this.saveSort === 'asc') {
       this.saveSort = 'desc';
       this.sort(1, this.showDepartment, 'nameCompany', this.saveSort);
     } else {
@@ -160,7 +162,7 @@ export class DepartmentsListComponent implements OnInit {
 
   public sortByAddress() {
     this.saveCounterEntity = null;
-    if (this.saveSort == "asc") {
+    if (this.saveSort === 'asc') {
       this.saveSort = 'desc';
       this.sort(1, this.showDepartment, 'address', this.saveSort);
     } else {
@@ -186,11 +188,11 @@ export class DepartmentsListComponent implements OnInit {
   public updateEmp(department: Department): void {
     this.departmentService.update(department).subscribe(
       any => {
-        alert("Update successfull");
+        alert('Update successfull');
         window.location.reload();
       },
       (error: HttpErrorResponse) => {
-        alert("Update didn't work, check your fields");
+        alert('Update didn\'t work, check your fields');
         console.log(error.message);
       }
     );
@@ -207,12 +209,12 @@ export class DepartmentsListComponent implements OnInit {
   public deleteDepartment(id: number) {
     this.departmentService.delete(id).subscribe(
       any => {
-        alert("Delete successfull");
+        alert('Delete successfull');
         window.location.reload();
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
-        alert("Delete faild");
+        alert('Delete faild');
       }
     );
   }
@@ -240,22 +242,58 @@ export class DepartmentsListComponent implements OnInit {
         document.getElementById('openModalWorkEmployee').click();
       },
       (error: HttpErrorResponse) => {
-        alert("Department don't have employees.")
+        alert('Department don\'t have employees.');
       }
-    )
+    );
   }
 
-  public deleteEmployeeFromDeparment(department_id: number, employee_id: number) {
-    this.departmentService.deleteEmployeeFromDeparment(department_id, employee_id).subscribe(
+  public deleteEmployeeFromDeparment(departmentId: number, employeeId: number) {
+    this.departmentService.deleteEmployeeFromDeparment(departmentId, employeeId).subscribe(
       any => {
-        alert("Employee delete for department successfull.")
+        alert('Employee delete for department successfull.');
         window.location.reload();
       },
       (error: HttpErrorResponse) => {
-        alert("Employee didn't delete for department successfull.")
+        alert('Employee didn\'t delete for department successfull.');
       }
-    )
+    );
   }
 
 
+  public addEmployeesToDepartment() {
+    // tslint:disable-next-line:prefer-for-of
+    let i = 0;
+    for (i = 0; i < this.listEmployeeForAddDepartment.length; i++) {
+      console.log(this.saveIdDepartment);
+      this.departmentService.addEmployeesToDepartment(this.saveIdDepartment, this.listEmployeeForAddDepartment[i]).subscribe(
+        any => {
+          alert('Employees add to department succesfull.');
+        }
+      );
+      if (i === this.listEmployeeForAddDepartment.length - 1) {
+        window.location.reload();
+      }
+    }
+
+  }
+
+  public addToModel(departmentId: number) {
+    this.departmentService.findAllEmployees(departmentId).subscribe(
+      (response: Employee[] ) => {
+        console.log(departmentId);
+        this.employeesByDepartment = response;
+        this.saveIdDepartment = departmentId;
+        console.log(response);
+        document.getElementById('openModalADDEmployee').click();
+      },
+      (error: HttpErrorResponse) => {
+        alert('Department don\'t have employees.');
+      }
+    );
+  }
+
+  public saveToArrayEmployee(employeeId: number) {
+    this.listEmployeeForAddDepartment.push(employeeId);
+
+  }
 }

@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping(value = "/department")
 @AllArgsConstructor
-@CrossOrigin("http://localhost:4209")
+@CrossOrigin("http://localhost:4200")
 public class DepartmentResources {
 
     private final DepartmentService departmentService;
@@ -58,11 +58,11 @@ public class DepartmentResources {
     }
 
 
-    @PostMapping("/add/{department_id}/{employee_id}")
+    @GetMapping("/add/{department_id}/{employee_id}")
     public void addEmployeeForDepartment(
             @PathVariable("department_id") Long department_id,
             @PathVariable("employee_id") Long employee_id ) {
-        departmentService.addDepartmentForEmployee(employee_id, department_id);
+        departmentService.addDepartmentForEmployee(department_id, employee_id);
     }
 
     @DeleteMapping("/del/{department_id}/{employee_id}")
@@ -94,5 +94,10 @@ public class DepartmentResources {
         return departmentService.findAllWithSortColumn(page, showEntity, columnSort, sort);
     }
 
+    @GetMapping("/list-employees/{department_id}")
+    public List<Employee> listEmployees(
+            @PathVariable("department_id") int department_id) {
+        return departmentService.listEmployees(department_id);
+    }
 
 }

@@ -91,4 +91,8 @@ public class DepartmentService {
         DepartmentResponse response = departmentDao.findAllWithSortColumn(find, page, showEntity, column, sort);
         return response;
     }
+
+    public List<Employee> listEmployees(int department_id) {
+        return departmentDao.listEmployees(department_id);
+    }
 }
