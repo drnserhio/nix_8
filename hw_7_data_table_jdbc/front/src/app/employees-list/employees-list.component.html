@@ -27,7 +27,7 @@
         <div class="dataTables_length" id="example_length"><label>Show
           <select name="showEntity" ngModel required aria-controls="example"
                   class="custom-select custom-select-sm form-control form-control-sm">
-            <option value="10" *ngFor="let value of ListValueOption">{{value}}</option>
+            <option value="{{value}}" *ngFor="let value of ListValueOption">{{value}}</option>
           </select> entries</label>
         </div>
       </div>

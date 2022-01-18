@@ -47,6 +47,7 @@ export class EmployeesListComponent implements OnInit {
   public showEntity(value: NgForm) {
     this.saveCounterEntity = null;
     this.showEmployee = value.controls['showEntity'].value;
+    console.log(this.showEmployee);
     if (this.saveSort == null ||
         this.saveSort == 'asc') {
       this.sort(1, this.showEmployee, this.columnSave, this.saveSort);
