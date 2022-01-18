@@ -13,7 +13,6 @@ public class DepartmentResponse {
     private int showEntity;
     private int allSizeEntity;
     private String sort;
-
     private int showEntityTo;
     private int showEntityFrom;
 }

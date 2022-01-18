@@ -173,34 +173,6 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return department;
     }
 
-    @Override
-    public DepartmentResponse findAllLimit(int page, int showEntity) {
-        List<Department> list = new ArrayList<>();
-        try (Statement statement = connectSevice.getConnection().createStatement()){
-            int firstPage = (page - 1) * showEntity;
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL_LIMIT_DEPARTMENT + firstPage + "," + showEntity);
-            while (resultSet.next()) {
-                list.add(convertToDepartment(resultSet));
-            }
-        } catch (SQLException throwables) {
-            out.println("Message: " + throwables.getMessage());
-        }
-        DepartmentResponse departmentResponse = new DepartmentResponse();
-        int totalPages = 0;
-        int itemSize = countEntity();
-        if (itemSize % 10 == 0) {
-            totalPages = (int) (itemSize / showEntity);
-        } else {
-            totalPages = (int) (itemSize/ showEntity) + 1;
-        }
-        departmentResponse.setDepartments(list);
-        departmentResponse.setPage(page);
-        departmentResponse.setTotalPages(totalPages);
-        departmentResponse.setShowEntity(showEntity);
-        departmentResponse.setAllSizeEntity(itemSize);
-        return departmentResponse;
-    }
-
     private int countEntity() {
         int count = 0;
         try (Statement statement = connectSevice.getConnection().createStatement()){
@@ -229,10 +201,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
         DepartmentResponse departmentResponse = new DepartmentResponse();
         int totalPages = 0;
         int itemSize = countEntity();
-        if (itemSize % 10 == 0) {
-            totalPages = (int) (itemSize / showEntity);
+        if (itemSize % showEntity == 0) {
+            totalPages = (itemSize / showEntity);
         } else {
-            totalPages = (int) (itemSize/ showEntity) + 1;
+            totalPages = (itemSize/ showEntity) + 1;
         }
         departmentResponse.setDepartments(list);
         departmentResponse.setPage(page);
@@ -333,11 +305,6 @@ public class DepartmentDaoImpl implements DepartmentDao {
         }
     }
 
-    private int countDepartments() {
-        return findAll().size();
-    }
-
-
     public List<Employee> listEmployees(int department_id) {
         List<String> list = new ArrayList<>();
         try (Statement statement = connectSevice.getConnection().createStatement()) {
@@ -355,5 +322,21 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return employees;
     }
 
+    @Override
+    public List<Employee> findFreeEmployeesByDepartment(Long id) {
+        List<Employee> employees = new ArrayList<>();
+        try (Statement statement = connectSevice.getConnection().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(String.format(FIND_ALL_FREE_EMPLOYEE,id));
+            while (resultSet.next()) {
+                employees.add(convertToEmployee(resultSet));
+            }
+        } catch (SQLException throwables) {
+            out.println("e: " + throwables);
+        }
+        if (employees.size() == 0) {
+            throw new RuntimeException("Didn't have free employee!");
+        }
+        return employees;
+    }
 
 }

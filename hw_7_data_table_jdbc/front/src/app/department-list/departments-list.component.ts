@@ -30,7 +30,9 @@ export class DepartmentsListComponent implements OnInit {
   private employeesByDepartment: Employee[];
   private saveIdDepartment: number;
 
-  public listEmployeeForAddDepartment: number[] = [];
+  public free: Employee[] = [];
+  private selectDepatrment: number;
+  private employeeId: number;
 
   constructor(private departmentService: DepartmentService,
               private modalService: NgbModal) {
@@ -231,30 +233,11 @@ export class DepartmentsListComponent implements OnInit {
     );
   }
 
-
-  public addEmployeesToDepartment() {
-    // tslint:disable-next-line:prefer-for-of
-    let i = 0;
-    for (i = 0; i < this.listEmployeeForAddDepartment.length; i++) {
-      console.log(this.saveIdDepartment);
-      this.departmentService.addEmployeesToDepartment(this.saveIdDepartment, this.listEmployeeForAddDepartment[i]).subscribe(
-        any => {
-          alert('Employees add to department succesfull.');
-        }
-      );
-      if (i === this.listEmployeeForAddDepartment.length - 1) {
-        window.location.reload();
-      }
-    }
-
-  }
-
   public addToModel(departmentId: number) {
-    this.departmentService.findAllEmployees(departmentId).subscribe(
+    this.departmentService.findFreeEmployeesByDepartment(departmentId).subscribe(
       (response: Employee[] ) => {
-        console.log(departmentId);
-        this.employeesByDepartment = response;
-        this.saveIdDepartment = departmentId;
+        this.free = response;
+        this.selectDepatrment = departmentId
         console.log(response);
         document.getElementById('openModalADDEmployee').click();
       },
@@ -264,8 +247,9 @@ export class DepartmentsListComponent implements OnInit {
     );
   }
 
-  public saveToArrayEmployee(employeeId: number) {
-    this.listEmployeeForAddDepartment.push(employeeId);
-
+  public addEmployeeToDepartment(value: NgForm) {
+    this.employeeId = value.controls['showEmployee'].value;
+    this.departmentService.addEmployeeForDepartment(this.employeeId, this.selectDepatrment).subscribe();
+    this.close();
   }
 }

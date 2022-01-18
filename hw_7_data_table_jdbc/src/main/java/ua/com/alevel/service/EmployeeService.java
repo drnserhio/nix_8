@@ -60,16 +60,6 @@ public class EmployeeService {
         employeeDao.deleteDepartment(department_id, employee_id);
     }
 
-    public EmployeeResponse findAllLimit(int page, int showEntity) {
-        EmployeeResponse response = employeeDao.findAllLimit(page, showEntity);
-
-        if(Objects.isNull(response.getEmployees())) {
-            throw new RuntimeException("employees don't have in base");
-        }
-        return response;
-    }
-
-
     public EmployeeResponse findAllWithSortColumn(int page, int showEntity, String column, String sort) {
         EmployeeResponse response = employeeDao.findAllWithSortColumn( page, showEntity, column, sort);
         return response;

@@ -28,7 +28,5 @@ public interface EmployeeDao<E extends Employee> {
      List<Department> findFreeDepartmentByEmployee(Long employeeId);
 
 
-    EmployeeResponse findAllLimit(int page, int showEntity);
-
      EmployeeResponse findAllWithSortColumn(int page, int showEntity, String column,  String sort);
 }

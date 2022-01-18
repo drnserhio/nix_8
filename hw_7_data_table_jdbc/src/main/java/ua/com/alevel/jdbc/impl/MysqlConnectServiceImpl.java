@@ -23,7 +23,6 @@ public class MysqlConnectServiceImpl implements DefaultDateBaseConnectSevice {
     public void connection() {
 
         try {
-
             Class.forName(mysqlProperties.getNameDriverClass());
             connection = DriverManager.getConnection(
                     mysqlProperties.getUrl(),

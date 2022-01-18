@@ -24,7 +24,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     private final DefaultDateBaseConnectSevice connectSevice;
 
-
     @Override
     public void deleteEmployee(Long id) {
         try (Statement statement = connectSevice.getConnection().createStatement()) {
@@ -94,35 +93,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
         return list;
     }
 
-    @Override
-    public EmployeeResponse findAllLimit(int page, int showEntity) {
-        List<Employee> list = new ArrayList<>();
-      try (Statement statement = connectSevice.getConnection().createStatement()){
-          int firstPage = (page - 1) * showEntity;
-          ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL_LIMIT + firstPage + "," + showEntity);
-          while (resultSet.next()) {
-              list.add(convertResultToEmployee(resultSet));
-          }
-      } catch (SQLException throwables) {
-          out.println("Message: " + throwables.getMessage());
-      }
-      EmployeeResponse employeeResponse = new EmployeeResponse();
-        int totalPages = 0;
-        int itemSize = countEntity();
-        if (itemSize % showEntity == 0) {
-            totalPages = (int) (itemSize / showEntity);
-        } else {
-            totalPages = (int) (itemSize / showEntity) + 1;
-        }
-      employeeResponse.setEmployees(list);
-      employeeResponse.setPage(page);
-      employeeResponse.setTotalPages(totalPages);
-      employeeResponse.setShowEntity(showEntity);
-      employeeResponse.setAllSizeEntity(itemSize);
-
-      return employeeResponse;
-    }
-
     private int countEntity() {
         int count = 0;
         try (Statement statement = connectSevice.getConnection().createStatement()){
@@ -139,8 +109,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public EmployeeResponse findAllWithSortColumn(int page, int showEntity, String column, String sort) {
         List<Employee> list = new ArrayList<>();
+        int firstPage = (page - 1) * showEntity;
         try (Statement statement = connectSevice.getConnection().createStatement()){
-            int firstPage = (page - 1) * showEntity;
+
             ResultSet resultSet = statement.executeQuery(String.format(FIND_ALL_SQL_LIMIT_WITH_SORT, column, sort) + firstPage + "," + showEntity);
             while (resultSet.next()) {
                 list.add(convertResultToEmployee(resultSet));
@@ -152,7 +123,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         int itemSize = countEntity();
         int totalPages = totalPage(itemSize, showEntity);
-
         int entFrom = showEntriesFrom(page, showEntity);
         int entTo = showEntriesTo(entFrom, itemSize);
 
@@ -168,7 +138,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     private int totalPage(int itemSize, int showEntity) {
-        if (itemSize % 10 == 0) {
+        if (itemSize % showEntity == 0) {
             return  (itemSize / showEntity);
         } else {
            return (itemSize/ showEntity) + 1;
@@ -240,7 +210,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
         if (findDepartmentById(department_id) == null) {
             throw new RuntimeException("Department don't find with id: " + department_id);
         }
-
         try (Statement statement = connectSevice.getConnection().createStatement()) {
             statement.executeUpdate(String.format(ADD_DEPARTMENT_FOR_EMPLOYEE, department_id, employee_id));
         } catch (SQLException throwables) {
@@ -276,7 +245,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
         return convert;
     }
 
-
     @Override
     public void deleteDepartment(Long department_id, Long employee_id) {
         if (findEmployeeById(employee_id) == null) {
@@ -285,7 +253,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
         if (findDepartmentById(department_id) == null) {
             throw new RuntimeException("Department don't find with id: " + department_id);
         }
-
         try (Statement statement = connectSevice.getConnection().createStatement()) {
             statement.executeUpdate(String.format(DELETE_DEPARTMENT_FOR_EMPLOYEE, department_id, employee_id));
         } catch (SQLException throwables) {
@@ -293,7 +260,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
             Employee employee = findEmployeeById(employee_id);
             throw new RuntimeException("Employee : " + employee.getUsername() + " dont't work in department - " + department.getNameCompany());
         }
-
     }
 
     @Override
@@ -315,7 +281,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
         List<Department> department = convertResultToDepartments(departments);
         return department;
     }
-
 
     private String saveResToString(ResultSet resultSet)
             throws SQLException {

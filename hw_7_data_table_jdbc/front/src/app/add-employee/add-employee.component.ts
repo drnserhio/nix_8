@@ -30,4 +30,8 @@ export class AddEmployeeComponent implements OnInit {
       }
     );
   }
+
+  toHome() {
+    this.router.navigateByUrl(`/employees-list`);
+  }
 }

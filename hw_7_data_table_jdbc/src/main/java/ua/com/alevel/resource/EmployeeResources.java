@@ -56,7 +56,6 @@ public class EmployeeResources {
         return new ResponseEntity<>(employee, OK);
     }
 
-
     @GetMapping("/add/{department_id}/{employee_id}")
     public void addDepartmentForEmployee(
             @PathVariable("employee_id") Long employee_id,
@@ -75,13 +74,6 @@ public class EmployeeResources {
     public List<Department> findDepartmentsByEmployee(
             @PathVariable("id") Long id) {
         return employeeService.findDepartmentsByEmployee(id);
-    }
-
-    @GetMapping("/limit-list/{page}/{showEntity}")
-    public EmployeeResponse findAllLimit(
-            @PathVariable("page") int page,
-            @PathVariable( "showEntity") int showEntity) {
-        return employeeService.findAllLimit(page, showEntity);
     }
 
     @GetMapping("/limit-list/{page}/{showEntity}/{column}/{sort}")

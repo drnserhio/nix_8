@@ -57,8 +57,7 @@ public class DepartmentResources {
         return new ResponseEntity<>(department, OK);
     }
 
-
-    @PostMapping("/add/{department_id}/{employee_id}")
+    @GetMapping("/add/{department_id}/{employee_id}")
     public void addEmployeeForDepartment(
             @PathVariable("department_id") Long department_id,
             @PathVariable("employee_id") Long employee_id ) {
@@ -78,13 +77,6 @@ public class DepartmentResources {
         return departmentService.findEmployeesByDepartment(id);
     }
 
-    @GetMapping("/limit-list/{page}/{showEntity}")
-    public DepartmentResponse findAllLimit(
-            @PathVariable("page") int page,
-            @PathVariable( "showEntity") int showEntity) {
-        return departmentService.findAllLimit(page, showEntity);
-    }
-
     @GetMapping("/limit-list/{page}/{showEntity}/{column}/{sort}")
     public DepartmentResponse findAllWithSortColumn(
             @PathVariable("page") int page,
@@ -94,5 +86,10 @@ public class DepartmentResources {
         return departmentService.findAllWithSortColumn(page, showEntity, columnSort, sort);
     }
 
+    @GetMapping("/free-employees/{id}")
+    public List<Employee> findFreeEmployeesByDepartment(
+            @PathVariable("id") Long id) {
+        return departmentService.findFreeEmployeesByDepartment(id);
+    }
 
 }

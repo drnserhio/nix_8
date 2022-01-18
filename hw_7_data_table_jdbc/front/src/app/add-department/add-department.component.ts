@@ -29,4 +29,8 @@ export class AddDepartmentComponent implements OnInit {
       }
     )
   }
+
+  toHome() {
+    this.router.navigateByUrl(`/employees-list`);
+  }
 }

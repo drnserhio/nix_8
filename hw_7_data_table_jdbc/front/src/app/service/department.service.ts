@@ -45,11 +45,12 @@ export class DepartmentService {
     return this.http.delete<void | HttpErrorResponse>(`${this.host}/department/del/${departmentId}/${employeeId}`);
   }
 
-  public addEmployeesToDepartment(departmentId: number, employeeId: number): Observable<void | HttpErrorResponse> {
-    return this.http.get<void | HttpErrorResponse>(`${this.host}/department/add/${departmentId}/${employeeId}`);
+  public findFreeEmployeesByDepartment(departmentId: number): Observable<Employee[] | HttpErrorResponse> {
+    return this.http.get<Employee[] | HttpErrorResponse>(`${this.host}/department/free-employees/${departmentId}`);
   }
 
-  public findAllEmployees(departmentId: number): Observable<Employee[] | HttpErrorResponse> {
-    return this.http.get<Employee[] | HttpErrorResponse>(`${this.host}/department/list-employees/${departmentId}`);
+  public addEmployeeForDepartment(department_id: number, employee_id: number): Observable<void> {
+    return this.http.get<void>(`${this.host}/department/add/${department_id}/${employee_id}`);
   }
+
 }

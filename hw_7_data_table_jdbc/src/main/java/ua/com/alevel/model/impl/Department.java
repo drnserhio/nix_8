@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 public class Department extends BaseUser {
     private String nameCompany;
     private String address;
@@ -22,7 +21,6 @@ public class Department extends BaseUser {
 
     public Department() {
     }
-
 
     public String getNameCompany() {
         return nameCompany;

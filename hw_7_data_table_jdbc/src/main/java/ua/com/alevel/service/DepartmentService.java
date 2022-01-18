@@ -67,17 +67,6 @@ public class DepartmentService {
         departmentDao.deleteEmployeeForDepartment(department_id, employee_id);
     }
 
-    public DepartmentResponse findAllLimit(int page, int showEntity) {
-
-        DepartmentResponse response = departmentDao.findAllLimit(page, showEntity);
-
-        if(Objects.isNull(response.getDepartments())) {
-            throw new RuntimeException("employees don't have in base");
-        }
-        return response;
-    }
-
-
     public DepartmentResponse findAllWithSortColumn(int page, int showEntity, String column, String sort) {
 
         DepartmentResponse response = departmentDao.findAllWithSortColumn(page, showEntity, column, sort);
@@ -86,5 +75,9 @@ public class DepartmentService {
 
     public List<Employee> listEmployees(int department_id) {
         return departmentDao.listEmployees(department_id);
+    }
+
+    public List<Employee> findFreeEmployeesByDepartment(Long id) {
+        return departmentDao.findFreeEmployeesByDepartment(id);
     }
 }
