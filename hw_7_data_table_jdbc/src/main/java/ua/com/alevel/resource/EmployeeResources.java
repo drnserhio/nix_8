@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = {"/", "/employee"})
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://localhost:4221")
 public class EmployeeResources {
     private final EmployeeService employeeService;
 

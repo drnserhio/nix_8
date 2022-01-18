@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping(value = "/department")
 @AllArgsConstructor
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://localhost:4221")
 public class DepartmentResources {
 
     private final DepartmentService departmentService;
