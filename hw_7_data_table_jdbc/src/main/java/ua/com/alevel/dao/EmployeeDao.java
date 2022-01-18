@@ -25,9 +25,10 @@ public interface EmployeeDao<E extends Employee> {
      void addDepartmentForEmployee(Long employee_id, Long department_id);
      void deleteDepartment(Long employee_id, Long department_id);
      List<Department> findDepartmentsByEmployee(Long id);
+     List<Department> findFreeDepartmentByEmployee(Long employeeId);
 
 
-    EmployeeResponse findAllLimit(int page, int pageSave, int showEntity);
+    EmployeeResponse findAllLimit(int page, int showEntity);
 
-     EmployeeResponse findAllWithSortColumn(int find, int page, int showEntity, String column,  String sort);
+     EmployeeResponse findAllWithSortColumn(int page, int showEntity, String column,  String sort);
 }

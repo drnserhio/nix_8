@@ -18,4 +18,6 @@ public class EmployeeSqlConstant {
 
 
     public static final String FIND_ALL_EMPLOYEE_WITH_OUT_DEPARTMENT = "select distinct id from employee e, relations r where e.id = r.employee_id and department_id != %s or e.id not in (select employee_id from relations)";
+
+    public static final String FIND_ALL_FREE_DEPARTMENT = "select id, dateCreate, dateUpdate, nameCompany, address from department where id not in (select department_id from relations where employee_id = %d)";
 }

@@ -22,7 +22,7 @@ export class DepartmentsListComponent implements OnInit {
   private departmentList: Department[];
   private saveCounterEntity: number;
   private flag: boolean;
-  private columnSave: string;
+  private columnSave: string = 'id';
   private saveSort = 'asc';
   private updateDepartment: Department = new Department();
 
@@ -37,25 +37,7 @@ export class DepartmentsListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.limitList(1, this.showDepartment);
-  }
-
-
-  public limitList(page: number, showEntity: number) {
-    this.departmentService.limitList(page, showEntity).subscribe(
-      (response: ResponseDepartment) => {
-        this.responseDepartment = response;
-        this.departmentList = response.departments;
-        if (this.saveCounterEntity === 0 ||
-          this.saveCounterEntity == null) {
-          this.saveCounterEntity = response.allSizeEntity;
-        }
-        this.isBoundEntity();
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error.message);
-      }
-    );
+    this.sort(1, this.showDepartment, this.columnSave, this.saveSort);
   }
 
 
@@ -64,7 +46,7 @@ export class DepartmentsListComponent implements OnInit {
     this.showDepartment = value.controls.showEntity.value;
     if (this.saveSort == null ||
       this.saveSort === 'asc') {
-      this.limitList(1, this.showDepartment);
+      this.sort(1, this.showDepartment, this.columnSave, this.saveSort);
     } else {
       this.sort(1, this.showDepartment, this.columnSave, this.saveSort);
     }
@@ -73,7 +55,7 @@ export class DepartmentsListComponent implements OnInit {
   public pagePrevious() {
     if (this.saveSort == null ||
       this.saveSort === 'asc') {
-      this.limitList(--this.responseDepartment.page, this.showDepartment);
+      this.sort(--this.responseDepartment.page, this.responseDepartment.showEntity, this.columnSave, this.saveSort);
     }  else {
       this.sort(--this.responseDepartment.page, this.responseDepartment.showEntity, this.columnSave, this.saveSort);
     }
@@ -83,21 +65,12 @@ export class DepartmentsListComponent implements OnInit {
 
     if (this.saveSort == null ||
       this.saveSort === 'asc') {
-      this.limitList(++this.responseDepartment.page, this.showDepartment);
+      this.sort(++this.responseDepartment.page, this.responseDepartment.showEntity, this.columnSave, this.saveSort);
     } else {
       this.sort(++this.responseDepartment.page, this.responseDepartment.showEntity, this.columnSave, this.saveSort);
     }
   }
 
-  public isBoundEntity() {
-    this.saveCounterEntity =  this.saveCounterEntity - this.responseDepartment.showEntity ;
-
-    if (this.saveCounterEntity >= 0) {
-      this.flag = false;
-    } else {
-      this.flag = true;
-    }
-  }
 
   public saveResponseField(showSaveEntity: number, column: string, sort: string) {
     this.columnSave = column;
@@ -117,7 +90,6 @@ export class DepartmentsListComponent implements OnInit {
           this.saveCounterEntity = response.allSizeEntity;
         }
         this.saveResponseField(showSaveEntity, column, sort);
-        this.isBoundEntity();
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -230,7 +202,7 @@ export class DepartmentsListComponent implements OnInit {
     this.departmentList = res;
     if (res.length === 0 ||
       !searchUsers) {
-      this.limitList(1, this.showDepartment);
+      this.sort(1, this.showDepartment, this.columnSave, this.saveSort);
     }
   }
 

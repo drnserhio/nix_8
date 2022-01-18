@@ -27,7 +27,7 @@
         <div class="dataTables_length" id="example_length"><label>Show
           <select name="showEntity" ngModel required aria-controls="example"
                   class="custom-select custom-select-sm form-control form-control-sm">
-            <option *ngFor="let value of ListValueOption">{{value}}</option>
+            <option value="10" *ngFor="let value of ListValueOption">{{value}}</option>
           </select> entries</label>
         </div>
       </div>
@@ -51,6 +51,7 @@
       <th style="cursor: pointer" (click)="sortByLastname()" class="btn-light">Last name</th>
       <th style="cursor: pointer" (click)="sortByUsername()" class="btn-light">Username</th>
       <th style="cursor: pointer" class="btn-light">Work in Department</th>
+      <th style="cursor: pointer" class="btn-light">Add free to Department</th>
       <th style="cursor: no-drop; width: 1%" >Delete</th>
     </tr>
     </thead>
@@ -63,6 +64,7 @@
       <td style="cursor: crosshair" class="btn-light" (click)="chooseEmployee(employee.id)">{{ employee.lastname }}</td>
       <td style="cursor: crosshair" class="btn-light" (click)="chooseEmployee(employee.id)">{{ employee.username }}</td>
       <td style="cursor: crosshair; width: 1%" class="btn-light" (click)="findDepartmentsByEmployee(employee.id)" ><i class="fas fa-list"></i></td>
+      <td style="cursor: crosshair; width: 1%" class="btn-light" (click)="addFreeToDepartments(employee.id)" ><i class="fas fa-plus-square"></i></td>
       <td style="cursor: crosshair; width: 1%"  class="btn-danger" (click)="deleteEmployee(employee.id)"> <i class="fas fa-user-times"></i></td>
     </tr>
     <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#myModal"
@@ -71,26 +73,30 @@
     <button id="openModalWorkDepartment" [hidden]="true"  data-toggle="modal" data-target="#Workdepartment"
             (click)="openModal(Workdepartment)">Open Modal
     </button>
+
+    <button id="openModalAddToDepartment" [hidden]="true"  data-toggle="modal" data-target="#addToDepartment"
+            (click)="openModal(addToDepartment)">Open Modal
+    </button>
     </tbody>
   </table>
 
 
   <div class="row">
     <div class="col-sm-12 col-md-5">
-      <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing
-        to {{responseEmployee.employees.length}} of {{responseEmployee.countEntity}} entries
+      <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing {{responseEmployee.showEntityFrom}}
+        to {{responseEmployee.showEntityTo}} of {{responseEmployee.allSizeEntity}} entries
       </div>
     </div>
     <div class="col-sm-12 col-md-7">
       <div class="dataTables_paginate paging_simple_numbers" id="example_paginate">
         <ul class="pagination">
           <li class="paginate_button page-item previous disabled" id="example_previous">
-            <button aria-controls="example" [disabled]="responseEmployee.page ==  1" (click)="pagePrevious()"
+            <button aria-controls="example" [disabled]="responseEmployee.page == 1" (click)="pagePrevious()"
                     tabindex="0" class="btn btn-link">Previous
             </button>
           </li>
           <li class="paginate_button page-item next disabled" id="example_next">
-            <button aria-controls="example" (click)="pageNext()" [disabled]="flag" tabindex="0" class="btn btn-link">
+            <button aria-controls="example" (click)="pageNext()" [disabled]="responseEmployee.page == responseEmployee.totalPages" tabindex="0" class="btn btn-link">
               Next
             </button>
           </li>
@@ -184,3 +190,33 @@
   </div>
   </div>
   </ng-template>
+
+
+<!--Add to department-->
+
+<ng-template #addToDepartment let-modal>
+
+<div class="container">
+  <div class="modal-header modal-lg">
+    <h4 class="modal-title" id="modal">Add to department list</h4>
+  </div>
+
+
+  <form class="form-group" #value="ngForm">
+    <div class="input-group">
+      <select name="showDepartment" ngModel required  class="custom-select" id="inputGroupSelect04">
+        <option selected>Choose...</option>
+        <option *ngFor="let d of free" value="{{d.id}}">{{d.nameCompany}}</option>
+      </select>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="addEmployeeToDepartment(value)" type="button">Add to Department</button>
+      </div>
+    </div>
+
+  </form>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+  </div>
+</div>
+</ng-template>
+

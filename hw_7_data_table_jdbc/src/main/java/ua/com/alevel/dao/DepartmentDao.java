@@ -25,8 +25,8 @@ public interface DepartmentDao <E extends BaseUser> {
     void deleteEmployeeForDepartment(Long department_id, Long employee_id);
     List<Department> findEmployeesByDepartment(Long id);
 
-    DepartmentResponse findAllLimit(int page, int pageSave, int showEntity);
+    DepartmentResponse findAllLimit(int page, int showEntity);
 
-    DepartmentResponse findAllWithSortColumn(int find, int page, int showEntity, String column,  String sort);
+    DepartmentResponse findAllWithSortColumn(int page, int showEntity, String column,  String sort);
 }
 

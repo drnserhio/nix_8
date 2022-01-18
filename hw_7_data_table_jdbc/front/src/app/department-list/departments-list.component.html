@@ -25,9 +25,9 @@
     <form #value="ngForm" (change)="showEntity(value)">
       <div class="col-sm-12 col-md-6">
         <div class="dataTables_length" id="example_length"><label>Show
-          <select name="showEntity" ngModel required aria-controls="example"
+          <select  name="showEntity" ngModel required aria-controls="example"
                   class="custom-select custom-select-sm form-control form-control-sm">
-            <option *ngFor="let value of ListValueOption">{{value}}</option>
+            <option  *ngFor="let value of ListValueOption">{{value}}</option>
           </select> entries</label>
         </div>
       </div>
@@ -92,8 +92,8 @@
 
   <div class="row">
     <div class="col-sm-12 col-md-5">
-      <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing
-        to {{responseDepartment.departments.length}} of {{responseDepartment.countEntity}} entries
+      <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing {{responseDepartment.departments.length - responseDepartment.departments.length}}
+        to {{responseDepartment.departments.length}} of {{responseDepartment.allSizeEntity}} entries
       </div>
     </div>
     <div class="col-sm-12 col-md-7">
@@ -105,7 +105,7 @@
             </button>
           </li>
           <li class="paginate_button page-item next disabled" id="example_next">
-            <button aria-controls="example" (click)="pageNext()" [disabled]="flag" tabindex="0" class="btn btn-link">
+            <button aria-controls="example" (click)="pageNext()" [disabled]="responseDepartment.page == responseDepartment.totalPages" tabindex="0" class="btn btn-link">
               Next
             </button>
           </li>

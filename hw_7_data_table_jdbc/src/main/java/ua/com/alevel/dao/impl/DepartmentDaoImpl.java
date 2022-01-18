@@ -174,10 +174,11 @@ public class DepartmentDaoImpl implements DepartmentDao {
     }
 
     @Override
-    public DepartmentResponse findAllLimit(int page, int pageSave, int showEntity) {
+    public DepartmentResponse findAllLimit(int page, int showEntity) {
         List<Department> list = new ArrayList<>();
         try (Statement statement = connectSevice.getConnection().createStatement()){
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL_LIMIT_DEPARTMENT + (page - 1) + "," + showEntity);
+            int firstPage = (page - 1) * showEntity;
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL_LIMIT_DEPARTMENT + firstPage + "," + showEntity);
             while (resultSet.next()) {
                 list.add(convertToDepartment(resultSet));
             }
@@ -185,19 +186,40 @@ public class DepartmentDaoImpl implements DepartmentDao {
             out.println("Message: " + throwables.getMessage());
         }
         DepartmentResponse departmentResponse = new DepartmentResponse();
+        int totalPages = 0;
+        int itemSize = countEntity();
+        if (itemSize % 10 == 0) {
+            totalPages = (int) (itemSize / showEntity);
+        } else {
+            totalPages = (int) (itemSize/ showEntity) + 1;
+        }
         departmentResponse.setDepartments(list);
-        departmentResponse.setPage(pageSave);
+        departmentResponse.setPage(page);
+        departmentResponse.setTotalPages(totalPages);
         departmentResponse.setShowEntity(showEntity);
-        departmentResponse.setCountEntity(list.size());
-        departmentResponse.setAllSizeEntity(countDepartments());
+        departmentResponse.setAllSizeEntity(itemSize);
         return departmentResponse;
     }
 
+    private int countEntity() {
+        int count = 0;
+        try (Statement statement = connectSevice.getConnection().createStatement()){
+            ResultSet set = statement.executeQuery("select count(id) from department");
+            if (set.next()) {
+                count = Integer.parseInt(set.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     @Override
-    public DepartmentResponse findAllWithSortColumn(int page, int pageSave, int showEntity, String column, String sort) {
+    public DepartmentResponse findAllWithSortColumn(int page, int showEntity, String column, String sort) {
         List<Department> list = new ArrayList<>();
         try (Statement statement = connectSevice.getConnection().createStatement()){
-            ResultSet resultSet = statement.executeQuery(String.format(FIND_ALL_SQL_LIMIT_WITH_SORT_DEPARTMENT, column, sort) + (page - 1) + "," + showEntity);
+            int firstPage = (page - 1) * showEntity;
+            ResultSet resultSet = statement.executeQuery(String.format(FIND_ALL_SQL_LIMIT_WITH_SORT_DEPARTMENT, column, sort) + firstPage + "," + showEntity);
             while (resultSet.next()) {
                 list.add(convertToDepartment(resultSet));
             }
@@ -205,11 +227,18 @@ public class DepartmentDaoImpl implements DepartmentDao {
             out.println("Message: " + throwables.getMessage());
         }
         DepartmentResponse departmentResponse = new DepartmentResponse();
+        int totalPages = 0;
+        int itemSize = countEntity();
+        if (itemSize % 10 == 0) {
+            totalPages = (int) (itemSize / showEntity);
+        } else {
+            totalPages = (int) (itemSize/ showEntity) + 1;
+        }
         departmentResponse.setDepartments(list);
-        departmentResponse.setPage(pageSave);
+        departmentResponse.setPage(page);
+        departmentResponse.setTotalPages(totalPages);
         departmentResponse.setShowEntity(showEntity);
-        departmentResponse.setCountEntity(list.size());
-        departmentResponse.setAllSizeEntity(countDepartments());
+        departmentResponse.setAllSizeEntity(itemSize);
         departmentResponse.setSort(sort);
         return departmentResponse;
     }

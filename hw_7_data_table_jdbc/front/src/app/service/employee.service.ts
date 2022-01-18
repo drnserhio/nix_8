@@ -51,4 +51,12 @@ export class EmployeeService {
   public deleteDepartment(department_id: number, employee_id: number): Observable<void | HttpErrorResponse> {
     return this.http.delete<void | HttpErrorResponse>(`${this.host}/employee/del/${department_id}/${employee_id}`);
   }
+
+  public findFreeDepartmentByEmployee(id: number): Observable<Department[] | HttpErrorResponse> {
+    return this.http.get<Department[] | HttpErrorResponse>(`${this.host}/employee/free-departments/${id}`);
+  }
+
+  public addFreeDepartmentToEmployee(departmentId, employeeId): Observable<void> {
+    return this.http.get<void>(`${this.host}/employee/add/${departmentId}/${employeeId}`);
+  }
 }

@@ -95,10 +95,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
-    public EmployeeResponse findAllLimit(int page, int pageSave, int showEntity) {
+    public EmployeeResponse findAllLimit(int page, int showEntity) {
         List<Employee> list = new ArrayList<>();
       try (Statement statement = connectSevice.getConnection().createStatement()){
-          ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL_LIMIT + (page - 1) + "," + showEntity);
+          int firstPage = (page - 1) * showEntity;
+          ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL_LIMIT + firstPage + "," + showEntity);
           while (resultSet.next()) {
               list.add(convertResultToEmployee(resultSet));
           }
@@ -106,20 +107,41 @@ public class EmployeeDaoImpl implements EmployeeDao {
           out.println("Message: " + throwables.getMessage());
       }
       EmployeeResponse employeeResponse = new EmployeeResponse();
+        int totalPages = 0;
+        int itemSize = countEntity();
+        if (itemSize % showEntity == 0) {
+            totalPages = (int) (itemSize / showEntity);
+        } else {
+            totalPages = (int) (itemSize / showEntity) + 1;
+        }
       employeeResponse.setEmployees(list);
-      employeeResponse.setPage(pageSave);
+      employeeResponse.setPage(page);
+      employeeResponse.setTotalPages(totalPages);
       employeeResponse.setShowEntity(showEntity);
-      employeeResponse.setCountEntity(list.size());
-      employeeResponse.setAllSizeEntity(countEmployees());
+      employeeResponse.setAllSizeEntity(itemSize);
 
       return employeeResponse;
     }
 
+    private int countEntity() {
+        int count = 0;
+        try (Statement statement = connectSevice.getConnection().createStatement()){
+             ResultSet set = statement.executeQuery("select count(id) from employee");
+             if (set.next()) {
+                 count = Integer.parseInt(set.getString(1));
+             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     @Override
-    public EmployeeResponse findAllWithSortColumn(int page, int pageSave, int showEntity, String column, String sort) {
+    public EmployeeResponse findAllWithSortColumn(int page, int showEntity, String column, String sort) {
         List<Employee> list = new ArrayList<>();
         try (Statement statement = connectSevice.getConnection().createStatement()){
-            ResultSet resultSet = statement.executeQuery(String.format(FIND_ALL_SQL_LIMIT_WITH_SORT, column, sort) + (page - 1) + "," + showEntity);
+            int firstPage = (page - 1) * showEntity;
+            ResultSet resultSet = statement.executeQuery(String.format(FIND_ALL_SQL_LIMIT_WITH_SORT, column, sort) + firstPage + "," + showEntity);
             while (resultSet.next()) {
                 list.add(convertResultToEmployee(resultSet));
             }
@@ -127,18 +149,40 @@ public class EmployeeDaoImpl implements EmployeeDao {
             out.println("Message: " + throwables.getMessage());
         }
         EmployeeResponse employeeResponse = new EmployeeResponse();
+
+        int itemSize = countEntity();
+        int totalPages = totalPage(itemSize, showEntity);
+
+        int entFrom = showEntriesFrom(page, showEntity);
+        int entTo = showEntriesTo(entFrom, itemSize);
+
         employeeResponse.setEmployees(list);
-        employeeResponse.setPage(pageSave);
+        employeeResponse.setPage(page);
+        employeeResponse.setTotalPages(totalPages);
+        employeeResponse.setShowEntityFrom(entFrom);
+        employeeResponse.setShowEntityTo(entTo);
         employeeResponse.setShowEntity(showEntity);
-        employeeResponse.setCountEntity(list.size());
-        employeeResponse.setAllSizeEntity(countEmployees());
+        employeeResponse.setAllSizeEntity(itemSize);
         employeeResponse.setSort(sort);
         return employeeResponse;
     }
 
-    private int countEmployees() {
-        return findAll().size();
+    private int totalPage(int itemSize, int showEntity) {
+        if (itemSize % 10 == 0) {
+            return  (itemSize / showEntity);
+        } else {
+           return (itemSize/ showEntity) + 1;
+        }
     }
+
+    private int showEntriesTo(int entFrom, int itemSize) {
+        return entFrom - 1 + itemSize;
+    }
+
+    private int showEntriesFrom(int page, int showEntity) {
+        return (page - 1) * showEntity + 1;
+    }
+
 
     public Employee convertResultToEmployee(ResultSet resultSet)
             throws SQLException {
@@ -313,6 +357,27 @@ public class EmployeeDaoImpl implements EmployeeDao {
         return convert;
 
     }
+
+    public List<Department> findFreeDepartmentByEmployee(Long employeeId) {
+        List<Department> departments = new ArrayList<>();
+        try (Statement statement = connectSevice.getConnection().createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery(String.format(FIND_ALL_FREE_DEPARTMENT,employeeId));
+
+            while (resultSet.next()) {
+                departments.add(convertToDepartment(resultSet));
+            }
+        } catch (SQLException throwables) {
+            out.println("e: " + throwables);
+        }
+        if (departments.size() == 0) {
+            throw new RuntimeException("Didn't have free department!");
+        }
+
+        return departments;
+    }
+
+
 
 
 

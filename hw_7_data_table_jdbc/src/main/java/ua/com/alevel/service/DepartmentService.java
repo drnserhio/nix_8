@@ -68,12 +68,8 @@ public class DepartmentService {
     }
 
     public DepartmentResponse findAllLimit(int page, int showEntity) {
-        int find = page;
-        if(find==1){}
-        else{
-            find=(find-1)*showEntity+1;
-        }
-        DepartmentResponse response = departmentDao.findAllLimit(find, page, showEntity);
+
+        DepartmentResponse response = departmentDao.findAllLimit(page, showEntity);
 
         if(Objects.isNull(response.getDepartments())) {
             throw new RuntimeException("employees don't have in base");
@@ -83,12 +79,8 @@ public class DepartmentService {
 
 
     public DepartmentResponse findAllWithSortColumn(int page, int showEntity, String column, String sort) {
-        int find = page;
-        if(find==1){}
-        else{
-            find=(find-1)*showEntity+1;
-        }
-        DepartmentResponse response = departmentDao.findAllWithSortColumn(find, page, showEntity, column, sort);
+
+        DepartmentResponse response = departmentDao.findAllWithSortColumn(page, showEntity, column, sort);
         return response;
     }
 

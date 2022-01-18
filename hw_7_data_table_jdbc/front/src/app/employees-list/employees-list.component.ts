@@ -21,14 +21,18 @@ export class EmployeesListComponent implements OnInit {
   public showEmployee: number = 10;
   private employeeList: Employee[];
   private saveCounterEntity: number;
-  private flag: boolean;
-  private columnSave: string;
+  private columnSave: string = 'id';
   private saveSort: string = 'asc';
   private updateEmployee: Employee = new Employee();
 
   public listSearch: Employee[] = [];
   private departmentsByEmployee: Department[];
   private saveIdEmployee: number;
+  public page: number = 0;
+
+  public free: Department[] = [];
+  private selectEmployee: number;
+  private departmentId: number;
 
 
   constructor(private http: HttpClient,
@@ -37,44 +41,15 @@ export class EmployeesListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.limitList(1, this.showEmployee);
+    this.sort(1, this.showEmployee, this.columnSave, this.saveSort);
   }
-
-  public findAllBase() {
-    this.employeeService.findAllBase().subscribe(
-      (list: Employee[]) => {
-        this.employeeList = list;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error.message);
-      }
-    )
-  }
-
-  public limitList(page: number, showEntity: number) {
-    this.employeeService.limitList(page, showEntity).subscribe(
-      (response: ResponseEmployee) => {
-        this.responseEmployee = response;
-        this.employeeList = response.employees;
-        if (this.saveCounterEntity == 0 ||
-              this.saveCounterEntity == null) {
-          this.saveCounterEntity = response.allSizeEntity;
-        }
-        this.isBoundEntity();
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error.message);
-      }
-    )
-  }
-
 
   public showEntity(value: NgForm) {
     this.saveCounterEntity = null;
     this.showEmployee = value.controls['showEntity'].value;
     if (this.saveSort == null ||
         this.saveSort == 'asc') {
-      this.limitList(1, this.showEmployee);
+      this.sort(1, this.showEmployee, this.columnSave, this.saveSort);
     } else {
       this.sort(1, this.showEmployee, this.columnSave, this.saveSort);
     }
@@ -83,7 +58,7 @@ export class EmployeesListComponent implements OnInit {
   public pagePrevious() {
     if (this.saveSort == null ||
       this.saveSort == 'asc') {
-      this.limitList(--this.responseEmployee.page, this.showEmployee);
+      this.sort(--this.responseEmployee.page, this.responseEmployee.showEntity, this.columnSave, this.saveSort);
     }  else {
       this.sort(--this.responseEmployee.page, this.responseEmployee.showEntity, this.columnSave, this.saveSort);
     }
@@ -93,19 +68,9 @@ export class EmployeesListComponent implements OnInit {
 
     if (this.saveSort == null ||
       this.saveSort == 'asc') {
-      this.limitList(++this.responseEmployee.page, this.showEmployee);
+      this.sort(++this.responseEmployee.page, this.responseEmployee.showEntity, this.columnSave, this.saveSort);
     } else {
       this.sort(++this.responseEmployee.page, this.responseEmployee.showEntity, this.columnSave, this.saveSort);
-    }
-  }
-
-  public isBoundEntity() {
-    this.saveCounterEntity =  this.saveCounterEntity - this.responseEmployee.showEntity ;
-
-    if (this.saveCounterEntity >= 0) {
-      this.flag = false;
-    } else {
-      this.flag = true;
     }
   }
 
@@ -121,6 +86,7 @@ export class EmployeesListComponent implements OnInit {
 
     this.employeeService.listWithSortColumn(page, showSaveEntity, column, sort).subscribe(
       (response: ResponseEmployee) => {
+        console.log(response);
         this.responseEmployee = response;
         this.employeeList = response.employees;
         this.saveSort = response.sort;
@@ -129,7 +95,6 @@ export class EmployeesListComponent implements OnInit {
           this.saveCounterEntity = response.allSizeEntity;
         }
         this.saveResponseField(showSaveEntity, column, sort);
-        this.isBoundEntity();
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -255,7 +220,7 @@ export class EmployeesListComponent implements OnInit {
     this.employeeList = res;
     if (res.length === 0 ||
       !searchUsers) {
-      this.limitList(1, this.showEmployee);
+      this.sort(1, this.showEmployee, this.columnSave, this.saveSort);
     }
   }
 
@@ -270,7 +235,6 @@ export class EmployeesListComponent implements OnInit {
         alert("Employee don't work in all department.")
       }
     )
-
   }
 
   public deleteDepartmentInEmployee(department_id: number, employee_id: number) {
@@ -283,5 +247,24 @@ export class EmployeesListComponent implements OnInit {
         alert("Employee didn't go out for department successfull.")
       }
     )
+  }
+
+  public addFreeToDepartments(id: number) {
+    this.employeeService.findFreeDepartmentByEmployee(id).subscribe(
+      (response: Department[]) => {
+        this.free = response;
+        this.selectEmployee = id;
+        document.getElementById('openModalAddToDepartment').click();
+      },
+      (error: HttpErrorResponse) => {
+        alert('Didn\'t have free department!');
+      }
+    )
+  }
+
+  addEmployeeToDepartment(value: NgForm) {
+    this.departmentId = value.controls['showDepartment'].value;
+    this.employeeService.addFreeDepartmentToEmployee(this.departmentId, this.selectEmployee).subscribe();
+    this.close();
   }
 }
