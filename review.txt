@@ -62,3 +62,8 @@ Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 0 out of b
         at com.ua.alevel.ApplicationRun.main(ApplicationRun.java:14)
 
 и апка падает - вместо: "дорогой идиот! что вы от меня хотите?)"
+
+hw_7 = 9
+
+оч не плохо
+ток правильно посмотри как инит в конфиге прописывать
