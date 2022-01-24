@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+    url: jdbc:mysql://localhost:3306/hw_9?useSSL=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+
+  jpa:
+    show-sql: true
+    hibernate:
+      jdbc:
+        batch_size: 50
+        fetch_size: 50
+        max_size: 25
+        min_size: 5
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      hbm2ddl:
+        auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+
+
+  sql:
+    init:
+      platform: mysql
+#      data-locations: classpath:sql/data.sql
+      mode: always
+
+server:
+  port: 8177
