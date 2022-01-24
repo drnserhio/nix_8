@@ -272,6 +272,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Employee> findFreeEmployeesByDepartment(Long id) {
         List<Employee> employees = new ArrayList<>();
 
