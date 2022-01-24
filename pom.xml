@@ -9,6 +9,12 @@
     <version>1.1</version>
     <packaging>pom</packaging>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.3</version>
+    </parent>
+
     <modules>
         <module>hw_1_base_operations</module>
         <module>hw_2_strings</module>
@@ -21,6 +27,8 @@
         <module>hw_6_calendar</module>
         <module>module_2</module>
         <module>hw_7_data_table_jdbc</module>
+        <module>hw_8_jpa</module>
+        <module>hw_9_hibernate</module>
     </modules>
 
     <properties>
