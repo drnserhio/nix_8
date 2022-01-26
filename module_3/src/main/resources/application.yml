@@ -31,4 +31,4 @@ spring:
       date-time: yyyy-MM-dd HH:mm:ss
 
 server:
-  port: 8343
+  port: 8674
