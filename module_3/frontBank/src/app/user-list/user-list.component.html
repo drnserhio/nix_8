@@ -1,1 +1,66 @@
-<p>user-list works!</p>
+<div class="container p-0 ">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Add user</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Add</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">My profile</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <br>
+  <select (change)="pageChangeShowEntity($event)">
+    <option *ngFor="let size of pageSizes" [ngValue]="size">
+      {{ size }}
+    </option>
+  </select>
+
+  <div class="btn-group mr-2 float-right">
+    <form class="form-inline my-2 my-lg-0 justify-content-center">
+      <input name="searchTerm" #searchInput="ngModel" ngModel (ngModelChange)="searchUsers(searchInput.value)"
+             class="form-control mr-sm-2" type="search" placeholder="Search users...">
+    </form>
+  </div>
+  <br>
+  <hr>
+
+  <div class="container text-center">
+    <div class="list-item" *ngFor="let user of users">
+      <div class="card-group">
+        <div class="card bg-light mb-3" style="min-width: 25rem;">
+          <div class="card-header">Full name: {{user.firstname}} {{user.lastname}}</div>
+          <div class="card-body btn-light" (click)="onSelect(user)">
+            <h5 class="card-title">Username: {{user.username}}</h5>
+            <p class="card-text">{{user.phone}}</p>
+            <p class="card-text">Work account: {{user.accounts.length}}</p>
+          </div>
+          <button class="btn btn-outline-primary" (click)="downloadSvgFile()"><i class="fas fa-file-download"><small>Download svg</small></i></button>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <ngb-pagination class="pagination justify-content-center" [collectionSize]="responseUserTablePage.allSizeEntity"
+                    [(page)]="responseUserTablePage.page"
+                    [pageSize]="responseUserTablePage.showEntity"
+                    (pageChange)="pageChange($event)">
+    </ngb-pagination>
+  </div>
+
+</div>
+
+

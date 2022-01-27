@@ -1,6 +1,6 @@
 package alevel.resource;
 
-import alevel.dto.table.ResponseUserTablePage;
+import alevel.dto.table.ResponseAbstTablePage;
 import alevel.model.impl.Account;
 import alevel.model.impl.Operation;
 import alevel.model.impl.User;
@@ -118,12 +118,23 @@ public class UserResources {
     }
 
     @GetMapping("/limit-list/users/{page}/{showEntity}/{column}/{sort}")
-    public ResponseUserTablePage findAllWithSortColumn(
+    public ResponseAbstTablePage findAllUserListPage(
             @PathVariable("page") int page,
             @PathVariable( "showEntity") int showEntity,
             @PathVariable("column") String columnSort,
             @PathVariable("sort") String sort) {
-        ResponseUserTablePage tb = userService.findAllWithSortColumn(page, showEntity, columnSort, sort);
+        ResponseAbstTablePage tb = userService.findAllWithSortColumn(page, showEntity, columnSort, sort);
+        return tb;
+    }
+
+    @GetMapping("/limit-accounts_user/users/{page}/{showEntity}/{column}/{sort}/{id}")
+    public ResponseAbstTablePage findAllAccountForUserListPage(
+            @PathVariable("page") int page,
+            @PathVariable( "showEntity") int showEntity,
+            @PathVariable("column") String columnSort,
+            @PathVariable("sort") String sort,
+            @PathVariable("id") Long userId) {
+        ResponseAbstTablePage tb = userService.findAllAccountForUserListPage(page, showEntity, columnSort, sort, userId);
         return tb;
     }
 }

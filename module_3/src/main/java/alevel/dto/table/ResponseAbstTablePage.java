@@ -1,14 +1,13 @@
 package alevel.dto.table;
 
-import alevel.model.impl.User;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class ResponseUserTablePage {
+public abstract class ResponseAbstTablePage<T> {
 
-    private List<User> users;
+    private List<T> content;
     private int page;
     private int totalPages;
     private int showEntity;

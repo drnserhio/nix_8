@@ -1,7 +1,8 @@
 package alevel.service.impl;
 
 import alevel.dao.impl.UserDao;
-import alevel.dto.table.ResponseUserTablePage;
+import alevel.dto.table.ResponseAbstTablePage;
+import alevel.dto.table.impl.ResponseUserTablePage;
 import alevel.model.impl.Account;
 import alevel.model.impl.Operation;
 import alevel.model.impl.User;
@@ -111,5 +112,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseUserTablePage findAllWithSortColumn(int page, int showEntity, String column, String sort) {
         return userDao.findAllWithSortColumn(page, showEntity, column, sort);
+    }
+
+    @Override
+    public ResponseAbstTablePage findAllAccountForUserListPage(int page, int showEntity, String columnSort, String sort, Long userId) {
+        return userDao.findAllAccountForUserListPage(page, showEntity, columnSort, sort, userId);
     }
 }

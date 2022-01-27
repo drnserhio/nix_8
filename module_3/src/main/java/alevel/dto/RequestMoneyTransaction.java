@@ -1,4 +1,4 @@
-package alevel.dto.table;
+package alevel.dto;
 
 import lombok.Data;
 import org.springframework.web.bind.annotation.RequestParam;

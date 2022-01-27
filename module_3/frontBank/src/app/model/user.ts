@@ -1,3 +1,5 @@
+import {Account} from "./account";
+
 export class User {
   id: number;
   firstname: string;

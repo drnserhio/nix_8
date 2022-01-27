@@ -1,7 +1,7 @@
-import {User} from "./user";
 
-export class ResponseUserTablePage {
-  users: User[];
+export abstract class ResponseTablePage<T> {
+
+  content: T[];
   page: number;
   totalPages: number
   showEntity: number;
@@ -9,4 +9,5 @@ export class ResponseUserTablePage {
   sort: string;
   showEntityTo: number
   showEntityFrom: number;
+
 }

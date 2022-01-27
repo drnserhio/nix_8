@@ -1,6 +1,7 @@
 package alevel.service;
 
-import alevel.dto.table.ResponseUserTablePage;
+import alevel.dto.table.ResponseAbstTablePage;
+import alevel.dto.table.impl.ResponseUserTablePage;
 import alevel.model.impl.Account;
 import alevel.model.impl.Operation;
 import alevel.model.impl.User;
@@ -42,4 +43,6 @@ public interface UserService {
      void sendMoneyToUser(Long senderId, Long recipientId, Long acccountSenderId, Long accountRecipientId, long summa);
 
      ResponseUserTablePage findAllWithSortColumn(int page, int showEntity, String column, String sort);
+
+     ResponseAbstTablePage findAllAccountForUserListPage(int page, int showEntity, String columnSort, String sort, Long userId);
 }

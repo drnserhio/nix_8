@@ -3,7 +3,9 @@ package alevel.dao.impl;
 import alevel.dao.BaseAccountDao;
 import alevel.dao.BaseDao;
 import alevel.dao.BaseOperationDao;
-import alevel.dto.table.ResponseUserTablePage;
+import alevel.dto.table.ResponseAbstTablePage;
+import alevel.dto.table.impl.ResponseAccountsUserTable;
+import alevel.dto.table.impl.ResponseUserTablePage;
 import alevel.model.impl.MoneyTransaction;
 import alevel.exception.AccountExistException;
 import alevel.exception.UsernameExistsException;
@@ -125,17 +127,49 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
         int entFrom = showEntriesFrom(page, showEntity);
         int entTo = showEntriesTo(entFrom, itemSize);
 
-        ResponseUserTablePage departmentResponse = new ResponseUserTablePage();
+        ResponseUserTablePage responseUserTablePage = new ResponseUserTablePage();
 
-        departmentResponse.setUsers(list);
-        departmentResponse.setPage(page);
-        departmentResponse.setTotalPages(totalPages);
-        departmentResponse.setShowEntity(showEntity);
-        departmentResponse.setAllSizeEntity(itemSize);
-        departmentResponse.setSort(sort);
-        departmentResponse.setShowEntityFrom(entFrom);
-        departmentResponse.setShowEntityTo(entTo);
-        return departmentResponse;
+        responseUserTablePage.setContent(list);
+        responseUserTablePage.setPage(page);
+        responseUserTablePage.setTotalPages(totalPages);
+        responseUserTablePage.setShowEntity(showEntity);
+        responseUserTablePage.setAllSizeEntity(itemSize);
+        responseUserTablePage.setSort(sort);
+        responseUserTablePage.setShowEntityFrom(entFrom);
+        responseUserTablePage.setShowEntityTo(entTo);
+        return responseUserTablePage;
+    }
+
+    @Override
+    public ResponseAbstTablePage findAllAccountForUserListPage(int page, int showEntity, String column, String sort, Long userId) {
+        List<Account> list = new ArrayList<>();
+        int firstPage = (page - 1) * showEntity;
+        try {
+            String sql = String.format("select id, createAccount, money, nameAccount from Account  where id in (select usr_ac.accounts_id from User_Account usr_ac where usr_ac.User_id = %d) order by %s  %s limit %d, %d", userId, column, sort, firstPage, showEntity);
+            Query query = entityManager
+                    .createNativeQuery(sql, Account.class);
+            list = query.getResultList();
+        } catch (Exception e) {
+            log.info(new Date() + " " + e.getMessage());
+        }
+
+        //TODO new count Account user
+        int itemSize = countUserEntity();
+        int totalPages = totalPage(itemSize, showEntity);
+        int entFrom = showEntriesFrom(page, showEntity);
+        int entTo = showEntriesTo(entFrom, itemSize);
+
+        ResponseAccountsUserTable responseAccountsUserTable = new ResponseAccountsUserTable();
+
+        responseAccountsUserTable.setContent(list);
+        responseAccountsUserTable.setPage(page);
+        responseAccountsUserTable.setTotalPages(totalPages);
+        responseAccountsUserTable.setShowEntity(showEntity);
+        responseAccountsUserTable.setAllSizeEntity(itemSize);
+        responseAccountsUserTable.setSort(sort);
+        responseAccountsUserTable.setShowEntityFrom(entFrom);
+        responseAccountsUserTable.setShowEntityTo(entTo);
+        return responseAccountsUserTable;
     }
 
     public int countUserEntity() {
