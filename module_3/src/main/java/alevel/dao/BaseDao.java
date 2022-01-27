@@ -1,6 +1,6 @@
 package alevel.dao;
 
-import alevel.dto.table.impl.ResponseUserTablePage;
+import alevel.dto.table.ResponseUserTablePage;
 
 import java.util.List;
 

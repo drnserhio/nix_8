@@ -1,4 +1,4 @@
-package alevel.dto.table.impl;
+package alevel.dto.table;
 
 import alevel.model.impl.User;
 import lombok.Data;

@@ -3,7 +3,7 @@ package alevel.dao.impl;
 import alevel.dao.BaseAccountDao;
 import alevel.dao.BaseDao;
 import alevel.dao.BaseOperationDao;
-import alevel.dto.table.impl.ResponseUserTablePage;
+import alevel.dto.table.ResponseUserTablePage;
 import alevel.model.impl.MoneyTransaction;
 import alevel.exception.AccountExistException;
 import alevel.exception.UsernameExistsException;
@@ -336,6 +336,7 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
     }
 
     public void sendMoneyToUser(Long senderId, Long recipientId, Long acccountSenderId, Long accountRecipientId, long summa) {
+
         if (!existById(senderId) ||
                 !existById(recipientId)) {
             throw new UsernameExistsException("User not found");

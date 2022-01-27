@@ -1,6 +1,6 @@
 package alevel.resource;
 
-import alevel.dto.table.impl.ResponseUserTablePage;
+import alevel.dto.table.ResponseUserTablePage;
 import alevel.model.impl.Account;
 import alevel.model.impl.Operation;
 import alevel.model.impl.User;
@@ -107,13 +107,13 @@ public class UserResources {
     }
 
 
-    @GetMapping("/send")
+    @GetMapping("/send/{senderId}/{recipientId}/{acccountSenderId}/{accountRecipientId}/{summa}")
     public void sendMoney(
-            @RequestParam Long senderId,
-            @RequestParam Long recipientId,
-            @RequestParam Long acccountSenderId,
-            @RequestParam Long accountRecipientId,
-            @RequestParam Long summa) {
+            @PathVariable Long senderId,
+            @PathVariable Long recipientId,
+            @PathVariable Long acccountSenderId,
+            @PathVariable Long accountRecipientId,
+            @PathVariable Long summa) {
         userService.sendMoneyToUser(senderId, recipientId, acccountSenderId, accountRecipientId, summa);
     }
 

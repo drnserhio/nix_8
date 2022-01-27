@@ -1,7 +1,7 @@
 package alevel.service.impl;
 
 import alevel.dao.impl.UserDao;
-import alevel.dto.table.impl.ResponseUserTablePage;
+import alevel.dto.table.ResponseUserTablePage;
 import alevel.model.impl.Account;
 import alevel.model.impl.Operation;
 import alevel.model.impl.User;
