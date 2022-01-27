@@ -11,12 +11,14 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxPaginationModule} from "ngx-pagination";
 import {NgbModule, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import { SelectUserComponent } from './select-user/select-user.component';
+import { CreateUserComponent } from './create-user/create-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserListComponent,
-    SelectUserComponent
+    SelectUserComponent,
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,

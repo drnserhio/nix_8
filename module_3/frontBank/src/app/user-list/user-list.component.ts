@@ -96,11 +96,7 @@ export class UserListComponent implements OnInit {
 
   public onSelect(user: User) {
     this.userService.saveSelectUserTolocalCache(user);
-    this.router.navigateByUrl("sender_user");
+    this.router.navigateByUrl("select_user");
   }
 
-
-  public downloadSvgFile() {
-
-  }
 }

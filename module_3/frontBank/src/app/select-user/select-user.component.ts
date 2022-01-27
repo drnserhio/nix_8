@@ -21,9 +21,10 @@ export class SelectUserComponent implements OnInit {
   users: User[] = [];
   private recipientUser: User;
   private senderAccountId: number;
-  private recipientAccountId: number;
+  recipientAccountId: number;
   private senderAccount: Account;
   private summa: number;
+  private sessionAccounts: Account[];
   constructor(private modalService: NgbModal,
               private userService: UserService,
               private router: Router,
@@ -130,14 +131,83 @@ export class SelectUserComponent implements OnInit {
       (any ) => {
          alert('Succes send ' + this.summa);
          this.close();
+         this.recipientAccountId = null;
     },
       (error: HttpErrorResponse) => {
         console.log(error.message);
+        alert("Don't send money...")
       }
     );
   }
 
   onMoney(value: NgForm) {
     this.summa = value.controls['money'].value;
+
+  }
+
+  public takeAllAcoountByUserId() {
+    this.userService.findAllAccountsByUserId(this.sessionUser.id).subscribe(
+      (response: Account[]) => {
+        this.sessionAccounts = response;
+      },
+      (error: HttpErrorResponse) => {
+        alert('Usert don\'t have accounts');
+        this.close();
+      }
+    )
+  }
+
+  deleteAccount(id: number) {
+    this.userService.deleteAccount(id).subscribe(
+      (any) => {
+        this.takeAllAcoountByUserId();
+        alert('Account with : ' + id + " success remove.")
+      },
+      (error: HttpErrorResponse) => {
+        alert('Field remove account');
+      }
+    )
+  }
+
+  onSelectSessionAccounts() {
+    this.takeAllAcoountByUserId();
+    this.buttonClick('openModalAccountsSessionUser');
+
+  }
+
+  onSelectSessionAndCreateAccount() {
+    this.buttonClick('openModalCreateaccountsSessionUser');
+  }
+
+  toClose() {
+    this.close();
+  }
+
+  createAccountForUser(account: Account) {
+
+    console.log(account);
+    this.userService.createAccount(account, this.sessionUser.id).subscribe(
+      any => {
+        alert("Account created successfull!");
+        this.close();
+      },
+      (error: HttpErrorResponse) => {
+        alert("Account didn't create successfull!" +
+          "Change your field... ;)")
+      }
+    );
+  }
+
+  onDeleteUser() {
+    this.userService.delete(this.sessionUser.id).subscribe(
+      (value)=>  {
+        localStorage.removeItem('saveUser');
+        this.router.navigateByUrl('user/home');
+    },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+      }
+    );
+
   }
 }

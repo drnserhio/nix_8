@@ -68,8 +68,10 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
                 usr.setPhone(update.getPhone());
                 usr.setAccounts(update.getAccounts());
                 entityManager.merge(usr);
+                log.info("User create: " + update.getUsername());
             }
         } else {
+            log.info("User don't have with id: " + update.getId());
             throw new UsernameExistsException("User don't have with id: " + update.getId());
         }
     }
@@ -82,6 +84,7 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
         User user = new User();
         user.setId(id);
         entityManager.remove(user);
+        log.info("User remove with id: " + id);
     }
 
     @Override
@@ -137,6 +140,7 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
         responseUserTablePage.setSort(sort);
         responseUserTablePage.setShowEntityFrom(entFrom);
         responseUserTablePage.setShowEntityTo(entTo);
+        log.info("Create page user : " + responseUserTablePage.toString());
         return responseUserTablePage;
     }
 
@@ -169,6 +173,7 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
         responseAccountsUserTable.setSort(sort);
         responseAccountsUserTable.setShowEntityFrom(entFrom);
         responseAccountsUserTable.setShowEntityTo(entTo);
+        log.info("Create page account : " + responseAccountsUserTable.toString());
         return responseAccountsUserTable;
     }
 
@@ -235,12 +240,14 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
                 .createNativeQuery("insert into User_Account values (:usr_id, :ac_id)")
                 .setParameter("usr_id", userId)
                 .setParameter("ac_id", account.getId()).executeUpdate();
+        log.info("Method createAccount: " + "create acount with id " + account.getId());
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     public void updateAccount(Account account) {
         entityManager.merge(account);
+        log.info("success update :"+ account.getId());
     }
 
     @Override
@@ -248,11 +255,11 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
         if (!existAccountById(accountId)) {
             throw new UsernameExistsException("Account not found with id: " + accountId);
         }
-
-        //TODO: refactor
-        Account ac = new Account();
-        ac.setId(accountId);
-        entityManager.remove(ac);
+        entityManager.
+                createNativeQuery("delete from User_Account where accounts_id = :id")
+                .setParameter("id", accountId)
+                .executeUpdate();
+        log.info("account with id sucess delete : " + accountId);
     }
 
     @Override
@@ -308,11 +315,13 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
     @Override
     public void createOperation(Operation operation) {
         entityManager.persist(operation);
+        log.info("Create operation : " + operation);
     }
 
     @Override
     public void updateOperation(Operation operation) {
         entityManager.merge(operation);
+        log.info("Update operation : " + operation);
     }
 
     @Override
@@ -320,6 +329,7 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
         Operation operation = new Operation();
         operation.setId(id);
         entityManager.remove(operation);
+        log.info("Delete operation with id: " + id);
     }
 
     @Override
@@ -348,7 +358,7 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
                     .setParameter("accountId", accountId);
             operation = (Operation) query.getResultList().get(0);
         } catch (Exception e) {
-            log.info(new Date() + " " + e.getMessage());
+            log.info(e.getMessage());
         }
         return operation;
     }
@@ -364,7 +374,7 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
                     .setParameter("id", id);
             operations = query.getResultList();
         } catch (Exception e) {
-            log.info(new Date() + " " + e.getMessage());
+            log.info(e.getMessage());
         }
         return operations;
     }
