@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user")
-@CrossOrigin("http://localhost:4772")
+@CrossOrigin("http://localhost:4997")
 public class UserResources {
 
     private UserService userService;
