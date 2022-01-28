@@ -8,8 +8,10 @@ import alevel.model.impl.Operation;
 import alevel.model.impl.User;
 import alevel.service.UserService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Service
@@ -105,8 +107,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void sendMoneyToUser(Long senderId, Long recipientId, Long acccountSenderId, Long accountRecipientId, long summa) {
-        userDao.sendMoneyToUser(senderId, recipientId, acccountSenderId, accountRecipientId, summa);
+    public boolean sendMoneyToUser(Long senderId, Long recipientId, Long acccountSenderId, Long accountRecipientId, long summa) throws Exception {
+      return userDao.sendMoneyToUser(senderId, recipientId, acccountSenderId, accountRecipientId, summa);
     }
 
     @Override
@@ -117,5 +119,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseAbstTablePage findAllAccountForUserListPage(int page, int showEntity, String columnSort, String sort, Long userId) {
         return userDao.findAllAccountForUserListPage(page, showEntity, columnSort, sort, userId);
+    }
+
+    @Override
+    public void exportAccountOperationByUserToCSV(HttpServletResponse response, Long userId) throws Exception {
+         userDao.exportAccountOperationByUserToCSV(response, userId);
     }
 }

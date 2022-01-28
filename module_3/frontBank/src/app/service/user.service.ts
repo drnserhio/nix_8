@@ -78,8 +78,8 @@ export class UserService {
                    recipientId: number,
                    acccountSenderId: number,
                    accountRecipientId: number,
-                   summa: number): Observable<void | HttpErrorResponse> {
-    return this.http.get<void>(`${this.host}/user/send/${senderId}/${recipientId}/${acccountSenderId}/${accountRecipientId}/${summa}`);
+                   summa: number): Observable<boolean | HttpErrorResponse> {
+    return this.http.get<boolean | HttpErrorResponse>(`${this.host}/user/send/${senderId}/${recipientId}/${acccountSenderId}/${accountRecipientId}/${summa}`);
   }
 
   public findAllUserListPage(page: number, showEntity: number, column: string, sort: string): Observable<ResponseTablePage<User> | HttpErrorResponse> {

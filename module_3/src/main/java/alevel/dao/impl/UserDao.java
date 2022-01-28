@@ -18,9 +18,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -175,6 +181,57 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
         responseAccountsUserTable.setShowEntityTo(entTo);
         log.info("Create page account : " + responseAccountsUserTable.toString());
         return responseAccountsUserTable;
+    }
+
+    @Override
+    public void exportAccountOperationByUserToCSV(HttpServletResponse response, Long userId) throws Exception {
+        List<Operation> operations = new ArrayList<>();
+        List<Account> accounts = findAllAccountsByUserId(userId);
+        for (Account account : accounts) {
+            Operation operationByAccountId = findOperationByAccountId(account.getId());
+            operations.add(operationByAccountId);
+        }
+        convertToCSV(response, operations);
+    }
+
+    private void convertToCSV(HttpServletResponse response, List<Operation> list) throws Exception {
+
+        response.setContentType("text/csv");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=users_" + currentDateTime + ".csv";
+        response.setHeader(headerKey, headerValue);
+
+
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
+        String[] csvHeader = {"id", "dateOperation", "operationFinance", "recipient", "sender"};
+        String[] mapping = {"id", "dateOperation", "operationFinance", "recipient", "sender"};
+
+
+        csvWriter.writeHeader(csvHeader);
+
+        for (Operation operation : list) {
+          csvWriter.write(operation, mapping);
+
+        }
+
+        csvWriter.close();
+    }
+
+    private Operation findOperationByAccountId(Long accountId) {
+        Operation operation = null;
+        try {
+            Query query = entityManager
+                    .createNativeQuery("select id, dateOperation, operationFinance, recipient, sender from Operation op where op.id in (select operation_id from Account_Operation where Account_id = :id)", Operation.class)
+                    .setParameter("id", accountId);
+            operation = (Operation) query.getResultList().get(0);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+        return operation;
+
     }
 
     public int countUserEntity() {
@@ -379,7 +436,7 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
         return operations;
     }
 
-    public void sendMoneyToUser(Long senderId, Long recipientId, Long acccountSenderId, Long accountRecipientId, long summa) {
+    public boolean sendMoneyToUser(Long senderId, Long recipientId, Long acccountSenderId, Long accountRecipientId, long summa) throws Exception {
 
         if (!existById(senderId) ||
                 !existById(recipientId)) {
@@ -406,11 +463,11 @@ public class UserDao implements BaseDao<User>, BaseAccountDao<Account>, BaseOper
 
             insertIntoRecipient(accountRecipient.getId(),
                     moneyTransaction.getOperationRecipient().getId());
+            return true;
         } catch (Exception e) {
             log.info(e.getMessage());
         }
-
-
+        throw new Exception("You have little many");
     }
 
     public void insertIntoRecipient(Long recipientAccountId, Long recipientOperationId) {

@@ -5,7 +5,7 @@
 
 
     <property name="LOG_PATTERN" value="%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
-    <property name="FILE_PATH" value="./module_3.%d{yyyy-MM-dd}.%i.log" />
+    <property name="FILE_PATH" value="./log/module_3.%d{yyyy-MM-dd}.%i.log" />
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>

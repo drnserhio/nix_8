@@ -128,14 +128,16 @@ export class SelectUserComponent implements OnInit {
 
   send() {
     this.userService.sendMoney(this.sessionUser.id, this.recipientUser.id, this.senderAccountId, this.recipientAccountId, this.summa).subscribe(
-      (any ) => {
-         alert('Succes send ' + this.summa);
-         this.close();
-         this.recipientAccountId = null;
+      (response: boolean ) => {
+        if (response) {
+          alert('Succes send ' + this.summa);
+          this.recipientAccountId = null;
+          this.close();
+
+        }
     },
-      (error: HttpErrorResponse) => {
-        console.log(error.message);
-        alert("Don't send money...")
+      (error: HttpErrorResponse)=> {
+        console.log(error);
       }
     );
   }
@@ -187,8 +189,9 @@ export class SelectUserComponent implements OnInit {
 
     console.log(account);
     this.userService.createAccount(account, this.sessionUser.id).subscribe(
-      any => {
+      (value) => {
         alert("Account created successfull!");
+        this.updateSelectUser()
         this.close();
       },
       (error: HttpErrorResponse) => {
@@ -208,6 +211,17 @@ export class SelectUserComponent implements OnInit {
         console.log(error.message);
       }
     );
+  }
 
+  updateSelectUser() {
+    this.userService.findUserById(this.sessionUser.id).subscribe(
+      (response: User) => {
+        this.sessionUser = response;
+        this.userService.saveSelectUserTolocalCache(response);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message)
+      }
+    );
   }
 }

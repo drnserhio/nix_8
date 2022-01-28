@@ -25,6 +25,5 @@ public class User extends BaseEntity {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private Set<Account> accounts;
 }

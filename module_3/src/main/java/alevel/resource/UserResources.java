@@ -6,8 +6,10 @@ import alevel.model.impl.Operation;
 import alevel.model.impl.User;
 import alevel.service.UserService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -108,13 +110,14 @@ public class UserResources {
 
 
     @GetMapping("/send/{senderId}/{recipientId}/{acccountSenderId}/{accountRecipientId}/{summa}")
-    public void sendMoney(
+    public boolean sendMoney(
             @PathVariable Long senderId,
             @PathVariable Long recipientId,
             @PathVariable Long acccountSenderId,
             @PathVariable Long accountRecipientId,
-            @PathVariable Long summa) {
-        userService.sendMoneyToUser(senderId, recipientId, acccountSenderId, accountRecipientId, summa);
+            @PathVariable Long summa)
+            throws Exception {
+       return userService.sendMoneyToUser(senderId, recipientId, acccountSenderId, accountRecipientId, summa);
     }
 
     @GetMapping("/limit-list/users/{page}/{showEntity}/{column}/{sort}")
@@ -136,5 +139,13 @@ public class UserResources {
             @PathVariable("id") Long userId) {
         ResponseAbstTablePage tb = userService.findAllAccountForUserListPage(page, showEntity, columnSort, sort, userId);
         return tb;
+    }
+
+    @GetMapping("/download/csv/{userId}")
+    public void exportAccountOperationByUserToCSV(
+            HttpServletResponse response,
+            @PathVariable Long userId)
+            throws Exception {
+        userService.exportAccountOperationByUserToCSV(response, userId);
     }
 }

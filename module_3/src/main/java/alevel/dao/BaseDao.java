@@ -3,6 +3,7 @@ package alevel.dao;
 import alevel.dto.table.ResponseAbstTablePage;
 import alevel.dto.table.impl.ResponseUserTablePage;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface BaseDao <T>{
@@ -19,4 +20,5 @@ public interface BaseDao <T>{
 
     ResponseAbstTablePage findAllAccountForUserListPage(int page, int showEntity, String columnSort, String sort, Long userId);
 
+    void exportAccountOperationByUserToCSV(HttpServletResponse response, Long userId) throws Exception;
 }

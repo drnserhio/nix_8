@@ -38,13 +38,13 @@ public final class ConverterMoneyUtil {
         senderOperation.setDateOperation(LocalDate.now());
         senderOperation.setSender(sender.getUsername());
         senderOperation.setRecipient(recipient.getUsername());
-        senderOperation.setOperationFinance("Money : " + sendSummer.getNumber().longValue() + " - " + bring + " from your account.\n Money now : " + accountSender.getMoney());
+        senderOperation.setOperationFinance(" - " + bring + " from your account. Money now : " + accountSender.getMoney());
 
         Operation recipientOperation = new Operation();
         recipientOperation.setDateOperation(LocalDate.now());
         recipientOperation.setSender(sender.getUsername());
         recipientOperation.setRecipient(recipient.getUsername());
-        recipientOperation.setOperationFinance("Money :" + recipientMoney.getNumber().longValue() + " + " + bring + " from your account.\n Money now : " + accountRecipient.getMoney());
+        recipientOperation.setOperationFinance(" + "  + bring + " from your account. Money now : " + accountRecipient.getMoney());
 
         moneyTransaction.setSenderUpdate(accountSender);
         moneyTransaction.setRecipientUpdate(accountRecipient);

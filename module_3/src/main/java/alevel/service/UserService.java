@@ -5,7 +5,9 @@ import alevel.dto.table.impl.ResponseUserTablePage;
 import alevel.model.impl.Account;
 import alevel.model.impl.Operation;
 import alevel.model.impl.User;
+import org.apache.commons.csv.CSVPrinter;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface UserService {
@@ -40,9 +42,11 @@ public interface UserService {
 
     public List<Operation> findAllByAccountId(Long id);
 
-     void sendMoneyToUser(Long senderId, Long recipientId, Long acccountSenderId, Long accountRecipientId, long summa);
+     boolean sendMoneyToUser(Long senderId, Long recipientId, Long acccountSenderId, Long accountRecipientId, long summa) throws Exception;
 
      ResponseUserTablePage findAllWithSortColumn(int page, int showEntity, String column, String sort);
 
      ResponseAbstTablePage findAllAccountForUserListPage(int page, int showEntity, String columnSort, String sort, Long userId);
+
+    void exportAccountOperationByUserToCSV(HttpServletResponse response ,Long userId) throws Exception;
 }
