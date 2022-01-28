@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user")
-@CrossOrigin("http://localhost:4999")
+@CrossOrigin("http://localhost:4772")
 public class UserResources {
 
     private UserService userService;
@@ -142,10 +142,12 @@ public class UserResources {
     }
 
     @GetMapping("/download/csv/{userId}")
+    @ResponseBody
     public void exportAccountOperationByUserToCSV(
             HttpServletResponse response,
             @PathVariable Long userId)
             throws Exception {
         userService.exportAccountOperationByUserToCSV(response, userId);
+
     }
 }

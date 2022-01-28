@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {User} from "../model/user";
 import {UserService} from "../service/user.service";
@@ -8,6 +8,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
 import {Account} from "../model/account";
 import {NotifierService} from "angular-notifier";
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-select-user',
@@ -25,6 +26,7 @@ export class SelectUserComponent implements OnInit {
   private senderAccount: Account;
   private summa: number;
   private sessionAccounts: Account[];
+
   constructor(private modalService: NgbModal,
               private userService: UserService,
               private router: Router,
@@ -49,21 +51,21 @@ export class SelectUserComponent implements OnInit {
   private getUserChache() {
     if (this.userService.getsaveUserFromLocalCache()) {
       this.sessionUser = this.userService.getsaveUserFromLocalCache();
-    }else {
+    } else {
       this.router.navigateByUrl('user/home');
     }
   }
 
   private takeAllUsers() {
-     this.userService.findAll().subscribe(
-       (response: User[]) => {
-         this.users = response
-           .filter(usr => usr.id != this.sessionUser.id);
-       },
-       (error: HttpErrorResponse) => {
-         console.log(error);
-       }
-     );
+    this.userService.findAll().subscribe(
+      (response: User[]) => {
+        this.users = response
+          .filter(usr => usr.id != this.sessionUser.id);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
   }
 
 
@@ -128,15 +130,15 @@ export class SelectUserComponent implements OnInit {
 
   send() {
     this.userService.sendMoney(this.sessionUser.id, this.recipientUser.id, this.senderAccountId, this.recipientAccountId, this.summa).subscribe(
-      (response: boolean ) => {
+      (response: boolean) => {
         if (response) {
           alert('Succes send ' + this.summa);
           this.recipientAccountId = null;
           this.close();
 
         }
-    },
-      (error: HttpErrorResponse)=> {
+      },
+      (error: HttpErrorResponse) => {
         console.log(error);
       }
     );
@@ -203,10 +205,10 @@ export class SelectUserComponent implements OnInit {
 
   onDeleteUser() {
     this.userService.delete(this.sessionUser.id).subscribe(
-      (value)=>  {
+      (value) => {
         localStorage.removeItem('saveUser');
         this.router.navigateByUrl('user/home');
-    },
+      },
       (error: HttpErrorResponse) => {
         console.log(error.message);
       }
@@ -223,5 +225,16 @@ export class SelectUserComponent implements OnInit {
         console.log(error.message)
       }
     );
+  }
+
+  downloadCSV() {
+    this.userService.downloadOperationCSV(this.sessionUser.id).subscribe(
+      (response: any) => {
+        saveAs(response, 'file.csv');
+      },
+      (error: HttpErrorResponse) => {
+        alert('User not have operation.')
+      }
+    )
   }
 }

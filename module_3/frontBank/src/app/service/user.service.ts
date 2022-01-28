@@ -97,4 +97,8 @@ export class UserService {
   public getsaveUserFromLocalCache() {
     return JSON.parse(localStorage.getItem('saveUser'));
   }
+
+  public downloadOperationCSV(userId: number): Observable<any>{
+  return this.http.get(`${this.host}/user/download/csv/${userId}`, { responseType: 'blob'});
+}
 }
