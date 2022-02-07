@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+    <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="generateDdl" value="true"/>
+        <property name="showSql" value="true"/>
+        <property name="database" value="MYSQL"/>
+        <property name="databasePlatform" value="org.hibernate.dialect.MySQL8Dialect"/>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${datasource.driverClassName}"/>
+        <property name="url" value="${datasource.url}"/>
+        <property name="username" value="${datasource.username}"/>
+        <property name="password" value="${datasource.password}"/>
+
+    </bean>
+
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan">
+            <list>
+                <value>alevel.model.impl</value>
+            </list>
+        </property>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.jdbc.min_size">${hibernate.jdbc.min_size}</prop>
+                <prop key="hibernate.jdbc.max_size">${hibernate.jdbc.max_size}</prop>
+                <prop key="hibernate.jdbc.fetch_size">${hibernate.jdbc.fetch_size}</prop>
+                <prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+            </props>
+        </property>
+        <property name="sharedCacheMode" value="ENABLE_SELECTIVE"/>
+        <property name="validationMode" value="NONE"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="initData" class="alevel.init.InitData" init-method="init">
+        <constructor-arg ref="entityManagerFactory"/>
+    </bean>
+
+
+</beans>
