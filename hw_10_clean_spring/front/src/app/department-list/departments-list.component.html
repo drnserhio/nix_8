@@ -1,0 +1,218 @@
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<div class="container">
+
+  <nav class="navbar navbar-dark bg-primary navbar-expand-md py-md-2">
+    <a class="navbar-brand" href="#">Bootstrap 4</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item py-md-2"><a href="#" class="nav-link">Employee-list</a></li>
+        <li class="nav-item py-md-2"><a href="#" class="nav-link">Department-list</a></li>
+        <li class="nav-item py-md-2"><a href="#" class="nav-link">Add Employee</a></li>
+        <li class="nav-item py-md-2"><a href="#" class="nav-link">Add department</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="row">
+
+    <form #value="ngForm" (change)="showEntity(value)">
+      <div class="col-sm-12 col-md-6">
+        <div class="dataTables_length" id="example_length"><label>Show
+          <select  name="showEntity" ngModel required aria-controls="example"
+                  class="custom-select custom-select-sm form-control form-control-sm">
+            <option value="{{value}}"  *ngFor="let value of ListValueOption">{{value}}</option>
+          </select> entries</label>
+        </div>
+      </div>
+    </form>
+
+
+    <div class="container">
+      <form class="form-inline my-2 my-lg-0">
+        <input name="searchTerm" #searchInput="ngModel" ngModel (ngModelChange)="search(searchInput.value)"
+               class="form-control mr-sm-2" type="search" placeholder="Search employee...">
+      </form>
+    </div>
+
+  </div>
+
+  <table id="example" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+    <tr>
+      <th style="cursor: pointer" (click)="sortById()" class="btn-light">ID</th>
+      <th style="cursor: pointer" (click)="sortByNameCompany()" class="btn-light">Name company</th>
+      <th style="cursor: pointer" (click)="sortByAddress()" class="btn-light">Address</th>
+      <th style="cursor: pointer" class="btn-light">Employee in Department</th>
+      <th style="cursor: pointer" class="btn-light">Add employee</th>
+      <th style="cursor: no-drop">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let department of departmentList ">
+      <td style="cursor: crosshair" id="id" class="btn-light"
+          (click)="chooseDepartment(department.id)">{{ department.id }}</td>
+      <td style="cursor: crosshair" id="firstname" class="btn-light"
+          (click)="chooseDepartment(department.id)">{{ department.nameCompany }}</td>
+      <td style="cursor: crosshair" id="lastname" class="btn-light"
+          (click)="chooseDepartment(department.id)">{{ department.address }}</td>
+      <td style="cursor: crosshair; width: 1%" (click)="findAllEmployeeByDepartment(department.id)" class="btn-light"><i
+        class="fas fa-list"></i></td>
+      <th style="cursor: crosshair; width: 1%" (click)="addToModel(department.id)" class="btn-light"><i
+        class="fas fa-user-plus"></i></th>
+      <td style="cursor: crosshair" class="btn-danger" (click)="deleteDepartment(department.id)">
+        <i class="fas fa-user-times"></i></td>
+    </tr>
+    <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#myModal"
+            (click)="openModal(mymodal)">Open Modal
+    </button>
+
+    <button id="openModalWorkEmployee" [hidden]="true" data-toggle="modal" data-target="#workEmployee"
+            (click)="openModal(workEmployee)">Open Modal
+    </button>
+
+    <button id="openModalADDEmployee" [hidden]="true" data-toggle="modal" data-target="#addEmployees"
+            (click)="openModal(addEmployees)">Open Modal
+    </button>
+
+    </tbody>
+  </table>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-5">
+      <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing {{responseDepartment.departments.length - responseDepartment.departments.length}}
+        to {{responseDepartment.departments.length}} of {{responseDepartment.allSizeEntity}} entries
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-7">
+      <div class="dataTables_paginate paging_simple_numbers" id="example_paginate">
+        <ul class="pagination">
+          <li class="paginate_button page-item previous disabled" id="example_previous">
+            <button aria-controls="example" [disabled]="responseDepartment.page ==  1" (click)="pagePrevious()"
+                    tabindex="0" class="btn btn-link">Previous
+            </button>
+          </li>
+          <li class="paginate_button page-item next disabled" id="example_next">
+            <button aria-controls="example" (click)="pageNext()" [disabled]="responseDepartment.page == responseDepartment.totalPages" tabindex="0" class="btn btn-link">
+              Next
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal update department-->
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit department</h4>
+
+  </div>
+
+
+  <form class="form-group">
+
+    <input [hidden]="true" type="text" name="id" required [(ngModel)]="updateDepartment.id">
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Name company</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="firstname" required [(ngModel)]="updateDepartment.nameCompany">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Address</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="lastname" required [(ngModel)]="updateDepartment.address">
+      </div>
+    </div>
+
+
+  </form>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+    <button type="button" class="btn btn-outline-dark" (click)="updateEmp(updateDepartment)">Update department</button>
+  </div>
+</ng-template>
+
+
+<!--Modal view employee in Department-->
+
+<ng-template #workEmployee let-modal>
+
+  <div class="container">
+    <div class="modal-lg">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-my">Employee list</h4>
+      </div>
+
+
+      <form class="form-group">
+
+        <table id="example" class="table table-striped table-bordered table-sm" style="width:100%">
+          <thead>
+          <tr>
+            <th style="cursor: pointer">ID</th>
+            <th style="cursor: pointer">First name</th>
+            <th style="cursor: pointer">Last name</th>
+            <th style="cursor: pointer">Username</th>
+            <th style="cursor: no-drop">Delete from department</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let employee of employeesByDepartment ">
+            <td style="cursor: crosshair">{{ employee.id }}</td>
+            <td style="cursor: crosshair">{{ employee.firstname }}</td>
+            <td style="cursor: crosshair">{{ employee.lastname }}</td>
+            <td style="cursor: crosshair">{{ employee.username }}</td>
+            <td style="cursor: crosshair; width: 4%" (click)="deleteEmployeeFromDeparment(saveIdDepartment, employee.id)"
+                class="btn-danger"><i class="fas fa-user-times"></i></td>
+          </tr>
+          </tbody>
+        </table>
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<!--Modal add employee in Department-->
+
+<ng-template #addEmployees let-modal>
+
+  <div class="container">
+    <div class="modal-header modal-lg">
+      <h4 class="modal-title" id="modal">Add to department list</h4>
+    </div>
+
+
+    <form class="form-group" #value="ngForm">
+      <div class="input-group">
+        <select name="showEmployee" ngModel required  class="custom-select" id="inputGroupSelect04">
+          <option selected>Choose...</option>
+          <option *ngFor="let e of free" value="{{e.id}}">{{e.firstname + ' ' + e.lastname}}</option>
+        </select>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="addEmployeeToDepartment(value)" type="button">Add to Department</button>
+        </div>
+      </div>
+
+    </form>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+    </div>
+  </div>
+</ng-template>
